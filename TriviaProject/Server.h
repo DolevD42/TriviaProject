@@ -1,7 +1,7 @@
 #pragma once
 #include <thread>
 #include <iostream>
-
+#include <ostream>
 #include "Communicator.h"
 class Server
 {
