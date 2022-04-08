@@ -1,14 +1,16 @@
 #pragma once
 
-#include <iostream>
-#include <ostream>
-#include <WinSock2.h>
-#include <Windows.h>
+
 #include <vector>
 #include <thread>
 #include <map>
+#include <string>
+#include <iostream>
+#include <ostream>
+#include <WinSock2.h>
 #include "LoginRequestHandler.h"
 #include "Helper.h"
+
 
 class Communicator
 {
