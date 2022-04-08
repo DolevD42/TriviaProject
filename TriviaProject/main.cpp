@@ -5,7 +5,7 @@
 #include "Server.h"
 int main()
 {
-    Server myServer = Server();
+    Server myServer;
     std::thread mainThread(&Server::run, &myServer);
-    mainThread.detach();
+    mainThread.join();
 }

@@ -14,10 +14,10 @@ class Communicator
 {
 public:
 	Communicator();
-	~Communicator();
 	void startHandleRequests();
 
 private:
+	
 	SOCKET m_serverSocket;
 	std::vector<std::thread> _threadVector;
 	std::map<SOCKET, IRequestHandler*> m_clients;

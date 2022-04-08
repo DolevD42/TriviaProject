@@ -1,8 +1,8 @@
 #include "Communicator.h"
 #define PORT 8876
+
 Communicator::Communicator()
 {
-
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -11,19 +11,9 @@ Communicator::Communicator()
 		throw std::exception(__FUNCTION__ " - socket");
 }
 
-Communicator::~Communicator()
-{
-	try
-	{
-		// the only use of the destructor should be for freeing 
-		// resources that was allocated in the constructor
-		closesocket(m_serverSocket);
-	}
-	catch (...) {}
-}
-
 void Communicator::startHandleRequests()
 {
+	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	struct sockaddr_in sa = { 0 };
 
 	sa.sin_port = htons(PORT); // port that server will listen for
@@ -67,6 +57,7 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
+	std::cout << "None" << std::endl;
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
 	LoginRequestHandler* log = new LoginRequestHandler();

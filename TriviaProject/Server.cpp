@@ -2,9 +2,9 @@
 
 void Server::run()
 {
-	Communicator communicator = Communicator();
-	m_communicator = communicator;
-	std::thread t_connector(&Communicator::startHandleRequests, &m_communicator);
+	Communicator* communicator = new Communicator();
+	//m_communicator = communicator;
+	std::thread t_connector(&Communicator::startHandleRequests, communicator);
 	t_connector.detach();
 	std::string command = "";
 	while (command != "EXIT")
