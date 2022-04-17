@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma comment(lib, "ws2_32.lib")
 
 #include <vector>
 #include <thread>
@@ -10,7 +10,7 @@
 #include <WinSock2.h>
 #include "LoginRequestHandler.h"
 #include "Helper.h"
-
+#include <Windows.h>
 
 class Communicator
 {
