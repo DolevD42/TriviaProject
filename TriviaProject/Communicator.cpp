@@ -57,7 +57,6 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	std::cout << "None" << std::endl;
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
 	LoginRequestHandler* log = new LoginRequestHandler();

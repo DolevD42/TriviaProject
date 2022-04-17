@@ -146,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Response.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="WSAInitializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="Response.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
