@@ -3,13 +3,14 @@
 #pragma comment (lib, "ws2_32.lib")
 #include <thread>
 #include <iostream>
+#include "json.hpp"
+using nlohmann::json;
 #include "Server.h"
 #include "WSAInitializer.h"
 int main()
 {
 	try
 	{
-
 		WSAInitializer wsaInit;
 		Server myServer;
 

@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 #include <string>
-
+#include "json.hpp"
+using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)
 #define MSG_LEN 4
 #define SKIP_TYPE 1

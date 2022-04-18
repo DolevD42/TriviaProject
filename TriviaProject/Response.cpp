@@ -2,20 +2,25 @@
 
 std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(ErrorResponse msgType)
 {
-
-	std::string js = "{message: "+(char)34+ msgType.message +(char)34+"}";
+	json j;
+	j["message"] = msgType.message;
+	std::string js = j.dump();
 	return onlyStatus(ERR_CODE, sizeof(js.c_str()), js.c_str());
 }
 
 std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(LoginResponse msgType)
 {
-	std::string js = "{status: " + std::to_string(msgType.status) + "}";
+	json j;
+	j["status"] = msgType.status;
+	std::string js = j.dump();
 	return onlyStatus(LOGIN_CODE, sizeof(js.c_str()), js.c_str());
 }
 
 std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(SignupResponse msgType)
 {
-	std::string js = "{status: " + std::to_string(msgType.status) + "}";
+	json j;
+	j["status"] = msgType.status;
+	std::string js = j.dump();
 	return onlyStatus(SIGNUP_RESPONSE, sizeof(js.c_str()) , js.c_str());
 }
 
