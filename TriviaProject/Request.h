@@ -7,16 +7,16 @@ using nlohmann::json;
 typedef struct LoginRequest {
 	std::string username;
 	std::string password;
-} LoginResponse;
+} LoginRequest;
 
 typedef struct SignupRequest {
 	std::string username;
 	std::string password;
 	std::string email;
-} SignupResponse;
+} SignupRequest;
 
-class JsonResponsePacketSerializer {
+class JsonResponsePacketDeserializer {
 public:
-	static LoginRequest deserializLoginRequest(std::unique_ptr<char[]>);
+	static LoginRequest deserializeLoginRequest(std::unique_ptr<char[]>);
 	static SignupRequest deserializeSingupRequest(std::unique_ptr<char[]>);
 };
