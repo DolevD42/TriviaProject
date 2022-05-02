@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <vector>
 #include "json.hpp"
 using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)
@@ -26,9 +27,9 @@ typedef struct ErrorResponse {
 
 class JsonResponsePacketSerializer {
 public:
-	static std::unique_ptr<char[]> serializeResponse(ErrorResponse);
-	static std::unique_ptr<char[]> serializeResponse(LoginResponse);
-	static std::unique_ptr<char[]> serializeResponse(SignupResponse);
+	static std::vector<char> serializeResponse(ErrorResponse);
+	static std::vector<char> serializeResponse(LoginResponse);
+	static std::vector<char> serializeResponse(SignupResponse);
 private:
-	static std::unique_ptr<char[]> onlyStatus(int code, int len, const void* info);
+	static std::vector<char> onlyStatus(int code, int len, std::string info);
 };
