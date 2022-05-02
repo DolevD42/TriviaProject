@@ -71,5 +71,8 @@
     <ClInclude Include="Request.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="structDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
