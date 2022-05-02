@@ -72,6 +72,25 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	m_clients.insert(pair);
 	try
 	{
+		while (true)
+		{
+			msgLen = 0;
+			recvMsg = Helper::getStringPartFromSocket(clientSocket, 5);
+			code = (int)recvMsg[0];
+			for (int i = 0; i < 4; i++)
+			{
+				num = (int)recvMsg[4 - i];
+				msgLen += num * (256 ^ i);
+			}
+			recvMsg = Helper::getStringPartFromSocket(clientSocket, msgLen);
+			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
+			reqInfo.id = code;
+			reqInfo.recievedTime = std::time(0);
+			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
+			m_clients[clientSocket] = reqRes.newHandler;
+			sendMsg = Helper::fromVectToString(reqRes.response);
+			Helper::sendData(clientSocket, sendMsg);
+		}
 	}
 	catch (const std::exception&)
 	{
