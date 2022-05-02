@@ -57,17 +57,21 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
+	std::string recvMsg;
+	std::string sendMsg;
+	std::vector<char> vectMsg;
+	RequestInfo reqInfo;
+	RequestResult reqRes;
+	int code;
+	int msgLen;
+	int num;
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
-	LoginRequestHandler* log = new LoginRequestHandler();
+	LoginRequestHandler* log = NULL;
 	pair.second = log;
 	m_clients.insert(pair);
 	try
 	{
-		Helper::sendData(clientSocket, "Hello");
-
-		std::string msg = Helper::getStringPartFromSocket(clientSocket, 5);
-		std::cout << msg << std::endl;
 	}
 	catch (const std::exception&)
 	{
