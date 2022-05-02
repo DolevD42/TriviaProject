@@ -5,8 +5,35 @@ HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 8876  # The port used by the server
 LOGIN = {"username": "user1", "password": 1234}
 SIGN_IN = {"username": "user1", "password": 1234, "mail": "user1@gmail.com"}
-# char-status ascii , binary buffer size 4 numbers , and json as is   ||send
+# char-status ascii , binary buffer size 4 numbers , and json as is   ||send first
 # char-status , every bit to char to ascii * 256 בחזקת n , and json string  ||get
+
+
+def dict_to_binary(the_dict):
+    str = json.dumps(the_dict)
+    binary = ' '.join(format(ord(letter), 'b') for letter in str)
+    return binary
+
+
+def binary_to_dict(the_binary):
+    jsn = ''.join(chr(int(x, 2)) for x in the_binary.split())
+    d = json.loads(jsn)
+    return d
+
+
+def build_message(code, buffer, json):
+    code = ord(code)
+
+
+def getting_message(message):
+    message = bytes(message).decode()
+    message = message[1:]
+    size = message[:4]
+
+def getting_status(message):
+    message = bytes(message)
+    status = message[:1].decode()
+    return status
 
 
 def main():
@@ -14,12 +41,9 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
             Csock.connect((HOST, PORT))
-            data = Csock.recv(1024).decode()
+            data = Csock.recv(1024)
             print(data)
-            data = json.loads(data)
-            if data.status == 1:
-                messageToSend = json.dumps(LOGIN)
-                Csock.sendall(messageToSend.encode())
+            print("\n", data.decode())
         except Exception as e:
             print(e)
 
