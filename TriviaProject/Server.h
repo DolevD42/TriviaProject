@@ -8,6 +8,6 @@ class Server
 public:
 	void run();
 private:
-	Communicator m_communicator;
+	Communicator* m_communicator;
 };
 

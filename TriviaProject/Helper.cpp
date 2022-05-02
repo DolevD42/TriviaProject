@@ -55,6 +55,26 @@ string Helper::getPaddedNumber(const int num, const int digits)
 
 }
 
+std::string Helper::fromVectToString(const std::vector<char> vect)
+{
+	std::string str;
+	for (int i = 0; i < vect.size(); i++)
+	{
+		str += vect[i];
+	}
+	return str;
+}
+
+std::vector<char> Helper::fromStringToVector(const std::string str)
+{
+	std::vector<char> vect;
+	for (int i = 0; i < str.length(); i++)
+	{
+		vect.push_back(str[i]);
+	}
+	return vect;
+}
+
 // recieve data from socket according byteSize
 // this is private function
 std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum)
