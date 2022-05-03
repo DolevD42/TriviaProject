@@ -41,10 +41,10 @@ def getting_status(message):
 def main():
     runtime = 0
     message = build_message('1', 5, LOGIN)
-    print(message)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
             Csock.connect((HOST, PORT))
+            Csock.sendall(message.encode())
             data = Csock.recv(1024).decode()
             print(data)
         except Exception as e:
