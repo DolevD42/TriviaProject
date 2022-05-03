@@ -9,12 +9,13 @@ SIGN_IN = {"username": "user1", "password": 1234, "mail": "user1@gmail.com"}
 # char-status , every bit to char to ascii * 256 בחזקת n , and json string  ||get
 
 
-def dict_to_binary(the_dict):
-    str = json.dumps(the_dict)
-    binary = ' '.join(format(ord(letter), 'b') for letter in str)
-    return binary
+def decimalToBinary(n):
+    # converting decimal to binary
+    # and removing the prefix(0b)
+    return bin(n).replace("0b", "")
 
 
+<<<<<<< Updated upstream
 def binary_to_dict(the_binary):
     jsn = ''.join(chr(int(x, 2)) for x in the_binary.split())
     d = json.loads(jsn)
@@ -24,6 +25,14 @@ def binary_to_dict(the_binary):
 def build_message(code, buffer, json):
     code = bytes(chr(code))
     buffer
+=======
+def build_message(code, buffer, jsonC):
+    code = ord(code)
+    buffer = decimalToBinary(buffer)
+    jsonC = bytes(json.dumps(jsonC), "utf-8")
+    message = f"{code}{buffer}{jsonC}"
+    return message
+>>>>>>> Stashed changes
 
 
 def getting_message(message):
@@ -33,19 +42,26 @@ def getting_message(message):
 
 
 
+
 def getting_status(message):
+<<<<<<< Updated upstream
     status = message[0]
     return bytes(status)
+=======
+    status = ord(message[0])
+    return status
+>>>>>>> Stashed changes
 
 
 def main():
     runtime = 0
+    message = build_message('1', 5, LOGIN)
+    print(message)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
             Csock.connect((HOST, PORT))
-            data = Csock.recv(1024)
+            data = Csock.recv(1024).decode()
             print(data)
-            print("\n", data.decode())
         except Exception as e:
             print(e)
 
