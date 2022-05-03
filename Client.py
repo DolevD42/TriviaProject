@@ -22,18 +22,20 @@ def binary_to_dict(the_binary):
 
 
 def build_message(code, buffer, json):
-    code = ord(code)
+    code = bytes(chr(code))
+    buffer
 
 
 def getting_message(message):
     message = bytes(message).decode()
-    message = message[1:]
-    size = message[:4]
+    messageLen = bytes(message[1:5])
+
+
+
 
 def getting_status(message):
-    message = bytes(message)
-    status = message[:1].decode()
-    return status
+    status = message[0]
+    return bytes(status)
 
 
 def main():
