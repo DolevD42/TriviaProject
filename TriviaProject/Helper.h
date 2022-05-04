@@ -26,7 +26,8 @@ public:
 	static void sendData(const SOCKET sc, const std::string message);
 	static void send_update_message_to_client(const SOCKET sc, const std::string& file_content, const std::string& second_username, const std::string& all_users);
 	static std::string getPaddedNumber(const int num, const int digits);
-
+	static std::string fromVectToString(const std::vector<char> vect);
+	static std::vector<char> fromStringToVector(const std::string str);
 private:
 	static std::string getPartFromSocket(const SOCKET sc, const int bytesNum);
 	static std::string getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags);

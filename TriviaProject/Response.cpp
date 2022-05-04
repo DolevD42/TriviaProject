@@ -1,6 +1,6 @@
 #include "Response.h"
 
-std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(ErrorResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse msgType)
 {
 	json j;
 	j["message"] = msgType.message;
@@ -8,7 +8,7 @@ std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(ErrorRes
 	return onlyStatus(ERR_CODE, sizeof(js.c_str()), js.c_str());
 }
 
-std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(LoginResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LoginResponse msgType)
 {
 	json j;
 	j["status"] = msgType.status;
@@ -16,7 +16,7 @@ std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(LoginRes
 	return onlyStatus(LOGIN_CODE, sizeof(js.c_str()), js.c_str());
 }
 
-std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(SignupResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse msgType)
 {
 	json j;
 	j["status"] = msgType.status;
@@ -24,11 +24,21 @@ std::unique_ptr<char[]> JsonResponsePacketSerializer::serializeResponse(SignupRe
 	return onlyStatus(SIGNUP_RESPONSE, sizeof(js.c_str()) , js.c_str());
 }
 
-std::unique_ptr<char[]> JsonResponsePacketSerializer::onlyStatus(int code, int len, const void* info)
+
+std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, std::string info)
 {
-	std::unique_ptr<char[]> toReturn(new char[BASIC_LEN + len]);
-	toReturn[MSG_TYPE] = code;
-	memcpy(toReturn.get() + SKIP_TYPE, &len, sizeof(int));
-	memcpy(toReturn.get() + BASIC_LEN, info, len);
+	std::vector<char> toReturn;
+	int num = 0;
+	toReturn.push_back((char)code);
+	for (int i = 3; i >= 0; i--)
+	{
+		num = (int)len / (256^i);
+		len = len - num;
+		toReturn.push_back((char)num);
+	}
+	for (int i = 0; i < len; i++)
+	{
+		toReturn.push_back(info[i]);
+	}
 	return toReturn;
 }
