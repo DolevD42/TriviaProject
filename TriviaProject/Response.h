@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "Helper.h"
 #include "json.hpp"
 using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)

@@ -67,7 +67,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	int num;
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
-	LoginRequestHandler* log = NULL;
+	LoginRequestHandler* log = new LoginRequestHandler();
 	pair.second = log;
 	m_clients.insert(pair);
 	try
@@ -79,13 +79,27 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			code = (int)recvMsg[0];
 			for (int i = 0; i < 4; i++)
 			{
+				
 				num = (int)recvMsg[4 - i];
-				msgLen += num * (256 ^ i);
+				if (num == ZERO)
+				{
+					num = 0;
+				}
+				if (i == 0)
+				{
+					msgLen += num;
+				}
+				else
+				{
+					msgLen += num * (256 ^ i);
+				}
+				
 			}
 			recvMsg = Helper::getStringPartFromSocket(clientSocket, msgLen);
 			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
+			std::cout << m_clients[clientSocket] << std::endl;
 			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);

@@ -1,10 +1,12 @@
 import socket
 import json
+ZERO = 126
+
 
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 8876  # The port used by the server
-LOGIN = {"username": "user1", "password": 1234}
-SIGN_IN = {"username": "user1", "password": 1234, "mail": "user1@gmail.com"}
+LOGIN = {"username": "user1", "password": "1234"}
+SIGN_IN = {"username": "user1", "password": "1234", "mail": "user1@gmail.com"}
 # char-status ascii , binary buffer size 4 numbers , and json as is   ||send first
 # char-status , every bit to char to ascii * 256 בחזקת n , and json string  ||get
 
@@ -41,12 +43,21 @@ def getting_status(message):
 def main():
     runtime = 0
     message = build_message('1', 5, LOGIN)
+    message = "";
+    message += chr(39)
+    message += chr(ZERO)
+    message += chr(ZERO);
+    message += chr(ZERO);
+    message += chr(41);
+
+    message += '{"username": "user1", "password": "1234"}'
+    print("client message: " + message)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
             Csock.connect((HOST, PORT))
             Csock.sendall(message.encode())
             data = Csock.recv(1024).decode()
-            print(data)
+            print("server response: " + data)
         except Exception as e:
             print(e)
 

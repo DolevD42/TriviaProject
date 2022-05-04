@@ -11,7 +11,7 @@
 #include "LoginRequestHandler.h"
 #include "Helper.h"
 #include <Windows.h>
-
+#define ZERO 126
 class Communicator
 {
 public:
