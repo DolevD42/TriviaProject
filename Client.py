@@ -14,7 +14,7 @@ SIGN_IN = {"username": "user1", "password": "1234", "mail": "user1@gmail.com"}
 def decimalToBinary(n):
     # converting decimal to binary
     # and removing the prefix(0b)
-    return bin(n).replace("0b", "")
+    return bin(n).replace('0b', '')
 
 
 def binary_to_dict(the_binary):
@@ -24,10 +24,12 @@ def binary_to_dict(the_binary):
 
 
 def build_message(code, buffer, jsonC):
+    message = ""
     code = ord(code)
     buffer = decimalToBinary(buffer)
     jsonC = bytes(json.dumps(jsonC), "utf-8")
-    message = f"{code}{buffer}{jsonC}"
+    print(json)
+    message += f'{code}{buffer}{jsonC}'
     return message
 
 
@@ -43,14 +45,7 @@ def getting_status(message):
 def main():
     runtime = 0
     message = build_message('1', 5, LOGIN)
-    message = "";
-    message += chr(39)
-    message += chr(ZERO)
-    message += chr(ZERO);
-    message += chr(ZERO);
-    message += chr(41);
 
-    message += '{"username": "user1", "password": "1234"}'
     print("client message: " + message)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
