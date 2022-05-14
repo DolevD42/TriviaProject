@@ -7,7 +7,7 @@ ZERO = 126
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 8876  # The port used by the server
 LOGIN = {"username": "user1", "password": "1234"}
-SIGN_IN = {"username": "user1", "password": "1234", "mail": "user1@gmail.com"}
+SIGN_UP = {"username": "user1", "password": "1234", "mail": "user1@gmail.com"}
 
 
 # char-status ascii , binary buffer size 4 numbers , and json as is   ||send first
@@ -53,7 +53,10 @@ def main():
             Csock.connect((HOST, PORT))
             build_message(39, LOGIN, Csock)
             data = Csock.recv(1024).decode()
-            print("server response: " + data)
+            print("server Login response: " + data)
+            build_message(2, SIGN_UP, Csock)
+            data = Csock.recv(1024).decode()
+            print("server Sign response: " + data)
         except Exception as e:
             print(e)
 
