@@ -1,6 +1,6 @@
 import socket
 import json
-from bitarray import bitarray
+#from bitarray import bitarray
 
 ZERO = 126
 
