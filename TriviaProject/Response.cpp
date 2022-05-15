@@ -30,6 +30,7 @@ std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, st
 {
 	std::vector<char> toReturn;
 	int num = 0;
+	
 	toReturn.push_back((char)code);
 	for (int i = 3; i >= 0; i--)
 	{
@@ -39,7 +40,7 @@ std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, st
 		}
 		else
 		{
-			num = (int)len / (256 ^ i);
+			num = (int)len / pow(256,i);
 		}
 		
 		len = len - num;

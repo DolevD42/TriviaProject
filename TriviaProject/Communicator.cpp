@@ -79,7 +79,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			code = (int)recvMsg[0];
 			for (int i = 0; i < 4; i++)
 			{
-				
 				num = (int)recvMsg[4 - i];
 				if (num == ZERO)
 				{
@@ -91,15 +90,14 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				}
 				else
 				{
-					msgLen += num * (256 ^ i);
+					msgLen += num * pow(256, i);
 				}
-				
 			}
 			recvMsg = Helper::getStringPartFromSocket(clientSocket, msgLen);
 			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
-			std::cout << m_clients[clientSocket] << std::endl;
+			//std::cout << m_clients[clientSocket] << std::endl;
 			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);
