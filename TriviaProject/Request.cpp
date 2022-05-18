@@ -7,7 +7,6 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
     std::string str;
     str = Helper::fromVectToString(buffer);
     json j = json::parse(str);
-    std::cout << str << std::endl;
     req.username = j["username"];
     req.password = j["password"];
     return req;

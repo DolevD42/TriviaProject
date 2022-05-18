@@ -7,14 +7,15 @@
 using nlohmann::json;
 #include "Server.h"
 #include "WSAInitializer.h"
+
 int main()
 {
 	try
 	{
 		WSAInitializer wsaInit;
-		Server myServer;
+		Server* myServer = new Server();
 
-		std::thread mainThread(&Server::run, &myServer);
+		std::thread mainThread(&Server::run, myServer);
 		mainThread.join();
 	}
 	catch (std::exception& e)

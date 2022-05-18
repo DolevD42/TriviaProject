@@ -1,12 +1,12 @@
 #include "Communicator.h"
 #define PORT 8876
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory* factory)
 {
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
+	this->m_handlerFactory = factory;
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
 }
@@ -67,7 +67,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	int num;
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
-	LoginRequestHandler* log = new LoginRequestHandler();
+
+	RequestHandlerFactory* factory = new RequestHandlerFactory();
+	LoginRequestHandler* log = factory->createLoginRequestHandler();
 	pair.second = log;
 	m_clients.insert(pair);
 	try
@@ -97,16 +99,15 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
-			//std::cout << m_clients[clientSocket] << std::endl;
 			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);
 			Helper::sendData(clientSocket, sendMsg);
 		}
 	}
-	catch (const std::exception&)
+	catch (std::exception& e)
 	{
-
+		std::cout << "Error occured: " << e.what() << std::endl;
 	}
 	
 }
