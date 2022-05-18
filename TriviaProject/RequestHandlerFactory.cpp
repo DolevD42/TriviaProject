@@ -1,8 +1,9 @@
 #include "RequestHandlerFactory.h"
 
-RequestHandlerFactory::RequestHandlerFactory(SqliteDataBase* db)
+RequestHandlerFactory::RequestHandlerFactory(IDataBase* db)
 {
 	m_loginManager = new LoginManager(db);
+	m_database = db;
 }
 
 RequestHandlerFactory::RequestHandlerFactory()

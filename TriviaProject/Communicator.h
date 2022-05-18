@@ -16,11 +16,11 @@
 class Communicator
 {
 public:
-	Communicator();
+	Communicator(RequestHandlerFactory* factory);
 	void startHandleRequests();
 
 private:
-	
+	RequestHandlerFactory* m_handlerFactory;
 	SOCKET m_serverSocket;
 	std::vector<std::thread> _threadVector;
 	std::map<SOCKET, IRequestHandler*> m_clients;

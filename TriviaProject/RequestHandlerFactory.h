@@ -9,8 +9,9 @@ class MenuRequestHandler;
 class RequestHandlerFactory
 {
 	LoginManager* m_loginManager;
+	IDataBase* m_database;
 public:
-	RequestHandlerFactory(SqliteDataBase* db);
+	RequestHandlerFactory(IDataBase* db);
 	RequestHandlerFactory();
 	~RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequestHandler();

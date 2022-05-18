@@ -1,12 +1,12 @@
 #include "Communicator.h"
 #define PORT 8876
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory* factory)
 {
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
+	this->m_handlerFactory = factory;
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
 }
