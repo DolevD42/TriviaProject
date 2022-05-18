@@ -16,7 +16,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
     {
         returnReq.newHandler = this;
         std::vector<char> vec;
-        returnReq.response = vec;
+        returnReq.response = vec; //change this later
         return returnReq;
     }
     if (req.id == LOGIN_CODE)
@@ -29,6 +29,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
         
         res.status = VALID_RESPONSE;
         returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+
+        LoginRequestHandler* log = new LoginRequestHandler(); //change this later
+        returnReq.newHandler = log;
     }
     if (req.id == SIGNUP_RESPONSE)
     {
@@ -41,8 +44,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
 
         res.status = VALID_RESPONSE;
         returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+
+        LoginRequestHandler* log = new LoginRequestHandler(); //change this later
+        returnReq.newHandler = log;
     }
-    LoginRequestHandler* log = new LoginRequestHandler();
-    returnReq.newHandler = log;
     return returnReq;
 }

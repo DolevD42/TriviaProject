@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <math.h>
 #include <vector>
 #include "Helper.h"
 #include "json.hpp"
