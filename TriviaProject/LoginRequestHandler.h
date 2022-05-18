@@ -8,6 +8,7 @@
 #define LOGIN_CODE 39
 #define VALID_RESPONSE 1
 #define NON_VALIDRESPONSE 2
+class RequestHandlerFactory;
 
 class LoginRequestHandler :
     public IRequestHandler
