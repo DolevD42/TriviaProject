@@ -4,6 +4,7 @@ Server::Server()
 {
 	this->m_database = new SqliteDataBase();
 	this->m_handlerFactory = new RequestHandlerFactory(this->m_database);
+	this->m_communicator = NULL;
 }
 
 void Server::run()
