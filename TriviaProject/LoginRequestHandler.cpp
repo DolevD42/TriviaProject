@@ -1,5 +1,16 @@
 #include "LoginRequestHandler.h"
 
+LoginRequestHandler::LoginRequestHandler(LoginManager* loginManager, RequestHandlerFactory* handlerFactory)
+{
+    this->m_handlerFactory = handlerFactory;
+    this->m_loginManager = loginManager;
+}
+
+LoginRequestHandler::~LoginRequestHandler()
+{
+    delete m_loginManager;
+}
+
 bool LoginRequestHandler::isRequestRelevant(RequestInfo req)
 {
     if (req.id == LOGIN_CODE || req.id == SIGNUP_RESPONSE)
@@ -21,32 +32,39 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
     }
     if (req.id == LOGIN_CODE)
     {
-        LoginResponse res; 
-        LoginRequest logReq = JsonRequestPacketDeserializer::deserializeLoginRequest(req.buffer);
-        
-        //Here we will handle the request and check if everything is valid
-
-        
-        res.status = VALID_RESPONSE;
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-
-        LoginRequestHandler* log = new LoginRequestHandler(); //change this later
-        returnReq.newHandler = log;
+        returnReq = login(req);
     }
     if (req.id == SIGNUP_RESPONSE)
     {
-        SignupResponse res;
-        SignupRequest signReq = JsonRequestPacketDeserializer::deserializeSignupRequest(req.buffer);
-
-
-        //Here we will handle the request and check if everything is valid
-
-
-        res.status = VALID_RESPONSE;
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-
-        LoginRequestHandler* log = new LoginRequestHandler(); //change this later
-        returnReq.newHandler = log;
+        returnReq = signup(req);
     }
+    return returnReq;
+}
+
+RequestResult LoginRequestHandler::login(const RequestInfo& req)
+{
+    RequestResult returnReq;
+    LoginResponse res;
+    LoginRequest logReq = JsonRequestPacketDeserializer::deserializeLoginRequest(req.buffer);
+    m_loginManager->login(logReq.username, logReq.password);
+
+    res.status = VALID_RESPONSE;
+    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    returnReq.newHandler = this;
+    return returnReq;
+}
+
+RequestResult LoginRequestHandler::signup(const RequestInfo& req)
+{
+    RequestResult returnReq;
+    SignupResponse res;
+    SignupRequest signReq = JsonRequestPacketDeserializer::deserializeSignupRequest(req.buffer);
+
+
+    m_loginManager->signup(signReq.username, signReq.password, signReq.email);
+
+    res.status = VALID_RESPONSE;
+    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    returnReq.newHandler = this;
     return returnReq;
 }

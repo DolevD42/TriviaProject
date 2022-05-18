@@ -5,6 +5,11 @@ LoginManager::LoginManager(): m_database(new SqliteDataBase())
 	
 }
 
+LoginManager::LoginManager(IDataBase* db)
+{
+	this->m_database = db;
+}
+
 void LoginManager::signup(std::string userName, std::string pass, std::string email)
 {
 	if (m_database->doesUserExist(userName))
