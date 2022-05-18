@@ -99,16 +99,15 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
-			//std::cout << m_clients[clientSocket] << std::endl;
 			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);
 			Helper::sendData(clientSocket, sendMsg);
 		}
 	}
-	catch (const std::exception&)
+	catch (std::exception& e)
 	{
-
+		std::cout << "Error occured: " << e.what() << std::endl;
 	}
 	
 }
