@@ -8,6 +8,14 @@
 #define LOGIN_CODE 39
 #define VALID_RESPONSE 1
 #define NON_VALIDRESPONSE 2
+
+#define PASSWORD_DONT_MATCH 41
+#define REQUEST_VALID 42
+#define USER_ALREADY_EXIST 43
+#define USER_DONT_EXIST 44
+#define USER_ALREADY_LOGIN 45
+
+
 class RequestHandlerFactory;
 
 class LoginRequestHandler :

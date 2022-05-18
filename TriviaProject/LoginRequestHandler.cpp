@@ -26,8 +26,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
     if (!isRequestRelevant(req))
     {
         returnReq.newHandler = this;
-        std::vector<char> vec;
-        returnReq.response = vec; //change this later
+        ErrorResponse res;
+        res.message = "INVALID CODE";
+        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
         return returnReq;
     }
     if (req.id == LOGIN_CODE)
@@ -43,28 +44,63 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
 
 RequestResult LoginRequestHandler::login(const RequestInfo& req)
 {
+    int funcCode;
     RequestResult returnReq;
-    LoginResponse res;
+    
     LoginRequest logReq = JsonRequestPacketDeserializer::deserializeLoginRequest(req.buffer);
-    m_loginManager->login(logReq.username, logReq.password);
+    funcCode = m_loginManager->login(logReq.username, logReq.password);
+    if (funcCode == REQUEST_VALID)
+    {
+        LoginResponse res;
+        res.status = VALID_RESPONSE;
+        returnReq.newHandler = this; //change this later
+        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    }
+    else
+    {
+        ErrorResponse res;
+        if (funcCode == USER_DONT_EXIST)
+        {
+            res.message = "User don't exist";
+        }
+        if (funcCode == PASSWORD_DONT_MATCH)
+        {
+            res.message = "The password don't match the username";
+        }
+        if (funcCode == USER_ALREADY_LOGIN)
+        {
+            res.message = "User already logged in";
+        }
+        returnReq.newHandler = this;
+        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    }
 
-    res.status = VALID_RESPONSE;
-    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-    returnReq.newHandler = this;
     return returnReq;
 }
 
 RequestResult LoginRequestHandler::signup(const RequestInfo& req)
 {
+    int funcCode;
     RequestResult returnReq;
-    SignupResponse res;
     SignupRequest signReq = JsonRequestPacketDeserializer::deserializeSignupRequest(req.buffer);
-
-
-    m_loginManager->signup(signReq.username, signReq.password, signReq.email);
-
-    res.status = VALID_RESPONSE;
-    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-    returnReq.newHandler = this;
+    funcCode = m_loginManager->signup(signReq.username, signReq.password, signReq.email);
+    if (funcCode == REQUEST_VALID)
+    {
+        SignupResponse res;
+        res.status = VALID_RESPONSE;
+        returnReq.newHandler = this;
+        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    }
+    else
+    {
+        ErrorResponse res;
+        if (funcCode == USER_ALREADY_EXIST)
+        {
+            res.message = "Username already taken";
+        }
+        returnReq.newHandler = this;
+        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+    }
+    
     return returnReq;
 }
