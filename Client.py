@@ -51,12 +51,21 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as Csock:
         try:
             Csock.connect((HOST, PORT))
-            build_message(2, SIGN_UP, Csock)
-            data = Csock.recv(1024).decode()
-            print("server Sign response: " + data)
-            build_message(39, LOGIN, Csock)
-            data = Csock.recv(1024).decode()
-            print("server Login response: " + data)
+            while True:
+                num = int(input("Login or signUp? (2-signUp,39-login)  "))
+                if num == 2:
+                    userName = input("Whats the userName?  ")
+                    password = input("Whats the password?  ")
+                    email = input("Whats the email?  ")
+                    req = {"username": userName, "password": password, "email": email}
+                else:
+                    userName = input("Whats the userName?  ")
+                    password = input("Whats the password?  ")
+                    req = {"username": userName, "password": password}
+                build_message(num, req, Csock)
+                data = Csock.recv(1024).decode()
+                print("server Login response: " + data)
+
         except Exception as e:
             print(e)
 
