@@ -4,7 +4,7 @@
 #include "Helper.h"
 #include "json.hpp"
 using nlohmann::json;
-
+typedef std::vector<std::bitset<8>> aVec;
 typedef struct LoginRequest {
 	std::string username;
 	std::string password;
@@ -20,4 +20,8 @@ class JsonRequestPacketDeserializer {
 public:
 	static LoginRequest deserializeLoginRequest(std::vector<char> buffer);
 	static SignupRequest deserializeSignupRequest(std::vector<char> buffer);
+	static GetPlayersInRoomRequest deserializeGetPlayersRequest(const aVec& buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(const aVec& buffer);
+	static CreateRoomRequest deserializeCreateRoomReuquest(const aVec& buffer);
+
 };
