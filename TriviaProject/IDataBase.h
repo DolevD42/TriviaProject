@@ -13,5 +13,6 @@ public:
 	virtual int  getNumOfCurrectAnswers(std::string id) = 0;
 	virtual int  getNumOfTotalAnswers(std::string id) = 0;
 	virtual int  getNumOfPlayerGames(std::string id) = 0;
+
 };
 

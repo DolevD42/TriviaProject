@@ -21,5 +21,9 @@ private:
 	char* _errMessage = nullptr;
 	sqlite3* _db = nullptr;
 	bool open();
+	int getUserID(std::string username) throw();
+	void executeCommand(const char* statement);
+	static int callbackGetIntegerValue(void* data, int argc, char** argv, char** azColName);
+
 };
 

@@ -18,6 +18,42 @@ bool SqliteDataBase::open()
 	}
 }
 
+int SqliteDataBase::getUserID(std::string username) throw()
+{
+	std::string sqlStatement = "SELECT ID FROM USERS WHERE USERNAME = \"" + username + "\";";
+	int id = 0;
+	try
+	{
+		executeCommand(sqlStatement.c_str(), callbackGetIntegerValue, &id);
+	}
+	catch (std::exception er)
+	{
+		throw er;
+	}
+
+	return id;
+}
+//run an sql code
+void SqliteDataBase::executeCommand(const char* statement)
+{
+	int res = 0;
+
+	char** errMessage = nullptr;
+	res = sqlite3_exec(this->_db, statement, nullptr, nullptr, errMessage);
+
+	if (res != SQLITE_OK)
+	{
+		throw std::exception("Error in excecuting command on database");
+	}
+	
+}
+//insert result from sql statement to varible data
+int SqliteDataBase::callbackGetIntegerValue(void* data, int argc, char** argv, char** azColName)
+{
+	*(int*)data = std::stoi(argv[0]);
+	return 0;
+}
+
 bool SqliteDataBase::doesUserExist(std::string userName)
 {
 	open();
@@ -52,6 +88,15 @@ void SqliteDataBase::addNewUser(std::string userName, std::string pass, std::str
 	{
 		throw std::exception("DB don't exist");
 	}
+}
+
+float SqliteDataBase::getPlayerAverageAnswer(std::string id)
+{
+	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	float amount = 0;
+
+	executeCommand(sqlStatement.c_str(), callbackGetIntegerValue, &amount);
+	return amount;
 }
 
 
