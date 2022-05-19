@@ -3,6 +3,7 @@
 #include <string>
 #include "Helper.h"
 #include "json.hpp"
+#include <bitset>
 using nlohmann::json;
 typedef std::vector<std::bitset<8>> aVec;
 typedef struct LoginRequest {

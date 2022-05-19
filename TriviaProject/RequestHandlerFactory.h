@@ -15,4 +15,6 @@ public:
 	~RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequestHandler();
 	LoginManager& getLoginManager() { return *m_loginManager; };
+	StatisticsManager& getStatisticsManager();
+
 };
