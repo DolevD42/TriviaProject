@@ -24,3 +24,18 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
     req.email = j["email"];
     return req;
 }
+
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(const aVec& buffer)
+{
+    return GetPlayersInRoomRequest();
+}
+
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const aVec& buffer)
+{
+    return JoinRoomRequest();
+}
+
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomReuquest(const aVec& buffer)
+{
+    return CreateRoomRequest();
+}
