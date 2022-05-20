@@ -49,32 +49,18 @@ RequestResult LoginRequestHandler::login(const RequestInfo& req)
     
     LoginRequest logReq = JsonRequestPacketDeserializer::deserializeLoginRequest(req.buffer);
     funcCode = m_loginManager->login(logReq.username, logReq.password);
+    LoginResponse res;
+    res.status = funcCode;
+    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        LoginResponse res;
-        res.status = VALID_RESPONSE;
-        returnReq.newHandler = this; //change this later
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+        returnReq.newHandler = this; //We will put MenuHandler later
     }
     else
     {
-        ErrorResponse res;
-        if (funcCode == USER_DONT_EXIST)
-        {
-            res.message = "User don't exist";
-        }
-        if (funcCode == PASSWORD_DONT_MATCH)
-        {
-            res.message = "The password don't match the username";
-        }
-        if (funcCode == USER_ALREADY_LOGIN)
-        {
-            res.message = "User already logged in";
-        }
         returnReq.newHandler = this;
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     }
-
+    
     return returnReq;
 }
 
@@ -84,22 +70,16 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& req)
     RequestResult returnReq;
     SignupRequest signReq = JsonRequestPacketDeserializer::deserializeSignupRequest(req.buffer);
     funcCode = m_loginManager->signup(signReq.username, signReq.password, signReq.email);
+    SignupResponse res;
+    res.status = funcCode;
+    returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        SignupResponse res;
-        res.status = VALID_RESPONSE;
-        returnReq.newHandler = this;
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
+        returnReq.newHandler = this; //We will put MenuHandler later
     }
     else
     {
-        ErrorResponse res;
-        if (funcCode == USER_ALREADY_EXIST)
-        {
-            res.message = "Username already taken";
-        }
         returnReq.newHandler = this;
-        returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     }
     
     return returnReq;
