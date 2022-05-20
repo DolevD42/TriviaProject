@@ -25,6 +25,71 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse
 	return onlyStatus(LOGIN_CODE, js.length(), js);
 }
 
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::string js = j.dump();
+	return onlyStatus(LOGOUT_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::vector<std::string> vect;
+	for (int i = 0; i < msg.rooms.size(); i++)
+	{
+		vect.push_back(msg.rooms[i].name);
+	}
+	j["rooms"] = vect;
+	std::string js = j.dump();
+	return onlyStatus(GET_ROOMS_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse msg)
+{
+	json j;
+	j["players"] = msg.players;
+	std::string js = j.dump();
+	return onlyStatus(GET_PLAYERS_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::string js = j.dump();
+	return onlyStatus(JOIN_ROOM_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::string js = j.dump();
+	return onlyStatus(CREATE_ROOM_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["statistics"] = msg.statistics;
+	std::string js = j.dump();
+	return onlyStatus(GET_HIGH_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["statistics"] = msg.statistics;
+	std::string js = j.dump();
+	return onlyStatus(GET_PERSONAL_CODE, js.length(), js);
+}
+
+
 std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, std::string info)
 {
 	std::vector<char> toReturn;
