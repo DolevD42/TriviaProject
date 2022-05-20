@@ -5,16 +5,17 @@
 #include <vector>
 #include "Helper.h"
 #include "json.hpp"
+#include "RoomManager.h"
 using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)
 #define MSG_LEN 4
 #define SKIP_TYPE 1
 #define MSG_TYPE 0
-#define ERR_CODE 0
-#define LOGIN_CODE 1
-#define SIGNUP_RESPONSE 2
 #define END 1
 
+#define ERR_CODE 41
+#define LOGIN_CODE 42
+#define SIGNUP_CODE 43
 typedef struct LoginResponse {
 	unsigned int status;
 } LoginResponse;
@@ -29,9 +30,9 @@ typedef struct ErrorResponse {
 
 class JsonResponsePacketSerializer {
 public:
-	static std::vector<char> serializeResponse(ErrorResponse);
-	static std::vector<char> serializeResponse(LoginResponse);
-	static std::vector<char> serializeResponse(SignupResponse);
+	static std::vector<char> serializeResponse(ErrorResponse msg);
+	static std::vector<char> serializeResponse(LoginResponse msg);
+	static std::vector<char> serializeResponse(SignupResponse msg);
 private:
 	static std::vector<char> onlyStatus(int code, int len, std::string info);
 };

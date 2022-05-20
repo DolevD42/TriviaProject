@@ -13,7 +13,7 @@ LoginRequestHandler::~LoginRequestHandler()
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo req)
 {
-    if (req.id == LOGIN_CODE || req.id == SIGNUP_RESPONSE)
+    if (req.id == LOGIN_CODE || req.id == SIGNUP_CODE)
     {
         return true;
     }
@@ -35,7 +35,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo req)
     {
         returnReq = login(req);
     }
-    if (req.id == SIGNUP_RESPONSE)
+    if (req.id == SIGNUP_CODE)
     {
         returnReq = signup(req);
     }

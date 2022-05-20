@@ -1,30 +1,29 @@
-#include "Response.h"
+#include "JsonResponsePacketSerializer.h"
 #define ZERO 126
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse msg)
 {
 	json j;
-	j["message"] = msgType.message;
+	j["message"] = msg.message;
 	std::string js = j.dump();
 	return onlyStatus(ERR_CODE, js.length(), js);
 }
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(LoginResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LoginResponse msg)
 {
 	json j;
-	j["status"] = msgType.status;
+	j["status"] = msg.status;
 	std::string js = j.dump();
 	return onlyStatus(LOGIN_CODE, js.length(), js);
 }
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse msgType)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse msg)
 {
 	json j;
-	j["status"] = msgType.status;
+	j["status"] = msg.status;
 	std::string js = j.dump();
-	return onlyStatus(SIGNUP_RESPONSE, js.length(), js);
+	return onlyStatus(LOGIN_CODE, js.length(), js);
 }
-
 
 std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, std::string info)
 {
