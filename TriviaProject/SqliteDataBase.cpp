@@ -18,7 +18,7 @@ bool SqliteDataBase::open()
 	}
 }
 
-int SqliteDataBase::getUserID(std::string username) throw()
+int SqliteDataBase::getUserID(std::string username)
 {
 	std::string sqlStatement = "SELECT ID FROM USERS WHERE USERNAME = \"" + username + "\";";
 	int id = 0;
