@@ -1,4 +1,7 @@
 #include "SqliteDataBase.h"
+#include <ctime>
+#include <chrono>
+#include <cstdlib>
 int exists(void* data, int argc, char** argv, char** azColName)
 {
 	*(bool*)data = true;
