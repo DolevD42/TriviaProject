@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 #include <ctime>
-#include "Response.h"
-#include "Request.h"
+#include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
 #include "structDef.h"
 
 

@@ -1,4 +1,4 @@
-#include "Request.h"
+#include "JsonRequestPacketDeserializer.h"
 
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<char> buffer)
