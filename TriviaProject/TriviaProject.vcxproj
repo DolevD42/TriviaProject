@@ -147,6 +147,7 @@
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="IDataBase.cpp" />
     <ClCompile Include="IRequestHandler.cpp" />
+    <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
     <ClCompile Include="LoginManager.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
