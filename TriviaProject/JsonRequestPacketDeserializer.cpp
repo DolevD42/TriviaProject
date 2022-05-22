@@ -16,94 +16,54 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vector<char> buffer)
 {
     SignupRequest req;
-    std::string str;
+    std::string str = Helper::fromVectToString(buffer);
     str = Helper::fromVectToString(buffer);
     json j = json::parse(str);
     req.username = j["username"];
     req.password = j["password"];
     req.email = j["email"];
+    
     return req;
 }
 
-GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(const aVec& buffer)
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(std::vector<char> buffer)
 {
     GetPlayersInRoomRequest request;
-    std::string data = JsonRequestPacketDeserializer::extractData(buffer);
-    nlohmann::json jsonObj = nlohmann::json::parse(data);
-    unsigned int tempStr = jsonObj.value("roomId", 0);
-    request.roomId = tempStr;
+    std::string data = Helper::fromVectToString(buffer);
+    json jsonObj = json::parse(data);     
+    request.roomId = jsonObj["roomId"];
     return request;
 }
 
-JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const aVec& buffer)
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<char> buffer)
 {
     JoinRoomRequest request;
-    std::string data = JsonRequestPacketDeserializer::extractData(buffer);
-    nlohmann::json jsonObj = nlohmann::json::parse(data);
-    unsigned int tempStr = jsonObj.value("roomId", 0);
-    request.roomId = tempStr;
+    std::string data = Helper::fromVectToString(buffer);
+    json jsonObj = json::parse(data);
+    request.roomId = jsonObj["roomId"];
     return request;
 }
 
-CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomReuquest(const aVec& buffer)
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomReuquest(std::vector<char> buffer)
 {
     CreateRoomRequest request;
-    std::string data = JsonRequestPacketDeserializer::extractData(buffer);
-    nlohmann::json jsonObj = nlohmann::json::parse(data);
-    std::string tempStr = std::string(jsonObj.value("roomName", "unknown"));
-    request.roomName = tempStr;
-    unsigned int tempNum = jsonObj.value("maxUsers", 0);
-    request.maxUsers = tempNum;
-    tempNum = jsonObj.value("questionCount", 0);
-    request.questionCount = tempNum;
-    tempNum = jsonObj.value("answerTimeout", 0);
-    request.answerTimeout = tempNum;
-    tempNum = jsonObj.value("questionCount", 0);
-    request.questionCount = tempNum;
+    std::string data= Helper::fromVectToString(buffer);
+    json jsonObj = json::parse(data);
+    request.roomName = jsonObj["roomName"];
+    request.maxUsers = jsonObj["maxUsers"];
+    request.questionCount = jsonObj["questionCount"];
+    request.answerTimeout = jsonObj["answerTimeout"];
     return request;
-
 }
 
-std::string JsonRequestPacketDeserializer::extractData(const aVec& buffer)
-{
-    unsigned int len = 0;
-    aVec sliced = slice(buffer, CODE_END, DATALEN_LEN);
-    std::string toRet = "";
-    memcpy(&len, sliced.data(), DATALEN_LEN);
-    sliced = slice(buffer, CODE_END + DATALEN_LEN, len);
-    for (unsigned int i = 0; i < len; i++) {
-        toRet += (char)sliced[i].to_ulong();
-    }
-    return toRet;
 
-}
-
-SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(const aVec& buffer)
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(std::vector<char> buffer)
 {
     SubmitAnswerRequest request;
-    std::string data = JsonRequestPacketDeserializer::extractData(buffer);
-    nlohmann::json jsonObj = nlohmann::json::parse(data);
-    unsigned int tempStr = jsonObj.value("answerId", 0);
-    request.answerId = tempStr;
+    std::string data = Helper::fromVectToString(buffer);
+    json jsonObj = json::parse(data);
+    request.answerId = jsonObj["answerId"];
     return request;
 
 }
 
-void printPtr(const aVec& ptr, const unsigned int len)
-{
-    printf("\n");
-    for (unsigned int i = 0; i < len; i++)
-    {
-        printf("%u ", (unsigned char)ptr[i].to_ulong());
-    }
-}
-
-aVec slice(const aVec& str, const unsigned int start, const unsigned int len)
-{
-    aVec sliced(len);
-    for (unsigned int i = 0; i < len; i++) {
-        sliced[i] = (char)str[i + start].to_ulong();
-    }
-    return sliced;
-
-}

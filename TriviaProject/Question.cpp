@@ -4,7 +4,9 @@
 
 
 Question::Question(std::string question, std::vector<std::string> possibleAnswers, int correct) : m_question(question), m_possibleAnswers(possibleAnswers), m_correct(correct)
-{}
+{
+
+}
 
 Question::~Question()
 {}

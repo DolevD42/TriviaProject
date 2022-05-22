@@ -37,15 +37,13 @@ typedef struct SubmitAnswerRequest {
 
 
 class JsonRequestPacketDeserializer {
-	static std::string extractData(const aVec& data);
 public:
 	static LoginRequest deserializeLoginRequest(std::vector<char> buffer);
 	static SignupRequest deserializeSignupRequest(std::vector<char> buffer);
-	static GetPlayersInRoomRequest deserializeGetPlayersRequest(const aVec& buffer);
-	static JoinRoomRequest deserializeJoinRoomRequest(const aVec& buffer);
-	static CreateRoomRequest deserializeCreateRoomReuquest(const aVec& buffer);
-	static SubmitAnswerRequest deserializeSubmitAnswerRequest(const aVec& buffer);
+	static GetPlayersInRoomRequest deserializeGetPlayersRequest(std::vector<char> buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(std::vector<char> buffer);
+	static CreateRoomRequest deserializeCreateRoomReuquest(std::vector<char> buffer);
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(std::vector<char> buffer);
 
 };
-void printPtr(const aVec& ptr, const unsigned int len);
-aVec slice(const aVec& str, const unsigned int start, const unsigned int len);
+

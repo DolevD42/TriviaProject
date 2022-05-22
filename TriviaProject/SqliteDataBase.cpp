@@ -93,6 +93,11 @@ void SqliteDataBase::addNewUser(std::string userName, std::string pass, std::str
 	}
 }
 
+const std::list<Question> SqliteDataBase::getQuestions(int id)
+{
+	return std::list<Question>();
+}
+
 float SqliteDataBase::getPlayerAverageAnswer(std::string id)
 {
 	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
