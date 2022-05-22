@@ -1,17 +1,21 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Helper.h"
+using std::string;
 class Question
 {
-private:
-	std::string m_question;
-	std::vector<std::string> m_possibleAnswers;
-	int m_correct;
-
 public:
-	Question(std::string, std::vector<std::string>, int);
+	Question(int id, string question, string correctAnswer, string answer2, string answer3, string answer4);
+	string getQuestion();
+	string* getAnswers();
+	int getCorrectAnswerIndex();
+	int getId();
 	~Question();
-	std::string getQuestion();
-	std::vector<std::string> getPossibleAnswers();
-	std::string getCorrectAnswer();
+
+private:
+	string _question;
+	string _answers[4];
+	int _correctAnswerIndex;
+	int _id;
 };

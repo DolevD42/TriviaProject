@@ -23,38 +23,14 @@ bool SqliteDataBase::open()
 
 int SqliteDataBase::getUserID(std::string username)
 {
+	open();
 	std::string sqlStatement = "SELECT ID FROM USERS WHERE USERNAME = \"" + username + "\";";
 	int id = 0;
-	try
+	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &id, &_errMessage) != SQLITE_OK)
 	{
-		executeCommand(sqlStatement.c_str(), callbackGetIntegerValue, &id);
+		std::cout << "Falied to open DB" << std::endl;
 	}
-	catch (std::exception er)
-	{
-		throw er;
-	}
-
 	return id;
-}
-//run an sql code
-void SqliteDataBase::executeCommand(const char* statement)
-{
-	int res = 0;
-
-	char** errMessage = nullptr;
-	res = sqlite3_exec(this->_db, statement, nullptr, nullptr, errMessage);
-
-	if (res != SQLITE_OK)
-	{
-		throw std::exception("Error in excecuting command on database");
-	}
-	
-}
-//insert result from sql statement to varible data
-int SqliteDataBase::callbackGetIntegerValue(void* data, int argc, char** argv, char** azColName)
-{
-	*(int*)data = std::stoi(argv[0]);
-	return 0;
 }
 
 bool SqliteDataBase::doesUserExist(std::string userName)
@@ -100,10 +76,49 @@ const std::list<Question> SqliteDataBase::getQuestions(int id)
 
 float SqliteDataBase::getPlayerAverageAnswer(std::string id)
 {
+	open();
 	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	float amount = 0;
+	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	{
+		throw std::exception("DB don't exist");
+	}
+	return amount;
+}
 
-	executeCommand(sqlStatement.c_str(), callbackGetIntegerValue, &amount);
+int SqliteDataBase::getNumOfCurrectAnswers(std::string id)
+{
+	open();
+	std::string sqlStatement = "SELECT SUM(Correct_Answers) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	int amount = 0;
+	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	{
+		throw std::exception("DB don't exist");
+	}
+	return amount;
+}
+
+int SqliteDataBase::getNumOfTotalAnswers(std::string id)
+{
+	open();
+	std::string sqlStatement = "SELECT SUM(Total_Answers) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	int amount = 0;
+	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	{
+		throw std::exception("DB don't exist");
+	}
+	return amount;
+}
+
+int SqliteDataBase::getNumOfPlayerGames(std::string id)
+{
+	open();
+	std::string sqlStatement = "SELECT SUM(Players);";
+	int amount = 0;
+	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	{
+		throw std::exception("DB don't exist");
+	}
 	return amount;
 }
 
