@@ -1,4 +1,5 @@
 #include "Question.h"
+#include "SqliteDataBase.cpp"
 
 
 Question::Question(int id, string question, string correctAnswer, string answer2, string answer3, string answer4)

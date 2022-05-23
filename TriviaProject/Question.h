@@ -2,7 +2,9 @@
 #include <string>
 #include <vector>
 #include "Helper.h"
+#include "SqliteDataBase.h"
 using std::string;
+class SqliteDataBase;
 class Question
 {
 public:
@@ -12,7 +14,7 @@ public:
 	int getCorrectAnswerIndex();
 	int getId();
 	~Question();
-
+	
 private:
 	string _question;
 	string _answers[4];

@@ -60,12 +60,6 @@
     <ClCompile Include="StatisticsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Request.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Response.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Room.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

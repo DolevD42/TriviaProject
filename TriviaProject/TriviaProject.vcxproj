@@ -153,9 +153,7 @@
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Question.cpp" />
-    <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
-    <ClCompile Include="Response.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
