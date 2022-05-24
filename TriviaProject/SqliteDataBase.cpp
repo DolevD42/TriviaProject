@@ -185,13 +185,6 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 				throw std::exception(RETRIVING_INFROMATION_ERROR);
 			}
 		}
-		int vSize = QuestionList.size();
-		while (vSize > id)//randomize to get random questions from data base
-		{
-			int randIndex = rand() % vSize;
-			QuestionList.erase(QuestionList.begin() + randIndex);
-			vSize--;
-		}
 		sqlite3_finalize(stmt);
 		return QuestionList;
 	}

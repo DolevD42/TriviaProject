@@ -5,7 +5,7 @@
 #include <iostream>
 #include "IDataBase.h"
 #include "sqlite3.h"
-
+#include <list>
 class Question;
 class SqliteDataBase :
     public IDataBase
