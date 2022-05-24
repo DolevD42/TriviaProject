@@ -1,4 +1,5 @@
 #pragma once
+#include "SqliteDataBase.h"
 #include "IDataBase.h"
 #include "LoggedUser.h"
 class StatisticsManager

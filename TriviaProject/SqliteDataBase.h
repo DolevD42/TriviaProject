@@ -21,11 +21,13 @@ public:
 	virtual int  getNumOfCurrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
 	virtual int  getNumOfPlayerGames(std::string id);
+	int getUserID(std::string username) throw();
+	virtual sqlite3* GetDb();
 private:
 	char* _errMessage = nullptr;
 	sqlite3* _db = nullptr;
 	bool open();
-	int getUserID(std::string username) throw();
+	
 	string _filename;
 };
 

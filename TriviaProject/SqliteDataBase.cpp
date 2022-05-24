@@ -23,8 +23,20 @@ bool SqliteDataBase::open()
 		}
 		return false;
 	}
+	
 }
-
+sqlite3* SqliteDataBase::GetDb()
+{
+	if (_db == nullptr)
+	{
+		if (sqlite3_open("TriviaDB.sqlite", &_db) != SQLITE_OK)
+		{
+			_db = nullptr;
+			throw std::exception("DB don't exist");
+		}
+	}
+	return _db;
+}
 int SqliteDataBase::getUserID(std::string username)
 {
 	open();
@@ -51,46 +63,46 @@ SqliteDataBase::SqliteDataBase()
 		}
 		if (!file_exist)
 		{
-			string sqlStatement = "CREATE TABLE t_questions (question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);";
+			string sqlStatement = "CREATE TABLE questions (question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);";
 			char* errMessage = nullptr;
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
-			sqlStatement = "CREATE TABLE t_games(game_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, status INTEGER NOT NULL, start_time DATETIME NOT NULL, end_time DATETIME);";
+			sqlStatement = "CREATE TABLE games(game_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, status INTEGER NOT NULL, start_time DATETIME NOT NULL, end_time DATETIME);";
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
-			sqlStatement = "CREATE TABLE t_users(username TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT);";
+			sqlStatement = "CREATE TABLE users(username TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT);";
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
-			sqlStatement = "CREATE TABLE t_players_answers(game_id INTEGER NOT NULL, username TEXT NOT NULL, question_id INTEGER NOT NULL, player_answer TEXT NOT NULL, is_correct INTEGER NOT NULL, answer_time INTEGER NOT NULL, FOREIGN KEY(game_id) REFERENCES t_games(game_id), FOREIGN KEY(username) REFERENCES t_users(username), FOREIGN KEY(question_id) REFERENCES t_questions(question_id));";
+			sqlStatement = "CREATE TABLE statistics(game_id INTEGER NOT NULL, username TEXT NOT NULL, question_id INTEGER NOT NULL, player_answer TEXT NOT NULL, is_correct INTEGER NOT NULL, answer_time INTEGER NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id), FOREIGN KEY(username) REFERENCES users(username), FOREIGN KEY(question_id) REFERENCES questions(question_id));";
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
 
 			// Inserting the questions
-			sqlStatement = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein win a noble prize?', '1921', '1922', '1928', '1926');";
+			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein win a noble prize?', '1921', '1922', '1928', '1926');";
 			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
 
-			sqlStatement = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When was Albert Einstein Born?', '14.3.1879', '4.6.1878', '3.9.1885', '3.10.1877');";
+			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When was Albert Einstein Born?', '14.3.1879', '4.6.1878', '3.9.1885', '3.10.1877');";
 			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
 
-			sqlStatement = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES ('Where was Albert Einstein born?', 'Ulm', 'Hamburg', 'Dresden', 'Berlin');";
+			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('Where was Albert Einstein born?', 'Ulm', 'Hamburg', 'Dresden', 'Berlin');";
 			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
 
-			sqlStatement = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein formulate his special theory of relativity', '1905', '1903', '1900', '1904');";
+			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein formulate his special theory of relativity', '1905', '1903', '1900', '1904');";
 			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
 
-			sqlStatement = "INSERT INTO t_questions (question, correct_ans, ans2, ans3, ans4) VALUES ('How Many Hearts does an Occtupus have?', '1', '2', '3', '4');";
+			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('How Many Hearts does an Occtupus have?', '1', '2', '3', '4');";
 			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
@@ -153,7 +165,7 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 	try
 	{
 		int i = 1;
-		string sqlStatement = "SELECT * FROM t_questions";
+		string sqlStatement = "SELECT * FROM questions";
 		sqlite3_stmt* stmt;
 		if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &stmt, &_errMessage) != SQLITE_OK)
 		{
@@ -185,6 +197,7 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 				throw std::exception(RETRIVING_INFROMATION_ERROR);
 			}
 		}
+
 		sqlite3_finalize(stmt);
 		return QuestionList;
 	}
@@ -198,7 +211,7 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 float SqliteDataBase::getPlayerAverageAnswerTime(std::string id)
 {
 	open();
-	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	float amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
 	{
@@ -210,7 +223,7 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string id)
 int SqliteDataBase::getNumOfCurrectAnswers(std::string id)
 {
 	open();
-	std::string sqlStatement = "SELECT SUM(Correct_Answers) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	std::string sqlStatement = "SELECT SUM(Correct_Answers) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	int amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
 	{
@@ -222,7 +235,7 @@ int SqliteDataBase::getNumOfCurrectAnswers(std::string id)
 int SqliteDataBase::getNumOfTotalAnswers(std::string id)
 {
 	open();
-	std::string sqlStatement = "SELECT SUM(Total_Answers) FROM Players_Answers WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
+	std::string sqlStatement = "SELECT SUM(Total_Answers) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	int amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
 	{
