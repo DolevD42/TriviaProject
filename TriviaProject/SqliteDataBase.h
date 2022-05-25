@@ -3,10 +3,12 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-#include "IDataBase.h"
+
 #include "sqlite3.h"
+
 #include <list>
-class Question;
+#include "IDataBase.h"
+
 class SqliteDataBase :
     public IDataBase
 {
@@ -21,14 +23,14 @@ public:
 	virtual int  getNumOfCurrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
 	virtual int  getNumOfPlayerGames(std::string id);
-	int getUserID(std::string username) throw();
+	int getUserID(std::string username);
 	virtual sqlite3* GetDb();
 private:
 	char* _errMessage = nullptr;
 	sqlite3* _db = nullptr;
 	bool open();
 	
-	string _filename;
+	std::string _filename;
 };
 
 

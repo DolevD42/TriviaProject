@@ -44,7 +44,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
     return request;
 }
 
-CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomReuquest(std::vector<char> buffer)
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<char> buffer)
 {
     CreateRoomRequest request;
     std::string data= Helper::fromVectToString(buffer);

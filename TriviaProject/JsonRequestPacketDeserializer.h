@@ -42,7 +42,7 @@ public:
 	static SignupRequest deserializeSignupRequest(std::vector<char> buffer);
 	static GetPlayersInRoomRequest deserializeGetPlayersRequest(std::vector<char> buffer);
 	static JoinRoomRequest deserializeJoinRoomRequest(std::vector<char> buffer);
-	static CreateRoomRequest deserializeCreateRoomReuquest(std::vector<char> buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(std::vector<char> buffer);
 	static SubmitAnswerRequest deserializeSubmitAnswerRequest(std::vector<char> buffer);
 
 };

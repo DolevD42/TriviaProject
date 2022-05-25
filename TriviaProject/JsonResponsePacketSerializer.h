@@ -13,16 +13,7 @@ using nlohmann::json;
 #define MSG_TYPE 0
 #define END 1
 
-#define ERR_CODE 41
-#define LOGIN_CODE 42
-#define SIGNUP_CODE 43
-#define LOGOUT_CODE 44
-#define GET_ROOMS_CODE 45
-#define GET_PLAYERS_CODE 46
-#define GET_HIGH_CODE 47
-#define GET_PERSONAL_CODE 48
-#define JOIN_ROOM_CODE 49
-#define CREATE_ROOM_CODE 50
+
 
 typedef struct LoginResponse {
 	unsigned int status;

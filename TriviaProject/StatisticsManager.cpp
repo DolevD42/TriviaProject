@@ -3,10 +3,23 @@
 #include <algorithm>
 
 
-bool pairCompare(const std::pair<int, string>& first, const std::pair<int, string>& second);
-bool pairCompare(const std::pair<int, string>& first, const std::pair<int, string>& second)
+bool pairCompare(const std::pair<int, std::string>& first, const std::pair<int, std::string>& second);
+bool pairCompare(const std::pair<int, std::string>& first, const std::pair<int, std::string>& second)
 {
 	return first.first > second.first;
+}
+
+StatisticsManager::StatisticsManager(IDataBase* db)
+{
+	m_database = db;
+}
+
+StatisticsManager::~StatisticsManager()
+{
+	if (m_database)
+	{
+		delete m_database;
+	}
 }
 
 std::vector<std::string> StatisticsManager::getUserStatistics(std::string userName)
@@ -21,16 +34,16 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userNa
 
 std::vector<std::string> StatisticsManager::getHighScore()
 { 
-	std::vector<string> usernamesBestScores;
+	std::vector<std::string> usernamesBestScores;
 	sqlite3* _db = m_database->GetDb();
 	int NumCurrctAnswers;
 	int Answers;
 	float avgAnswer;
-	std::vector<std::pair<float, string>> bestScores;
+	std::vector<std::pair<float, std::string>> bestScores;
 	try
 	{
 		
-		string sqlStatement = "FROM statistics SELECT usernames SEARCH *";
+		std::string sqlStatement = "FROM statistics SELECT usernames SEARCH *";
 		sqlite3_stmt* stmt;
 		if (sqlite3_prepare_v2(_db, sqlStatement.c_str(), strlen(sqlStatement.c_str()) + 1, &stmt, NULL) != SQLITE_OK)
 			throw std::exception("error reading info");
@@ -41,11 +54,11 @@ std::vector<std::string> StatisticsManager::getHighScore()
 			s = sqlite3_step(stmt);//get first row
 			if (s == SQLITE_ROW)
 			{
-				string username = (char*)sqlite3_column_text(stmt, 0);
+				std::string username = (char*)sqlite3_column_text(stmt, 0);
 				NumCurrctAnswers = m_database->getNumOfCurrectAnswers(username);
 				Answers = m_database->getNumOfTotalAnswers(username);
 				avgAnswer = m_database->getPlayerAverageAnswerTime(username);
-				std::pair<float, string> userScore((float(NumCurrctAnswers)) / (float(Answers) * avgAnswer), username);
+				std::pair<float, std::string> userScore((float(NumCurrctAnswers)) / (float(Answers) * avgAnswer), username);
 				bestScores.push_back(userScore);
 				
 			}

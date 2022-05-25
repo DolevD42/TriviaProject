@@ -3,8 +3,6 @@
 #include "IRequestHandler.h"
 #include "LoginManager.h"
 
-#include "sqlite3.h"
-
 class RequestHandlerFactory;
 
 class LoginRequestHandler :
