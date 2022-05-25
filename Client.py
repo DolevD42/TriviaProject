@@ -52,8 +52,8 @@ def main():
         try:
             Csock.connect((HOST, PORT))
             while True:
-                num = int(input("Login or signUp? (2-signUp,39-login)  "))
-                if num == 2:
+                num = int(input("Login or signUp? (43-signUp,42-login)  "))
+                if num == 43:
                     userName = input("Whats the userName?  ")
                     password = input("Whats the password?  ")
                     email = input("Whats the email?  ")
