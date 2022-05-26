@@ -49,6 +49,46 @@ int SqliteDataBase::getUserID(std::string username)
 	return id;
 }
 
+std::vector<std::string> SqliteDataBase::getAllUserName()
+{
+	std::vector<std::string> usernames;
+	try
+	{
+
+		std::string sqlStatement = "FROM statistics SELECT usernames SEARCH *";
+		sqlite3_stmt* stmt;
+		if (sqlite3_prepare_v2(_db, sqlStatement.c_str(), strlen(sqlStatement.c_str()) + 1, &stmt, NULL) != SQLITE_OK)
+			throw std::exception("error reading info");
+		while (1)
+		{
+			int s;
+
+			s = sqlite3_step(stmt);//get first row
+			if (s == SQLITE_ROW)
+			{
+				std::string username = (char*)sqlite3_column_text(stmt, 0);
+				usernames.push_back(username);
+
+			}
+			else if (s == SQLITE_DONE)
+			{
+				break;
+			}
+			else
+			{
+				sqlite3_finalize(stmt);
+				throw std::exception("error reading info");
+			}
+		}
+		return usernames;
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+		return usernames;
+	}
+}
+
 SqliteDataBase::SqliteDataBase()
 {
 	try
