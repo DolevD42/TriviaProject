@@ -63,7 +63,7 @@ SqliteDataBase::SqliteDataBase()
 		}
 		if (!file_exist)
 		{
-			string sqlStatement = "CREATE TABLE questions (question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);";
+			std::string sqlStatement = "CREATE TABLE questions (question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);";
 			char* errMessage = nullptr;
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
@@ -165,7 +165,7 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 	try
 	{
 		int i = 1;
-		string sqlStatement = "SELECT * FROM questions";
+		std::string sqlStatement = "SELECT * FROM questions";
 		sqlite3_stmt* stmt;
 		if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &stmt, &_errMessage) != SQLITE_OK)
 		{
@@ -178,11 +178,11 @@ std::list<Question*> SqliteDataBase::getQuestions(int id)
 			s = sqlite3_step(stmt);//get first row
 			if (s == SQLITE_ROW)
 			{
-				string question = (char*)sqlite3_column_text(stmt, 1);
-				string correctAns = (char*)sqlite3_column_text(stmt, 2);
-				string ans2 = (char*)sqlite3_column_text(stmt, 3);
-				string ans3 = (char*)sqlite3_column_text(stmt, 4);
-				string ans4 = (char*)sqlite3_column_text(stmt, 5);
+				std::string question = (char*)sqlite3_column_text(stmt, 1);
+				std::string correctAns = (char*)sqlite3_column_text(stmt, 2);
+				std::string ans2 = (char*)sqlite3_column_text(stmt, 3);
+				std::string ans3 = (char*)sqlite3_column_text(stmt, 4);
+				std::string ans4 = (char*)sqlite3_column_text(stmt, 5);
 				Question* newQuestion = new Question(i, question, correctAns, ans2, ans3, ans4);//not sure if i sould free this memory later, also need to check if push_back shellow copy or not
 				QuestionList.push_back(newQuestion);
 				i++;

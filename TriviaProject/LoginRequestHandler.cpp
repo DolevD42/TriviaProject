@@ -54,7 +54,10 @@ RequestResult LoginRequestHandler::login(const RequestInfo& req)
     returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        returnReq.newHandler = this; //We will put MenuHandler later
+        MenuRequestHandler* newHand =  m_handlerFactory->createMenuRequestHandler();
+        LoggedUser* newUser = new LoggedUser(logReq.username);
+        newHand->setUser(newUser);
+        returnReq.newHandler = newHand;
     }
     else
     {
@@ -75,7 +78,10 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& req)
     returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        returnReq.newHandler = this; //We will put MenuHandler later
+        MenuRequestHandler* newHand = m_handlerFactory->createMenuRequestHandler();
+        LoggedUser* newUser = new LoggedUser(signReq.username);
+        newHand->setUser(newUser);
+        returnReq.newHandler = newHand;
     }
     else
     {

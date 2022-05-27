@@ -1,40 +1,38 @@
 #include "Question.h"
-#include "SqliteDataBase.cpp"
 
-
-Question::Question(int id, string question, string correctAnswer, string answer2, string answer3, string answer4)
+Question::Question(int id, std::string question, std::string correctAnswer, std::string answer2, std::string answer3, std::string answer4)
 {
 	int correctAnswerIndex, index2 = -1, index3 = -1, index4 = -1;
 
 	_id = id;
-	_question = string(question);
+	_question = std::string(question);
 
 	//Correct answer index.
 	correctAnswerIndex = rand() % 4;
-	_answers[correctAnswerIndex] = string(correctAnswer);
+	_answers[correctAnswerIndex] = std::string(correctAnswer);
 	_correctAnswerIndex = correctAnswerIndex;
 
 	//Second answer index
 	while (index2 == correctAnswerIndex || index2 == -1) { index2 = rand() % 4; }
-	_answers[index2] = string(answer2);
+	_answers[index2] = std::string(answer2);
 
 	//Third answer index
 	while (index3 == correctAnswerIndex || index3 == index2 || index3 == -1) { index3 = rand() % 4; }
-	_answers[index3] = string(answer3);
+	_answers[index3] = std::string(answer3);
 
 	//Fourth answer index
 	while (index4 == correctAnswerIndex || index4 == index3 || index4 == index2 || index4 == -1) { index4 = rand() % 4; }
-	_answers[index4] = string(answer4);
+	_answers[index4] = std::string(answer4);
 }
 
-string Question::getQuestion()
+std::string Question::getQuestion()
 {
-	return string(_question);
+	return std::string(_question);
 }
 
-string* Question::getAnswers()
+std::string* Question::getAnswers()
 {
-	return new string[4]{ _answers[0], _answers[1], _answers[2], _answers[3] };
+	return new std::string[4]{ _answers[0], _answers[1], _answers[2], _answers[3] };
 }
 
 int Question::getCorrectAnswerIndex()

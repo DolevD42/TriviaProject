@@ -99,6 +99,10 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
 			reqRes = m_clients[clientSocket]->handleRequest(reqInfo); //important
+			if (m_clients[clientSocket] != reqRes.newHandler)
+			{
+				delete m_clients[clientSocket];
+			}
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);
 			Helper::sendData(clientSocket, sendMsg);

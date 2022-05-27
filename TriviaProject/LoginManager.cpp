@@ -1,13 +1,12 @@
 #include "LoginManager.h"
 
-LoginManager::LoginManager(): m_database(new SqliteDataBase())
+LoginManager::LoginManager(IDataBase* db): m_database(db)
 {
 	
 }
 
-LoginManager::LoginManager(IDataBase* db)
+LoginManager::~LoginManager()
 {
-	this->m_database = db;
 }
 
 int LoginManager::signup(std::string userName, std::string pass, std::string email)
