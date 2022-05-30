@@ -23,6 +23,12 @@ namespace GUI
         {
             InitializeComponent();
         }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string userName = inputUsername.Text;
+            string password = inputPassword.Text;
+            string email = inputEmail.Text;
+            string msgToSent;
             
 
         }
