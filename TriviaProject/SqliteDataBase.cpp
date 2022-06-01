@@ -11,7 +11,17 @@ int exists(void* data, int argc, char** argv, char** azColName)
 	*(bool*)data = true;
 	return 0;
 }
+int avg(void* data, int argc, char** argv, char** azColName)
+{
+	*(float*)data = std::atof(argv[0]);
+	return 0;
+}
 
+int sum(void* data, int argc, char** argv, char** azColName)
+{
+	*(int*)data = atoi(argv[0]);
+	return 0;
+}
 bool SqliteDataBase::open()
 {
 	if (_db == nullptr)
