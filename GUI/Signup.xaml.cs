@@ -10,27 +10,27 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Net.Sockets;
-using System.Net;
-
 
 namespace GUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Signup : Window
     {
-        public MainWindow()
+        public Signup()
         {
             InitializeComponent();
         }
-
-        private void LoginButtonClicked(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string username = inputUsername.Text;
+            string userName = inputUsername.Text;
+            string password = inputPassword.Text;
+            string email = inputEmail.Text;
+            string msgToSent;
+
+            Consts.Info res;
 
         }
     }
