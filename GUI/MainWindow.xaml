@@ -1,9 +1,9 @@
-﻿<Window x:Name="Main_Window" x:Class="Trivia_GUI.MainWindow"
+﻿<Window x:Class="GUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Trivia_GUI"
+        xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -26,8 +26,7 @@
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="290.428,116.172,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="108.096" FontSize="24"/>
         <TextBox Name="inputPassword" Grid.Column="1" HorizontalAlignment="Left" Height="40.477" Margin="398.524,116.172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
         <Button
-            x:Name="myButton"
-            Content="Login" Margin="179.29,79.266,492.29,36.906" Grid.Column="1"
+            x:Name="myButton" Click="LoginBu" Content="Login" Margin="179.29,79.266,492.29,36.906" Grid.Column="1"
             />
 
     </Grid>

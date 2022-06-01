@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Sockets;
+using System.Net;
+
 
 namespace GUI
 {
@@ -25,9 +28,10 @@ namespace GUI
             InitializeComponent();
         }
 
-        private void InitializeComponent()
+        private void LoginButtonClicked(object sender, RoutedEventArgs e)
         {
-           
+            string username = inputUsername.Text;
+
         }
     }
 }
