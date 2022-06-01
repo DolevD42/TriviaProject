@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consts.cs" />
+    <Compile Include="CreateRoomWin.xaml.cs">
+      <DependentUpon>CreateRoomWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Deserializer.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -64,6 +67,13 @@
     <Compile Include="Signup.xaml.cs">
       <DependentUpon>Signup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StatsWin.xaml.cs">
+      <DependentUpon>StatsWin.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CreateRoomWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +91,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Signup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StatsWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
