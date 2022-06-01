@@ -16,10 +16,10 @@
             <ColumnDefinition Width="771*"/>
         </Grid.ColumnDefinitions>
         <TextBlock HorizontalAlignment="Left" Height="59" Margin="204.524,10,0,0" TextWrapping="Wrap" Text="Menu" VerticalAlignment="Top" Width="189" FontSize="48" Foreground="#FFD62F15" FontFamily="Snap ITC" Grid.Column="1"/>
-        <Button x:Name="Create_Room" Grid.Column="1" Content="Create_Room" HorizontalAlignment="Left" Height="62.906" Margin="189,281.397,0,0" VerticalAlignment="Top" Width="189" FontFamily="Calisto MT" FontSize="22"/>
-        <Button x:Name="Join_Room" Grid.Column="1" Content="Join Room" HorizontalAlignment="Left" Margin="189,12.4,0,346.427" Width="189" FontFamily="Calisto MT" FontSize="22" Grid.Row="1"/>
-        <Button x:Name="Statistics" Grid.Column="1" Content="Statistics" HorizontalAlignment="Left" Height="55.2" VerticalAlignment="Center" Width="189" FontFamily="Calisto MT" FontSize="22" Margin="189,92.86,0,267.334" Grid.Row="1"/>
-        <Button x:Name="Quit_Button" Grid.Column="1" Content="Quit" HorizontalAlignment="Left" Height="52.8" Margin="189,167.46,0,0" VerticalAlignment="Top" Width="189" FontFamily="Calisto MT" FontSize="22" Grid.Row="1"/>
+        <Button Click="Create_room_Button" x:Name="Create_Room" Grid.Column="1" Content="Create_Room" HorizontalAlignment="Left" Height="62.906" Margin="189,281.397,0,0" VerticalAlignment="Top" Width="189" FontFamily="Calisto MT" FontSize="22"/>
+        <Button Click="Join_Room_Button" x:Name="Join_Room" Grid.Column="1" Content="Join Room" HorizontalAlignment="Left" Margin="189,12.4,0,346.427" Width="189" FontFamily="Calisto MT" FontSize="22" Grid.Row="1"/>
+        <Button Click="Statistics_Button" x:Name="Statistics" Grid.Column="1" Content="Statistics" HorizontalAlignment="Left" Height="55.2" VerticalAlignment="Center" Width="189" FontFamily="Calisto MT" FontSize="22" Margin="189,92.86,0,267.334" Grid.Row="1"/>
+        <Button Click="Quit_Button_Button" x:Name="Quit_Button" Grid.Column="1" Content="Quit" HorizontalAlignment="Left" Height="52.8" Margin="189,167.46,0,0" VerticalAlignment="Top" Width="189" FontFamily="Calisto MT" FontSize="22" Grid.Row="1"/>
         <Path Grid.Column="1" Data="M218,41.04" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="189,41,0,0" Stroke="Black" Stretch="Fill" VerticalAlignment="Top" Width="1"/>
 
 

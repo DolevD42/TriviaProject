@@ -27,6 +27,25 @@ namespace GUI
         {
             InitializeComponent();
         }
+        private void Create_room_Button(object sender, RoutedEventArgs e)
+        {
 
+
+        }
+        private void Join_Room_Button(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+        private void Statistics_Button(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+        private void Quit_Button_Button(object sender, RoutedEventArgs e)
+        {
+
+
+        }
     }
 }
