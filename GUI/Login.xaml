@@ -7,12 +7,19 @@
         mc:Ignorable="d"
         Title="Login" Height="800" Width="600">
     <Grid>
-        <TextBox Name="inputUsername" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="177.974,240.535,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="42.565" Margin="54.402,240.535,0,0" TextWrapping="Wrap" Text="Username:" VerticalAlignment="Top" Width="118.572" FontSize="24" RenderTransformOrigin="0.554,0.406"/>
-        <TextBlock HorizontalAlignment="Left" Height="51.191" Margin="228.392,83.197,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="147.62" FontSize="36" FontWeight="Bold"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="64.878,304.529,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="108.096" FontSize="24"/>
-        <TextBox Name="inputPassword" Grid.Column="1" HorizontalAlignment="Left" Height="40.477" Margin="177.974,304.529,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
-        <Button Click="Button_Click" Content="Login" HorizontalAlignment="Left" Height="51.191" Margin="177.974,420.469,0,0" VerticalAlignment="Top" Width="264.286" FontSize="24"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="77*"/>
+            <ColumnDefinition Width="455*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Name="inputUsername" Grid.Column="3" HorizontalAlignment="Left" Height="40" Margin="40.974,240.535,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="42.565" Margin="52.402,240.535,0,0" TextWrapping="Wrap" Text="Username:" VerticalAlignment="Top" Width="118.572" FontSize="24" RenderTransformOrigin="0.554,0.406" Grid.ColumnSpan="3"/>
+        <TextBlock HorizontalAlignment="Left" Height="51.191" Margin="91.392,83.197,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="147.62" FontSize="36" FontWeight="Bold" Grid.Column="3"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Height="40" Margin="4.378,304.529,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="108.096" FontSize="24" Grid.ColumnSpan="2"/>
+        
+        <Button Click="Button_Click" Content="Login" HorizontalAlignment="Left" Height="51.191" Margin="40.974,420.469,0,0" VerticalAlignment="Top" Width="264.286" FontSize="24" Grid.Column="3"/>
+        <PasswordBox Name ="inpPass" Grid.Column="3" HorizontalAlignment="Left" Height="42" Margin="40.974,304.529,0,0" VerticalAlignment="Top" Width="320"/>
 
     </Grid>
 </Window>
