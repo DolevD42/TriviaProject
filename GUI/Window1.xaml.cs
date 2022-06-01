@@ -29,7 +29,8 @@ namespace GUI
             string password = inputPassword.Text;
             string email = inputEmail.Text;
             string msgToSent;
-            
+
+            Consts.Info res;
 
         }
     }
