@@ -41,6 +41,10 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.StatusResponse>(buffer);
 		}
+		public static Consts.StatusResponse deserializeCreateRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.StatusResponse>(buffer);
+		}
 		public static Consts.ErrorResponse deserializeErrorResponse(string buffer)
 		{
 			return JsonConvert.DeserializeObject<Consts.ErrorResponse>(buffer);

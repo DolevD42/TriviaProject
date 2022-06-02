@@ -42,14 +42,22 @@ namespace GUI
 			inf.buffer = buffer;
 			inf.id = id;
 			return serializeInf(inf);
-		}
-		public static string serializeMsgSign(Consts.signupRequest req, int id)
+        }
+        public static string serializeMsgSign(Consts.signupRequest req, int id)
+        {
+            string buffer = JsonConvert.SerializeObject(req);
+            Consts.RequestInfo inf;
+            inf.buffer = buffer;
+            inf.id = id;
+
+            return serializeInf(inf);
+        }
+		public static string serializeMsgCreateRoom(Consts.CreateRoomRequest req, int id)
 		{
 			string buffer = JsonConvert.SerializeObject(req);
 			Consts.RequestInfo inf;
 			inf.buffer = buffer;
 			inf.id = id;
-			
 			return serializeInf(inf);
 		}
 	}
