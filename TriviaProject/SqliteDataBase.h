@@ -30,7 +30,7 @@ private:
 	sqlite3* _db = nullptr;
 	bool open();
 	
-	std::string _filename;
+	std::string _filename = "TriviaDB.sqlite";
 };
 
 
