@@ -79,6 +79,7 @@ namespace GUI
             this.Hide();
             Signup win = new Signup(_client);
             this.Close();
+            win.Show();
         }
     }
 }
