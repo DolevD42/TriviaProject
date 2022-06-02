@@ -61,6 +61,13 @@ namespace GUI
         {
             public string msg;
         }
+        public struct CreateRoomRequest
+        {
+            public string roomName;
+            public int maxUsers;
+            public int questionCount;
+            public int answerTimeout;
+        }
     }
 
 }
