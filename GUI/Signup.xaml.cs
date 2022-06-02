@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Net.Sockets;
+using System.Net;
 
 namespace GUI
 {
@@ -19,9 +21,11 @@ namespace GUI
     /// </summary>
     public partial class Signup : Window
     {
-        public Signup()
+        private TcpClient _client;
+        public Signup(TcpClient client)
         {
             InitializeComponent();
+            _client = client;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -30,7 +34,7 @@ namespace GUI
             string email = inputEmail.Text;
             string msgToSent;
 
-            Consts.Info res;
+            //Consts.Info res;
 
         }
     }

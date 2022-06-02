@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Net.Sockets;
+using System.Net;
 
 namespace GUI
 {
@@ -19,9 +21,12 @@ namespace GUI
     /// </summary>
     public partial class Login : Window
     {
+        private TcpClient _client;
         public Login()
-        {
+        {  
             InitializeComponent();
+            _client = new TcpClient();
+            _client.Connect("127.0.0.1", 8876);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {

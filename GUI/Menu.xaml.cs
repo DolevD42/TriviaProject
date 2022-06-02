@@ -23,9 +23,11 @@ namespace GUI
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu()
+        private TcpClient _client;
+        public Menu(TcpClient client, string username)
         {
             InitializeComponent();
+            _client = client;
         }
         private void Create_room_Button(object sender, RoutedEventArgs e)
         {
