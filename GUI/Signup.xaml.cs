@@ -54,7 +54,7 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             net.Read(serverBuffer, 0, resInf.len);
-            Consts.StatusResponse res = Deserializer.deserializeLoginResponse(Encoding.Default.GetString(serverBuffer));
+            Consts.StatusResponse res = Deserializer.deserializeSignUpResponse(Encoding.Default.GetString(serverBuffer));
             inputUsername.Text = "";
             inputPassword.Text = "";
             inputEmail.Text = "";
@@ -73,6 +73,7 @@ namespace GUI
                     this.Hide();
                     Menu win = new Menu(_client, userName);
                     this.Close();
+                    win.Show();
                     break;
             }
 

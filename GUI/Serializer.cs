@@ -49,6 +49,7 @@ namespace GUI
 			Consts.RequestInfo inf;
 			inf.buffer = buffer;
 			inf.id = id;
+			
 			return serializeInf(inf);
 		}
 	}
