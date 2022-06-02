@@ -31,13 +31,36 @@ namespace GUI
         public const int ROOM_MAX_OUT = 47;
         public const int WRONG_PARAMETERS = 48;
 
-        public struct Info
+        public const int ZERO = 126;
+        public struct RequestInfo
         {
             public int id;
             public string buffer;
         }
-
-
+        public struct ResponseInfo
+        {
+            public int id;
+            public int len;
+        }
+        public struct loginRequest
+        {
+            public string username;
+            public string password;
+        }
+        public struct signupRequest
+        {
+            public string username;
+            public string password;
+            public string email;
+        }
+        public struct StatusResponse
+        {
+            public int status;
+        }
+        public struct ErrorResponse
+        {
+            public string msg;
+        }
     }
 
 }
