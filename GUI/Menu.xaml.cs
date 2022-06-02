@@ -24,15 +24,19 @@ namespace GUI
     public partial class Menu : Window
     {
         private TcpClient _client;
+        private string _UserName;
         public Menu(TcpClient client, string username)
         {
             InitializeComponent();
             _client = client;
+            _UserName = username;
         }
         private void Create_room_Button(object sender, RoutedEventArgs e)
         {
-
-
+            this.Hide();
+            CreateRoomWin win = new CreateRoomWin(_client, _UserName);
+            this.Close();
+            win.Show();
         }
         private void Join_Room_Button(object sender, RoutedEventArgs e)
         {
