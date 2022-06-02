@@ -74,6 +74,11 @@ namespace GUI
             }
         }
 
+        private void SignUpClick(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Signup win = new Signup(_client);
+            this.Close();
         }
     }
 }
