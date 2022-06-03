@@ -11,7 +11,17 @@ int exists(void* data, int argc, char** argv, char** azColName)
 	*(bool*)data = true;
 	return 0;
 }
+int avg(void* data, int argc, char** argv, char** azColName)
+{
+	*(float*)data = std::atof(argv[0]);
+	return 0;
+}
 
+int sum(void* data, int argc, char** argv, char** azColName)
+{
+	*(int*)data = atoi(argv[0]);
+	return 0;
+}
 bool SqliteDataBase::open()
 {
 	if (_db == nullptr)
@@ -213,7 +223,7 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string id)
 	open();
 	std::string sqlStatement = "SELECT AVG(Answer_Time) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	float amount = 0;
-	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	if (sqlite3_exec(_db, sqlStatement.c_str(), avg, &amount, &_errMessage) != SQLITE_OK)
 	{
 		throw std::exception("DB don't exist");
 	}
@@ -225,7 +235,7 @@ int SqliteDataBase::getNumOfCurrectAnswers(std::string id)
 	open();
 	std::string sqlStatement = "SELECT SUM(Correct_Answers) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	int amount = 0;
-	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
 		throw std::exception("DB don't exist");
 	}
@@ -236,8 +246,8 @@ int SqliteDataBase::getNumOfTotalAnswers(std::string id)
 {
 	open();
 	std::string sqlStatement = "SELECT SUM(Total_Answers) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
-	int amount = 0;
-	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	int amount = 0;	
+	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
 		throw std::exception("DB don't exist");
 	}
@@ -249,7 +259,7 @@ int SqliteDataBase::getNumOfPlayerGames(std::string id)
 	open();
 	std::string sqlStatement = "SELECT SUM(Players);";
 	int amount = 0;
-	if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &amount, &_errMessage) != SQLITE_OK)
+	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
 		throw std::exception("DB don't exist");
 	}
