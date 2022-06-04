@@ -60,14 +60,8 @@ namespace GUI
             inputEmail.Text = "";
             switch (res.status)
             {
-                case Consts.USER_DONT_EXIST:
-                    MessageBox.Show("The username you enter doesn't exist", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    break;
-                case Consts.PASSWORD_DONT_MATCH:
-                    MessageBox.Show("The password you enter doesn't match the username", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    break;
-                case Consts.USER_ALREADY_LOGIN:
-                    MessageBox.Show("User already logged in", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                case Consts.USER_ALREADY_EXIST:
+                    MessageBox.Show("The user is already exist", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     break;
                 case Consts.REQUEST_VALID:
                     this.Hide();
