@@ -69,18 +69,12 @@ namespace GUI
                 QuestionTime.Text= "";
                 switch (res.status)
                 {
-                    case Consts.ROOM_DONT_EXIST:
-                        MessageBox.Show("Room not exist", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        break;
-                    case Consts.ROOM_MAX_OUT:
-                        MessageBox.Show("Room maxed out sorry", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        break;
                     case Consts.WRONG_PARAMETERS:
                         MessageBox.Show("Wrong parameters!", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         break;
                     case Consts.REQUEST_VALID:
                         this.Hide();
-                        Menu win = new Menu(_client, _UserName);
+                        RoomWin win = new RoomWin(_client, _UserName, req.roomName, req.questionCount , req.answerTimeout, req.maxUsers);
                         this.Close();
                         win.Show();
                         break;
