@@ -69,6 +69,7 @@ namespace GUI
                 case Consts.REQUEST_VALID:
                     this.Hide();
                     Menu win = new Menu(_client, userName);
+                    win.Show();
                     this.Close();
                     break;
             }

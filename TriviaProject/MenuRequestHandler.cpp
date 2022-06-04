@@ -163,6 +163,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo req)
 	}
 	else
 	{
+		
 		funcCode = REQUEST_VALID;
 		if (m_roomManager->checkIfRoomExist(0))
 		{
@@ -172,7 +173,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo req)
 		{
 			data.id = 0;
 		}
-		data.isActive = NON_ACTIVE_STATE;
+		data.isActive = ACTIVE_STATE;
 		data.maxPlayers = specReq.maxUsers;
 		data.numOfQuestionInGame = specReq.questionCount;
 		data.name = specReq.roomName;
