@@ -46,9 +46,9 @@ namespace GUI
 
             net.Read(serverBuffer, 0, resInf.len);
             Consts.GetHighScoreResponse res = Deserializer.deserializeGetHighScoresResponse(Encoding.Default.GetString(serverBuffer));
-            FirstScore.Text = res.statistics[0];
-            SecondScore.Text = res.statistics[1];
-            ThirdScore.Text = res.statistics[2];
+            FirstScore.Text += res.statistics[0];
+            SecondScore.Text += res.statistics[1];
+            ThirdScore.Text += res.statistics[2];
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
