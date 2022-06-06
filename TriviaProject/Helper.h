@@ -1,9 +1,32 @@
 #pragma once
-
+#include <iostream>
 #include <vector>
 #include <string>
 #include <WinSock2.h>
 
+#define ERR_CODE 41
+#define LOGIN_CODE 42
+#define SIGNUP_CODE 43
+#define LOGOUT_CODE 44
+#define GET_ROOMS_CODE 45
+#define GET_PLAYERS_CODE 46
+#define GET_HIGH_CODE 47
+#define GET_PERSONAL_CODE 48
+#define JOIN_ROOM_CODE 49
+#define CREATE_ROOM_CODE 50
+
+#define PASSWORD_DONT_MATCH 41
+#define REQUEST_VALID 42
+#define USER_ALREADY_EXIST 43
+#define USER_DONT_EXIST 44
+#define USER_ALREADY_LOGIN 45
+#define ROOM_DONT_EXIST 46
+#define ROOM_MAX_OUT 47
+#define WRONG_PARAMETERS 48
+
+//room defention
+#define ACTIVE_STATE 42
+#define NON_ACTIVE_STATE 43
 
 enum MessageType : byte
 {

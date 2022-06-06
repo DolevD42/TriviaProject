@@ -1,0 +1,18 @@
+﻿<Window x:Class="GUI.RoomMember"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="RoomMember" Height="800" Width="600">
+    <Grid>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Height="59.2" Margin="242.4,86,0,0" TextWrapping="Wrap" Text="RoomName" VerticalAlignment="Top" Width="302.4" FontSize="36" FontWeight="Bold"/>
+        <Button Click="BackToMenuClick" Content="Leave Room" HorizontalAlignment="Left" Height="52.8" Margin="168.928,707.6,0,0" VerticalAlignment="Top" Width="235.5" FontSize="24"/>
+        <ListBox x:Name="list" HorizontalAlignment="Left" Height="292.8" Margin="152.928,320.2,0,0" VerticalAlignment="Top" Width="270.764" FontSize="22"/>
+
+        <TextBlock x:Name="Admin" HorizontalAlignment="Left" Height="46.4" Margin="168.928,150.2,0,0" TextWrapping="Wrap" Text="Room Admin: X" VerticalAlignment="Top" Width="358.4" FontSize="24"/>
+        <TextBlock HorizontalAlignment="Left" Height="43.2" Margin="231.572,272,0,0" TextWrapping="Wrap" Text="Participants:" VerticalAlignment="Top" Width="124.428" FontSize="22"/>
+
+    </Grid>
+</Window>

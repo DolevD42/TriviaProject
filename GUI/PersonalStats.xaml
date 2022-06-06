@@ -1,0 +1,18 @@
+﻿<Window x:Class="GUI.PersonalStats"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="PersonalStats" Height="800" Width="600">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Height="54.411" Margin="150.83,83.462,0,0" TextWrapping="Wrap" Text="Personal Statistics" VerticalAlignment="Top" Width="307.87" FontSize="36" FontWeight="Bold"/>
+        <TextBlock x:Name="AverageTime" HorizontalAlignment="Left" Height="52.8" Margin="72,228.8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="468.8" FontSize="24" Text="Your average answer time is X sec."/>
+        <TextBlock x:Name="TotalAnswers" HorizontalAlignment="Left" Height="49.6" Margin="72,281.6,0,0" TextWrapping="Wrap" Text="You have answer a total of X answers." VerticalAlignment="Top" Width="415.57" FontSize="24"/>
+        <TextBlock x:Name="TotalGames" HorizontalAlignment="Left" Height="51.2" Margin="72,336.2,0,0" TextWrapping="Wrap" Text="You played X games." VerticalAlignment="Top" Width="396.87" FontSize="24"/>
+        <TextBlock x:Name="CorrectAnswers" HorizontalAlignment="Left" Height="53.6" Margin="72,392.4,0,0" TextWrapping="Wrap" Text="You answer a total of X correct answers." VerticalAlignment="Top" Width="439.57" FontSize="24"/>
+        <Button Click="BackToMenuClick" Content="Back To Menu" HorizontalAlignment="Left" Height="52.8" Margin="183.2,656,0,0" VerticalAlignment="Top" Width="235.5" FontSize="24"/>
+
+    </Grid>
+</Window>
