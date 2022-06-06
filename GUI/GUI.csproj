@@ -63,11 +63,20 @@
       <DependentUpon>CreateRoomWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Deserializer.cs" />
+    <Compile Include="joinRoom.xaml.cs">
+      <DependentUpon>joinRoom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RoomWin.xaml.cs">
-      <DependentUpon>RoomWin.xaml</DependentUpon>
+    <Compile Include="PersonalStats.xaml.cs">
+      <DependentUpon>PersonalStats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomAdminWin.xaml.cs">
+      <DependentUpon>RoomAdminWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomMember.xaml.cs">
+      <DependentUpon>RoomMember.xaml</DependentUpon>
     </Compile>
     <Compile Include="Serializer.cs" />
     <Compile Include="Signup.xaml.cs">
@@ -79,6 +88,10 @@
     <Page Include="CreateRoomWin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="joinRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
@@ -96,7 +109,15 @@
       <DependentUpon>Menu.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RoomWin.xaml">
+    <Page Include="PersonalStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RoomAdminWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RoomMember.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
