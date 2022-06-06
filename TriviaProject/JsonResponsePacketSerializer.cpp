@@ -37,12 +37,15 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 {
 	json j;
 	j["status"] = msg.status;
-	std::vector<std::string> vect;
+	std::vector<std::string> vectRoomsNames;
+	std::vector<int> vectRoomsId;
 	for (int i = 0; i < msg.rooms.size(); i++)
 	{
-		vect.push_back(msg.rooms[i].name);
+		vectRoomsNames.push_back(msg.rooms[i].name);
+		vectRoomsId.push_back(msg.rooms[i].id);
 	}
-	j["rooms"] = vect;
+	j["rooms"] = vectRoomsNames;
+	j["roomsId"] = vectRoomsId;
 	std::string js = j.dump();
 	return onlyStatus(GET_ROOMS_CODE, js.length(), js);
 }
