@@ -23,7 +23,6 @@ public:
 	virtual int  getNumOfCorrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
 	virtual int  getNumOfPlayerGames(std::string id);
-	int getUserID(std::string username);
 	virtual std::vector<std::string> getAllUserName();
 	virtual sqlite3* GetDb();
 private:
