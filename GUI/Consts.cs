@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using System.Numerics;
 namespace GUI
 {
 
@@ -67,6 +66,30 @@ namespace GUI
             public int maxUsers;
             public int questionCount;
             public int answerTimeout;
+        }
+        public struct JoinRoomRequest
+        {
+            public int roomId;
+        }
+        public struct GetPlayersInRoomRequest
+        {
+            public int roomId;
+        }
+        public struct GetPlayersInRoomResponse
+        {
+            public List<string> players;
+        }
+        public struct  GetRoomsResponse
+        {
+            public int status;
+            public List<string> rooms;
+            public List<int> roomsId;
+        }
+
+        public struct getPersonalStatsResponse
+        {
+            public int status;
+            public List<string> statistics;
         }
     }
 

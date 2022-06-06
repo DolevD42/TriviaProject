@@ -8,7 +8,17 @@ namespace GUI
 {
     class Serializer
     {
-        public static string serializeInf(Consts.RequestInfo info)
+		public static string serializeCodeOnly(int code)
+        {
+			string msg = "";
+			msg += (char)code;
+            for (int i = 0; i < 4; i++)
+            {
+				msg += (char)Consts.ZERO;
+            }
+			return msg;
+        }
+		public static string serializeInf(Consts.RequestInfo info)
         {
             string msg = "";
             msg += (char)info.id;
@@ -35,7 +45,7 @@ namespace GUI
 			msg += info.buffer;
 			return msg;
         }
-        public static string serializeMsg(Consts.loginRequest req, int id)
+        public static string serializeMsgLogin(Consts.loginRequest req, int id)
         {
 			string buffer = JsonConvert.SerializeObject(req);
 			Consts.RequestInfo inf;
@@ -53,6 +63,22 @@ namespace GUI
             return serializeInf(inf);
         }
 		public static string serializeMsgCreateRoom(Consts.CreateRoomRequest req, int id)
+		{
+			string buffer = JsonConvert.SerializeObject(req);
+			Consts.RequestInfo inf;
+			inf.buffer = buffer;
+			inf.id = id;
+			return serializeInf(inf);
+		}
+		public static string serializeMsgJoinRoom(Consts.JoinRoomRequest req, int id)
+        {
+			string buffer = JsonConvert.SerializeObject(req);
+			Consts.RequestInfo inf;
+			inf.buffer = buffer;
+			inf.id = id;
+			return serializeInf(inf);
+		}
+		public static string serializeMsgGetPlayersInRoom(Consts.GetPlayersInRoomRequest req, int id)
 		{
 			string buffer = JsonConvert.SerializeObject(req);
 			Consts.RequestInfo inf;

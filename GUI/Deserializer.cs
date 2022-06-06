@@ -8,7 +8,8 @@ namespace GUI
 {
     class Deserializer
     {
-        public static Consts.ResponseInfo deserializeSize(string msg)
+		
+		public static Consts.ResponseInfo deserializeSize(string msg)
         {
             Consts.ResponseInfo res;
             res.id = (int)msg[0];
@@ -45,10 +46,29 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.StatusResponse>(buffer);
 		}
+		public static Consts.StatusResponse deserializeJoinRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.StatusResponse>(buffer);
+		}
+		public static Consts.StatusResponse deserializeLogOutResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.StatusResponse>(buffer);
+		}
 		public static Consts.ErrorResponse deserializeErrorResponse(string buffer)
 		{
 			return JsonConvert.DeserializeObject<Consts.ErrorResponse>(buffer);
 		}
-
+		public static Consts.getPersonalStatsResponse deserializeGetPersonalStatsResponse(string buffer)
+        {
+			return JsonConvert.DeserializeObject<Consts.getPersonalStatsResponse>(buffer);
+        }
+		public static Consts.GetRoomsResponse deserializeGetRoomsResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetRoomsResponse>(buffer);
+		}
+		public static Consts.GetPlayersInRoomResponse deserializeGetPlayersInRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetPlayersInRoomResponse>(buffer);
+		}
 	}
 }
