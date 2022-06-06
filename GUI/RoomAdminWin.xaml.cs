@@ -30,15 +30,23 @@ namespace GUI
             InitializeComponent();
             this._client = client;
             this._userName = userName;
-            this.PlayersNum.Text = maxUsers.ToString();
-            this.RoomName.Text = roomName;
-            this.QuestionNum.Text = questionCount.ToString();
-            this.QuestionTime.Text = answerTimeout.ToString();
+            this.PlayersNum.Text += maxUsers.ToString();
+            this.Title.Text = roomName;
+            this.QuestionNum.Text += questionCount.ToString();
+            this.QuestionTime.Text += answerTimeout.ToString();
         }
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
 
 
+        }
+        private void BackToMenuClick(object sender, RoutedEventArgs e)
+        {
+            //Here I will put the Close Room
+            this.Hide();
+            Menu win = new Menu(_client, _userName);
+            win.Show();
+            this.Close();
         }
     }
 }

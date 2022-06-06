@@ -5,17 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="RoomWin" Height="805" Width="800">
-    <StackPanel MinWidth="200" Width="311" Height="415.5">
-        <TextBlock x:Name="RoomName" Text="" TextAlignment="Center" />
-        <TextBlock Text="Ready For Some Trivia??" TextAlignment="Center" />
-        <TextBlock Text="Players amount:" TextAlignment="Center" Margin="0,0,219.333,-20" Height="13.293" />
-        <TextBlock Text="Number of question:" TextAlignment="Center" Margin="0,0,198.666,-60" Height="13.292" />
-        <TextBlock Text="Time for question:" TextAlignment="Center" Margin="0,0,214.333,-107" Height="13.292" />
-        <TextBlock x:Name="PlayersNum" TextAlignment="Center" Text="" Height="21.667" Margin="112.334,0,30,0"/>
-        <TextBlock x:Name="QuestionNum" TextAlignment="Center" Text="" Height="21" Margin="112.334,0,30,0"/>
-        <TextBlock x:Name="QuestionTime" TextAlignment="Center" Text="" Height="21" Margin="112.334,0,30,0"/>
-        <ListView x:Name="Players" Height="100" Width="207"/>
-        <Button x:Name="StartGame" Content="Start Game" VerticalAlignment="Top" Click="StartGame_Click" Width="96"/>
-    </StackPanel>
+        Title="RoomAdminWin" Height="800" Width="600">
+    <Grid>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Height="59.2" Margin="156.128,57.2,0,0" TextWrapping="Wrap" Text="RoomName" VerticalAlignment="Top" Width="302.4" FontSize="36" FontWeight="Bold"/>
+        <Button Click="BackToMenuClick" Content="Close Room" HorizontalAlignment="Left" Height="52.8" Margin="168.928,707.6,0,0" VerticalAlignment="Top" Width="235.5" FontSize="24"/>
+        <ListBox x:Name="list" HorizontalAlignment="Left" Height="292.8" Margin="156.128,373,0,0" VerticalAlignment="Top" Width="270.764" FontSize="22"/>
+
+        <TextBlock x:Name="PlayersNum" HorizontalAlignment="Left" Height="46.4" Margin="168.928,150.2,0,0" TextWrapping="Wrap" Text="Max Players: " VerticalAlignment="Top" Width="358.4" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Height="43.2" Margin="234.772,324.8,0,0" TextWrapping="Wrap" Text="Participants:" VerticalAlignment="Top" Width="124.428" FontSize="22"/>
+        <TextBlock x:Name="QuestionNum" HorizontalAlignment="Left" Height="40" Margin="168,196.6,0,0" TextWrapping="Wrap" Text="Num Of Questions: " VerticalAlignment="Top" Width="303.328" FontSize="20"/>
+        <TextBlock x:Name="QuestionTime" HorizontalAlignment="Left" Height="30.4" Margin="168,241.6,0,0" TextWrapping="Wrap" Text="Time per Question: " VerticalAlignment="Top" Width="255.692" FontSize="20"/>
+
+    </Grid>
 </Window>
