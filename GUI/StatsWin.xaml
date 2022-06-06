@@ -16,7 +16,7 @@
             <ColumnDefinition Width="93*"/>
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="High Score:"  TextAlignment="Center" Margin="0,76.384,0,389.771" Grid.ColumnSpan="3" FontSize="36" FontWeight="Bold"/>
+        <TextBlock Text="High Score:"  TextAlignment="Center" Margin="-23.922,76.384,10,389.771" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold"/>
         <TextBlock Text="Best Players:" TextAlignment="Center" Grid.ColumnSpan="2" Margin="-2.431,165.825,22.283,367.756" FontSize="24"/>
         <TextBlock Text="First Place: " x:Name="FirstScore" Margin="124.547,234.395,-83.266,294.202" Grid.ColumnSpan="3" FontSize="22"/>
         <TextBlock Text="Secend Place: " x:Name="SecondScore"  Margin="124.547,279.335,0,254.027" HorizontalAlignment="Left" Width="202.446" FontSize="22"/>
