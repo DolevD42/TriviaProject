@@ -6,13 +6,12 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         Title="StatsWin" Height="298.47" Width="354.591">
-    <ScrollViewer Margin="0,0,29.612,126.266">
-        <StackPanel MinWidth="200" Width="343.075" Height="190.537">
-            <TextBlock Text="Best Scores"  TextAlignment="Center"/>
-            <TextBlock Text="The Best Scores Until Now" TextAlignment="Center"/>
-            <TextBlock x:Name="FirstScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
-            <TextBlock x:Name="SecondScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
-            <TextBlock x:Name="ThirdScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
-        </StackPanel>
-    </ScrollViewer>
+    <StackPanel MinWidth="200" Width="347.075" RenderTransformOrigin="0.504,0.811" Margin="0,0,-0.484,-12.734">
+        <TextBlock Text="Best Scores"  TextAlignment="Center"/>
+        <TextBlock Text="The Best Scores Until Now" TextAlignment="Center"/>
+        <TextBlock x:Name="FirstScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
+        <TextBlock x:Name="SecondScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
+        <TextBlock x:Name="ThirdScore" TextAlignment="Center" Margin="0, 10, 0, 0"/>
+        <Button Click="BackToMenuClick" Content="Back To Menu" VerticalAlignment="Center" />
+    </StackPanel>
 </Window>
