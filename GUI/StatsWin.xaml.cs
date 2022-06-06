@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,10 +20,40 @@ namespace GUI
     /// </summary>
     public partial class StatsWin : Window
     {
-        public StatsWin()
+        private TcpClient _client;
+        private string _userName;
+
+        public StatsWin(TcpClient client, string userName)
         {
             InitializeComponent();
-            
+            this._client = client;
+            this._userName = userName;
+            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_HIGH_CODE);
+            NetworkStream net = _client.GetStream();
+            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            byte[] serverMsg = new byte[5];
+            net.Read(serverMsg, 0, 5);
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
+            if (resInf.id == Consts.ERR_CODE)
+            {
+                byte[] errorBuffer = new byte[resInf.len];
+                net.Read(errorBuffer, 0, resInf.len);
+                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            byte[] serverBuffer = new byte[resInf.len];
+
+            net.Read(serverBuffer, 0, resInf.len);
+            Consts.GetHighScoreResponse res = Deserializer.deserializeGetHighScoresResponse(Encoding.Default.GetString(serverBuffer));
+            Console.WriteLine(res.statistics[0]);
+        }
+        private void BackToMenuClick(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Menu win = new Menu(_client, _userName);
+            win.Show();
+            this.Close();
         }
     }
 }
