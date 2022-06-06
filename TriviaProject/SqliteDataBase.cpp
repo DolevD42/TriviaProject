@@ -65,7 +65,7 @@ std::vector<std::string> SqliteDataBase::getAllUserName()
 	try
 	{
 
-		std::string sqlStatement = "FROM statistics SELECT usernames SEARCH *";
+		std::string sqlStatement = "SELECT username FROM users";
 		sqlite3_stmt* stmt;
 		if (sqlite3_prepare_v2(_db, sqlStatement.c_str(), strlen(sqlStatement.c_str()) + 1, &stmt, NULL) != SQLITE_OK)
 			throw std::exception("error reading info");
