@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="RoomWin" Height="600" Width="800">
-    <ScrollViewer Margin="0,0,524,163">
-        <StackPanel MinWidth="200" Width="320" Height="349.5">
-            <TextBlock x:Name="RoomName" Text="" TextAlignment="Center" />
-            <TextBlock Text="Ready For Some Trivia??" TextAlignment="Center" />
-            <TextBlock x:Name="PlayersNum" TextAlignment="Center" Text="" Width="251" Height="21"/>
-            <TextBlock x:Name="QuestionNum" TextAlignment="Center" Text="" Width="251" Height="21"/>
-            <TextBlock x:Name="QuestionTime" TextAlignment="Center" Text="" Width="251" Height="21"/>
-            <ListView x:Name="Players" Height="100" Width="207"/>
-            <Button x:Name="StartGame" Content="Start Game" VerticalAlignment="Top" Click="StartGame_Click" Width="96"/>
-        </StackPanel>
-    </ScrollViewer>
+        Title="RoomWin" Height="805" Width="800">
+    <StackPanel MinWidth="200" Width="311" Height="415.5">
+        <TextBlock x:Name="RoomName" Text="" TextAlignment="Center" />
+        <TextBlock Text="Ready For Some Trivia??" TextAlignment="Center" />
+        <TextBlock Text="Players amount:" TextAlignment="Center" Margin="0,0,219.333,-20" Height="13.293" />
+        <TextBlock Text="Number of question:" TextAlignment="Center" Margin="0,0,198.666,-60" Height="13.292" />
+        <TextBlock Text="Time for question:" TextAlignment="Center" Margin="0,0,214.333,-107" Height="13.292" />
+        <TextBlock x:Name="PlayersNum" TextAlignment="Center" Text="" Height="21.667" Margin="112.334,0,30,0"/>
+        <TextBlock x:Name="QuestionNum" TextAlignment="Center" Text="" Height="21" Margin="112.334,0,30,0"/>
+        <TextBlock x:Name="QuestionTime" TextAlignment="Center" Text="" Height="21" Margin="112.334,0,30,0"/>
+        <ListView x:Name="Players" Height="100" Width="207"/>
+        <Button x:Name="StartGame" Content="Start Game" VerticalAlignment="Top" Click="StartGame_Click" Width="96"/>
+    </StackPanel>
 </Window>
