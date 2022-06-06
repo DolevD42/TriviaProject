@@ -19,7 +19,7 @@
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="42.565" Margin="54.402,240.535,0,0" TextWrapping="Wrap" Text="Username:" VerticalAlignment="Top" Width="118.572" FontSize="24" RenderTransformOrigin="0.554,0.406"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="51.191" Margin="205.592,36.397,0,0" TextWrapping="Wrap" Text="Signup" VerticalAlignment="Top" Width="147.62" FontSize="36" FontWeight="Bold"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="64.878,304.529,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="108.096" FontSize="24"/>
-        <TextBox Name="inputPassword" Grid.Column="1" HorizontalAlignment="Left" Height="40.477" Margin="177.974,304.529,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
+        <PasswordBox Name="inputPassword" Grid.Column="1" HorizontalAlignment="Left" Height="40.477" Margin="177.974,304.529,0,0" VerticalAlignment="Top" Width="320" FontSize="24"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="39.249" Margin="109.164,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Email:" VerticalAlignment="Top" Width="79.286" FontSize="24"/>
         <TextBox Name="inputEmail" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="177.974,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" FontSize="24"/>
         <Button Click="Button_Click" Content="Signup" Grid.Column="1" HorizontalAlignment="Left" Height="51.191" Margin="160.698,296.869,0,0" Grid.Row="1" VerticalAlignment="Top" Width="264.286" FontSize="24"/>

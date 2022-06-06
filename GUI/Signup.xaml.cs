@@ -30,7 +30,7 @@ namespace GUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string userName = inputUsername.Text;
-            string password = inputPassword.Text;
+            string password = inputPassword.Password;
             string email = inputEmail.Text;
 
             Consts.signupRequest req;
@@ -56,7 +56,7 @@ namespace GUI
             net.Read(serverBuffer, 0, resInf.len);
             Consts.StatusResponse res = Deserializer.deserializeSignUpResponse(Encoding.Default.GetString(serverBuffer));
             inputUsername.Text = "";
-            inputPassword.Text = "";
+            inputPassword.Password = "";
             inputEmail.Text = "";
             switch (res.status)
             {
