@@ -18,6 +18,7 @@ public:
 	std::vector<RoomData> getRooms();
 	Room* getRoom(int ID);
 	bool checkIfRoomExist(int ID);
+	int getNumberOfRooms();
 	
 private:
 	std::map<unsigned int, Room*> m_rooms;

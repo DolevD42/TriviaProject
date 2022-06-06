@@ -59,8 +59,6 @@ std::vector<RoomData> RoomManager::getRooms()
 			vect.push_back(it->second->getRoomData());
 		}
 	}
-	for (std::vector<RoomData>::const_iterator i = vect.begin(); i != vect.end(); ++i)
-		std::cout << &i;
 	return vect;
 }
 
@@ -80,4 +78,9 @@ bool RoomManager::checkIfRoomExist(int ID)
 		}
 	}
 	return returnValue;
+}
+
+int RoomManager::getNumberOfRooms()
+{
+	return m_rooms.size();
 }
