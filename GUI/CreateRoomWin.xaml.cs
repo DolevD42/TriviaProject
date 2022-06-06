@@ -80,7 +80,16 @@ namespace GUI
                         break;
                 }
             }
-            catch (Exception Exc) { ErrorMessage.Content = "Server Error... Please go out of this page and try again..."; }
+            catch (Exception Exc) { MessageBox.Show("Server Error... Please go out of this page and try again...", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error); }
+        }
+
+        private void BackToMenuClick(object sender, RoutedEventArgs e)
+        {
+            //Here I will put the Close Room
+            this.Hide();
+            Menu win = new Menu(_client, _UserName);
+            win.Show();
+            this.Close();
         }
     }
 }
