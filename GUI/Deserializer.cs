@@ -62,6 +62,10 @@ namespace GUI
         {
 			return JsonConvert.DeserializeObject<Consts.getPersonalStatsResponse>(buffer);
         }
+		public static Consts.GetHighScoreResponse deserializeGetHighScoresResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetHighScoreResponse>(buffer);
+		}
 		public static Consts.GetRoomsResponse deserializeGetRoomsResponse(string buffer)
 		{
 			return JsonConvert.DeserializeObject<Consts.GetRoomsResponse>(buffer);
