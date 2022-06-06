@@ -22,9 +22,12 @@ namespace GUI
     public partial class Login : Window
     {
         private TcpClient _client;
+        
         public Login()
-        {  
+        {
+            
             InitializeComponent();
+            
             _client = new TcpClient();
             _client.Connect("127.0.0.1", 8876);
         }
@@ -35,13 +38,13 @@ namespace GUI
             Consts.loginRequest req;
             req.username = userName;
             req.password = password;
-            string msgToSent = Serializer.serializeMsg(req, Consts.LOGIN_CODE);
+            string msgToSent = Serializer.serializeMsgLogin(req, Consts.LOGIN_CODE);
             NetworkStream net = _client.GetStream();
             net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             net.Read(serverMsg, 0, 5);
             Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
-            if(resInf.id == Consts.ERR_CODE)
+            if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
                 net.Read(errorBuffer, 0, resInf.len);
@@ -62,7 +65,7 @@ namespace GUI
                     break;
                 case Consts.PASSWORD_DONT_MATCH:
                     MessageBox.Show("The password you enter doesn't match the username", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                       break;
+                    break;
                 case Consts.USER_ALREADY_LOGIN:
                     MessageBox.Show("User already logged in", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     break;
