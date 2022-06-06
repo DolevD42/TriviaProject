@@ -29,7 +29,16 @@ namespace GUI
             InitializeComponent();
             
             _client = new TcpClient();
-            _client.Connect("127.0.0.1", 8876);
+            try
+            {
+                _client.Connect("127.0.0.1", 8876);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("A handled exception just occurred: " + e.Message, "Server Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
+            
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
