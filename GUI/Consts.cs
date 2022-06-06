@@ -91,6 +91,13 @@ namespace GUI
             public int status;
             public List<string> statistics;
         }
+
+        public struct GetHighScoreResponse
+        {
+            public int status;
+            public List<string> statistics;
+        }
+        
     }
 
 }
