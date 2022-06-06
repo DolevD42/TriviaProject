@@ -47,8 +47,10 @@ namespace GUI
         }
         private void High_Score_Button(object sender, RoutedEventArgs e)
         {
-
-
+            this.Hide();
+            StatsWin win = new StatsWin(_client, _UserName);
+            this.Close();
+            win.Show();
         }
         private void Personal_Stats_Button(object sender, RoutedEventArgs e)
         {
