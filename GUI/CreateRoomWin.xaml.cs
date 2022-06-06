@@ -74,7 +74,7 @@ namespace GUI
                         break;
                     case Consts.REQUEST_VALID:
                         this.Hide();
-                        RoomWin win = new RoomWin(_client, _UserName, req.roomName, req.questionCount , req.answerTimeout, req.maxUsers);
+                        RoomAdminWin win = new RoomAdminWin(_client, _UserName, req.roomName, req.questionCount , req.answerTimeout, req.maxUsers);
                         this.Close();
                         win.Show();
                         break;
