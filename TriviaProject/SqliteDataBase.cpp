@@ -265,19 +265,19 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string id)
 	float amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), avg, &amount, &_errMessage) != SQLITE_OK)
 	{
-		throw std::exception("DB don't exist");
+		amount = 0;
 	}
 	return amount;
 }
 
-int SqliteDataBase::getNumOfCurrectAnswers(std::string id)
+int SqliteDataBase::getNumOfCorrectAnswers(std::string id)
 {
 	open();
 	std::string sqlStatement = "SELECT SUM(Correct_Answers) FROM statistics WHERE User_Id = " + std::to_string(this->getUserID(id)) + ";";
 	int amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
-		throw std::exception("DB don't exist");
+		amount = 0;
 	}
 	return amount;
 }
@@ -289,7 +289,7 @@ int SqliteDataBase::getNumOfTotalAnswers(std::string id)
 	int amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
-		throw std::exception("DB don't exist");
+		amount = 0;
 	}
 	return amount;
 }
@@ -301,7 +301,7 @@ int SqliteDataBase::getNumOfPlayerGames(std::string id)
 	int amount = 0;
 	if (sqlite3_exec(_db, sqlStatement.c_str(), sum, &amount, &_errMessage) != SQLITE_OK)
 	{
-		throw std::exception("DB don't exist");
+		amount = 0;
 	}
 	return amount;
 }

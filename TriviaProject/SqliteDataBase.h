@@ -20,7 +20,7 @@ public:
 	virtual void addNewUser(std::string userName, std::string pass, std::string email);
 	virtual std::list<Question*> getQuestions(int id);
 	virtual float getPlayerAverageAnswerTime(std::string id);
-	virtual int  getNumOfCurrectAnswers(std::string id);
+	virtual int  getNumOfCorrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
 	virtual int  getNumOfPlayerGames(std::string id);
 	int getUserID(std::string username);

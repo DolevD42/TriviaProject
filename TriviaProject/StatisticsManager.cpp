@@ -28,7 +28,7 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userNa
 	stats.push_back(std::to_string(this->m_database->getPlayerAverageAnswerTime(userName)));
 	stats.push_back(std::to_string(this->m_database->getNumOfTotalAnswers(userName)));
 	stats.push_back(std::to_string(this->m_database->getNumOfPlayerGames(userName)));
-	stats.push_back(std::to_string(this->m_database->getNumOfCurrectAnswers(userName)));
+	stats.push_back(std::to_string(this->m_database->getNumOfCorrectAnswers(userName)));
 	return stats;
 }
 
@@ -44,7 +44,7 @@ std::vector<std::string> StatisticsManager::getHighScore()
 	{
 		for (auto username : usernames)
 		{
-			NumCurrctAnswers = m_database->getNumOfCurrectAnswers(username);
+			NumCurrctAnswers = m_database->getNumOfCorrectAnswers(username);
 			Answers = m_database->getNumOfTotalAnswers(username);
 			avgAnswer = m_database->getPlayerAverageAnswerTime(username);
 			std::pair<float, std::string> userScore(((float(NumCurrctAnswers)) / (float(Answers) * avgAnswer)), username);
