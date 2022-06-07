@@ -11,7 +11,7 @@ public:
 	virtual void addNewUser(std::string userName, std::string pass, std::string email) = 0;
 	virtual std::list<Question*> getQuestions(int id) = 0;
 	virtual float getPlayerAverageAnswerTime(std::string id) = 0;
-	virtual int  getNumOfCurrectAnswers(std::string id) = 0;
+	virtual int  getNumOfCorrectAnswers(std::string id) = 0;
 	virtual int  getNumOfTotalAnswers(std::string id) = 0;
 	virtual int  getNumOfPlayerGames(std::string id) = 0;
 	virtual std::vector<std::string> getAllUserName() = 0;

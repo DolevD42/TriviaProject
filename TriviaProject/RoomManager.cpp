@@ -5,8 +5,9 @@ void RoomManager::createRoom(LoggedUser* user, RoomData data)
 	std::pair<unsigned int, Room* > pair;
 	pair.first = data.id;
 	Room* room = new Room(data);
+	pair.second = room;
 	room->addUser(user);
-
+	m_rooms.insert(pair);
 }
 
 void RoomManager::deleteRoom(int ID)
@@ -77,4 +78,9 @@ bool RoomManager::checkIfRoomExist(int ID)
 		}
 	}
 	return returnValue;
+}
+
+int RoomManager::getNumberOfRooms()
+{
+	return m_rooms.size();
 }

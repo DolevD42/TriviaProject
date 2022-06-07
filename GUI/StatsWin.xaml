@@ -1,0 +1,26 @@
+﻿<Window x:Class="GUI.StatsWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="StatsWin" Height="800" Width="600">
+    <Grid MinWidth="200" RenderTransformOrigin="0.504,0.811" Margin="63.571,0,31.922,192.239">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="574*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220*"/>
+            <ColumnDefinition Width="93*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="High Score:"  TextAlignment="Center" Margin="-23.922,76.384,10,389.771" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold"/>
+        <TextBlock Text="Best Players:" TextAlignment="Center" Grid.ColumnSpan="2" Margin="-2.431,165.825,22.283,367.756" FontSize="24"/>
+        <TextBlock Text="First Place: " x:Name="FirstScore" Margin="124.547,234.395,-83.266,294.202" Grid.ColumnSpan="3" FontSize="22"/>
+        <TextBlock Text="Secend Place: " x:Name="SecondScore"  Margin="124.547,279.335,0,254.027" HorizontalAlignment="Left" Width="202.446" FontSize="22"/>
+        <TextBlock Text="Third Place: " x:Name="ThirdScore" Margin="124.547,324.51,-77.306,199.182" Grid.ColumnSpan="3" FontSize="22"/>
+        <Button Click="BackToMenuClick" Content="Back To Menu" VerticalAlignment="Center" Height="49.927" HorizontalAlignment="Right" Width="227.207" Margin="0,68.761,115.78,-114.064" Grid.ColumnSpan="2" FontSize="24" Grid.Row="1" />
+    </Grid>
+</Window>

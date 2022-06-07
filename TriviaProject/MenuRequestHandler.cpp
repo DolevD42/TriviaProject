@@ -116,6 +116,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo req)
 	vect = m_statisticsManager->getUserStatistics(m_user->getUsername());
 	GetPersonalStatsResponse res;
 	res.status = REQUEST_VALID;
+	
 	res.statistics = vect;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this;
@@ -129,6 +130,10 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo req)
 	vect = m_statisticsManager->getHighScore();
 	GetHighScoreResponse res;
 	res.status = REQUEST_VALID;
+	while (vect.size() < 3)
+	{
+		vect.push_back("");
+	}
 	res.statistics = vect;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this;
@@ -163,16 +168,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo req)
 	}
 	else
 	{
+		
 		funcCode = REQUEST_VALID;
-		if (m_roomManager->checkIfRoomExist(0))
-		{
-			data.id = m_roomManager->getRooms()[m_roomManager->getRooms().size() - 1].id + 1;
-		}
-		else
-		{
-			data.id = 0;
-		}
-		data.isActive = NON_ACTIVE_STATE;
+		data.id = m_roomManager->getNumberOfRooms();
+		data.isActive = ACTIVE_STATE;
 		data.maxPlayers = specReq.maxUsers;
 		data.numOfQuestionInGame = specReq.questionCount;
 		data.name = specReq.roomName;

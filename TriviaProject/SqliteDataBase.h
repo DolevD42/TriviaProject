@@ -20,10 +20,9 @@ public:
 	virtual void addNewUser(std::string userName, std::string pass, std::string email);
 	virtual std::list<Question*> getQuestions(int id);
 	virtual float getPlayerAverageAnswerTime(std::string id);
-	virtual int  getNumOfCurrectAnswers(std::string id);
+	virtual int  getNumOfCorrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
 	virtual int  getNumOfPlayerGames(std::string id);
-	int getUserID(std::string username);
 	virtual std::vector<std::string> getAllUserName();
 	virtual sqlite3* GetDb();
 private:
@@ -31,7 +30,7 @@ private:
 	sqlite3* _db = nullptr;
 	bool open();
 	
-	std::string _filename;
+	std::string _filename = "TriviaDB.sqlite";
 };
 
 
