@@ -20,7 +20,11 @@ namespace GUI
         public const int GET_PERSONAL_CODE = 48;
         public const int JOIN_ROOM_CODE = 49;
         public const int CREATE_ROOM_CODE = 50;
-        
+        public const int CLOSE_ROOM_CODE = 51;
+        public const int START_GAME_CODE = 52;
+        public const int GET_ROOM_STATE_CODE = 53;
+        public const int LEAVE_ROOM_CODE = 54;
+
         public const int PASSWORD_DONT_MATCH = 41;
         public const int REQUEST_VALID = 42;
         public const int USER_ALREADY_EXIST = 43;
