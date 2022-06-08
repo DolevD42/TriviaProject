@@ -15,5 +15,7 @@ class IRequestHandler
 public:
 	virtual bool isRequestRelevant(RequestInfo req) = 0;
 	virtual RequestResult handleRequest(RequestInfo req) = 0;
+protected:
+	SOCKET m_socket;
 };
 

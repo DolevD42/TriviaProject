@@ -1,9 +1,10 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler(LoginManager* loginManager, RequestHandlerFactory* handlerFactory)
+LoginRequestHandler::LoginRequestHandler(LoginManager* loginManager, RequestHandlerFactory* handlerFactory, SOCKET socket)
 {
     this->m_handlerFactory = handlerFactory;
     this->m_loginManager = loginManager;
+    m_socket = socket;
 }
 
 LoginRequestHandler::~LoginRequestHandler()
@@ -48,15 +49,14 @@ RequestResult LoginRequestHandler::login(const RequestInfo& req)
     RequestResult returnReq;
     
     LoginRequest logReq = JsonRequestPacketDeserializer::deserializeLoginRequest(req.buffer);
-    funcCode = m_loginManager->login(logReq.username, logReq.password);
+    funcCode = m_loginManager->login(logReq.username, logReq.password, m_socket);
     LoginResponse res;
     res.status = funcCode;
     returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        MenuRequestHandler* newHand =  m_handlerFactory->createMenuRequestHandler();
-        LoggedUser* newUser = new LoggedUser(logReq.username);
-        newHand->setUser(newUser);
+        LoggedUser* newUser = new LoggedUser(logReq.username, m_socket);
+        MenuRequestHandler* newHand =  m_handlerFactory->createMenuRequestHandler(m_socket, newUser);
         returnReq.newHandler = newHand;
     }
     else
@@ -72,15 +72,15 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& req)
     int funcCode;
     RequestResult returnReq;
     SignupRequest signReq = JsonRequestPacketDeserializer::deserializeSignupRequest(req.buffer);
-    funcCode = m_loginManager->signup(signReq.username, signReq.password, signReq.email);
+    funcCode = m_loginManager->signup(signReq.username, signReq.password, signReq.email, m_socket);
     SignupResponse res;
     res.status = funcCode;
     returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
     if (funcCode == REQUEST_VALID)
     {
-        MenuRequestHandler* newHand = m_handlerFactory->createMenuRequestHandler();
-        LoggedUser* newUser = new LoggedUser(signReq.username);
-        newHand->setUser(newUser);
+        LoggedUser* newUser = new LoggedUser(signReq.username, m_socket);
+        MenuRequestHandler* newHand = m_handlerFactory->createMenuRequestHandler(m_socket, newUser);
+        
         returnReq.newHandler = newHand;
     }
     else

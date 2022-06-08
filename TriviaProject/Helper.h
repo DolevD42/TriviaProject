@@ -4,6 +4,10 @@
 #include <string>
 #include <WinSock2.h>
 
+#define LEAVE_ROOM_CLIENT_MSG "6~~~~"
+#define START_GAME_CLIENT_MSG "5~~~~"
+
+
 #define ERR_CODE 41
 #define LOGIN_CODE 42
 #define SIGNUP_CODE 43
@@ -31,6 +35,7 @@
 //room defention
 #define ACTIVE_STATE 42
 #define NON_ACTIVE_STATE 43
+#define GAME_STARTED_STATE 44
 
 enum MessageType : byte
 {
