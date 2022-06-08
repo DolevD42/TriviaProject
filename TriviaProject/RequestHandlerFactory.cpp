@@ -30,12 +30,22 @@ RequestHandlerFactory::~RequestHandlerFactory()
 	}
 }
 
-LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
+LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler(SOCKET socket)
 {
-	return new LoginRequestHandler(m_loginManager, this);
+	return new LoginRequestHandler(m_loginManager, this, socket);
 }
 
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(SOCKET socket, LoggedUser* user)
 {
-	return new MenuRequestHandler(m_roomManager, m_statistics, this);
+	return new MenuRequestHandler(m_roomManager, m_statistics, this, user ,socket);
+}
+
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
+{
+	return new RoomAdminRequestHandler(m_roomManager, room, this, user, socket);
+}
+
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
+{
+	return new RoomMemberRequestHandler(m_roomManager, room, this, user, socket);
 }
