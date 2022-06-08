@@ -10,7 +10,7 @@ class MenuRequestHandler :
     public IRequestHandler
 {
 public:
-    MenuRequestHandler(RoomManager* roomManager, StatisticsManager* staticsManager ,RequestHandlerFactory* handlerFactory);
+    MenuRequestHandler(RoomManager* roomManager, StatisticsManager* staticsManager ,RequestHandlerFactory* handlerFactory,LoggedUser* user, SOCKET socket);
     ~MenuRequestHandler();
     virtual bool isRequestRelevant(RequestInfo req);
     virtual RequestResult handleRequest(RequestInfo req);
