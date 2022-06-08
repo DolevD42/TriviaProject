@@ -74,7 +74,7 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo req)
 	}
 	else
 	{
-		returnReq.newHandler = this;
+		returnReq.newHandler = m_handlerFactory->createMenuRequestHandler(m_socket, m_user);
 	}
 	LeaveRoomResponse res;
 	res.status = funcCode;
