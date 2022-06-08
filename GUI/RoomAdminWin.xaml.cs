@@ -37,8 +37,28 @@ namespace GUI
         }
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
+            string msgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
+            NetworkStream net = _client.GetStream();
+            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            byte[] serverMsg = new byte[5];
+            net.Read(serverMsg, 0, 5);
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
+            if (resInf.id == Consts.ERR_CODE)
+            {
+                byte[] errorBuffer = new byte[resInf.len];
+                net.Read(errorBuffer, 0, resInf.len);
+                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            byte[] serverBuffer = new byte[resInf.len];
 
-
+            net.Read(serverBuffer, 0, resInf.len);
+            Consts.StartGameResponse res = Deserializer.deserializeStartGameResponse(Encoding.Default.GetString(serverBuffer));
+            if (res.status == Consts.REQUEST_VALID)
+            {
+                //start the game
+            }
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
