@@ -42,11 +42,31 @@ namespace GUI
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
-            //Here I will put the Close Room
-            this.Hide();
-            Menu win = new Menu(_client, _userName);
-            win.Show();
-            this.Close();
+            string msgToSent = Serializer.serializeCodeOnly(Consts.CLOSE_ROOM_CODE);
+            NetworkStream net = _client.GetStream();
+            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            byte[] serverMsg = new byte[5];
+            net.Read(serverMsg, 0, 5);
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
+            if (resInf.id == Consts.ERR_CODE)
+            {
+                byte[] errorBuffer = new byte[resInf.len];
+                net.Read(errorBuffer, 0, resInf.len);
+                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            byte[] serverBuffer = new byte[resInf.len];
+
+            net.Read(serverBuffer, 0, resInf.len);
+            Consts.CloseRoomResponse res = Deserializer.deserializeCloseRoomResponse(Encoding.Default.GetString(serverBuffer));
+            if (res.status == Consts.REQUEST_VALID)
+            {
+                this.Hide();
+                Menu win = new Menu(_client, _userName);
+                win.Show();
+                this.Close();
+            }
         }
     }
 }
