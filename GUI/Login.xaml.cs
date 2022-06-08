@@ -86,7 +86,6 @@ namespace GUI
                     break;
             }
         }
-
         private void SignUpClick(object sender, RoutedEventArgs e)
         {
             this.Hide();
