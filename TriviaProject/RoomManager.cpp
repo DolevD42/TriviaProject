@@ -64,7 +64,22 @@ std::vector<RoomData> RoomManager::getRooms()
 
 Room* RoomManager::getRoom(int ID)
 {
+	if (m_rooms.find(ID) == m_rooms.end())
+	{
+		return NULL;
+	}
 	return m_rooms[ID];
+}
+
+Room* RoomManager::getLastRoomCreated()
+{
+	for (auto it = m_rooms.begin();it != m_rooms.end(); it++)
+	{
+		if (it == (m_rooms.end()--))
+		{
+			return it->second;
+		}
+	}
 }
 
 bool RoomManager::checkIfRoomExist(int ID)

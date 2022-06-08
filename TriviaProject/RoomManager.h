@@ -17,6 +17,7 @@ public:
 	std::vector<std::string> getRoomUsers(int ID);
 	std::vector<RoomData> getRooms();
 	Room* getRoom(int ID);
+	Room* getLastRoomCreated();
 	bool checkIfRoomExist(int ID);
 	int getNumberOfRooms();
 	
