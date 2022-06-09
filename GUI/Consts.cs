@@ -101,7 +101,29 @@ namespace GUI
             public int status;
             public List<string> statistics;
         }
-        
+        public struct CloseRoomResponse
+        {
+            public int status;
+        }
+        public struct StartGameResponse
+        {
+            public int status;
+        }
+        public struct LeaveRoomResponse
+        {
+            public int status;
+        }
+        public struct GetRoomStateResponse
+        {
+            public int status;
+            public bool hasGameBegun;
+            public List<string> players;
+            public int questionCount;
+            public float answerTimeout;
+        }
+
+
+
     }
 
 }

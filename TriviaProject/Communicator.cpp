@@ -68,7 +68,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	std::pair< SOCKET, IRequestHandler* > pair;
 	pair.first = clientSocket;
 
-	LoginRequestHandler* log = m_handlerFactory->createLoginRequestHandler();
+	LoginRequestHandler* log = m_handlerFactory->createLoginRequestHandler(clientSocket);
 	pair.second = log;
 	m_clients.insert(pair);
 	try

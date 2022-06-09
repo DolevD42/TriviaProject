@@ -9,19 +9,19 @@ LoginManager::~LoginManager()
 {
 }
 
-int LoginManager::signup(std::string userName, std::string pass, std::string email)
+int LoginManager::signup(std::string userName, std::string pass, std::string email, SOCKET socket)
 {
 	if (m_database->doesUserExist(userName))
 	{
 		return USER_ALREADY_EXIST; //the user already exist
 	}
 	m_database->addNewUser(userName, pass, email);
-	LoggedUser newUser = LoggedUser(userName);
+	LoggedUser newUser = LoggedUser(userName, socket);
 	m_loggedUsers.push_back(newUser);
 	return REQUEST_VALID;
 }
 
-int LoginManager::login(std::string userName, std::string pass)
+int LoginManager::login(std::string userName, std::string pass, SOCKET socket)
 {
 	int index = -1;
 	if (!m_database->doesUserExist(userName))
@@ -43,7 +43,7 @@ int LoginManager::login(std::string userName, std::string pass)
 	{
 		return USER_ALREADY_LOGIN;
 	}
-	LoggedUser newUser = LoggedUser(userName);
+	LoggedUser newUser = LoggedUser(userName, socket);
 	m_loggedUsers.push_back(newUser);
 	return REQUEST_VALID;
 }

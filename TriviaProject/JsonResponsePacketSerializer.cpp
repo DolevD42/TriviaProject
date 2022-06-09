@@ -96,7 +96,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CloseRoomRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(CLOSE_ROOM_CODE, js.length(), js);
 }
@@ -105,7 +104,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(StartGameRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(START_GAME_CODE, js.length(), js);
 }
@@ -118,7 +116,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 	j["players"] = msg.players;
 	j["questionCount"] = msg.questionCount;
 	j["answerTimeout"] = msg.answerTimeOut;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(GET_ROOM_STATE_CODE, js.length(), js);
 }
@@ -127,7 +124,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(LEAVE_ROOM_CODE, js.length(), js);
 }

@@ -1,11 +1,12 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(RoomManager* roomManager, StatisticsManager* staticsManager, RequestHandlerFactory* handlerFactory)
+MenuRequestHandler::MenuRequestHandler(RoomManager* roomManager, StatisticsManager* staticsManager, RequestHandlerFactory* handlerFactory, LoggedUser* user, SOCKET socket)
 {
 	m_handlerFactory = handlerFactory;
 	m_roomManager = roomManager;
 	m_statisticsManager = staticsManager;
-	m_user = NULL;
+	m_user = user;
+	m_socket = socket;
 }
 
 MenuRequestHandler::~MenuRequestHandler()
@@ -72,7 +73,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo)
 	LogoutResponse res;
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-	returnReq.newHandler = m_handlerFactory->createLoginRequestHandler();
+	returnReq.newHandler = m_handlerFactory->createLoginRequestHandler(m_socket);
 	return returnReq;
 }
 
@@ -149,10 +150,14 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo req)
 	if (m_roomManager->checkIfRoomExist(specReq.roomId))
 	{
 		funcCode = m_roomManager->getRoom(specReq.roomId)->addUser(m_user);
+		returnReq.newHandler = m_handlerFactory->createRoomMemberRequestHandler(m_socket, m_user, m_roomManager->getRoom(specReq.roomId));
+	}
+	else
+	{
+		returnReq.newHandler = this;
 	}
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-	returnReq.newHandler = this;
 	return returnReq;
 }
 
@@ -165,22 +170,31 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo req)
 	if (specReq.maxUsers <= 0 || specReq.questionCount <= 0 || specReq.answerTimeout <= 0)
 	{
 		funcCode =  WRONG_PARAMETERS;
+		returnReq.newHandler = this;
 	}
 	else
 	{
 		
 		funcCode = REQUEST_VALID;
-		data.id = m_roomManager->getNumberOfRooms();
+		if (m_roomManager->getNumberOfRooms() == 0)
+		{
+			data.id = 0;
+		}
+		else
+		{
+			data.id = m_roomManager->getLastRoomCreated()->getRoomData().id + 1; //take the last id for the room
+		}
 		data.isActive = ACTIVE_STATE;
 		data.maxPlayers = specReq.maxUsers;
 		data.numOfQuestionInGame = specReq.questionCount;
 		data.name = specReq.roomName;
 		data.timePerQuestion = specReq.answerTimeout;
 		m_roomManager->createRoom(m_user, data);
+		returnReq.newHandler = m_handlerFactory->createRoomAdminRequestHandler(m_socket, m_user, m_roomManager->getLastRoomCreated()); //get the last room who created
 	}
 	CreateRoomResponse res;
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-	returnReq.newHandler = this;
+	
 	return returnReq;
 }

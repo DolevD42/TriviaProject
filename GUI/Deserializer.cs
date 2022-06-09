@@ -74,5 +74,21 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.GetPlayersInRoomResponse>(buffer);
 		}
+		public static Consts.CloseRoomResponse deserializeCloseRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.CloseRoomResponse>(buffer);
+		}
+		public static Consts.LeaveRoomResponse deserializeLeaveRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.LeaveRoomResponse>(buffer);
+		}
+		public static Consts.GetRoomStateResponse deserializeGetRoomStateResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetRoomStateResponse>(buffer);
+		}
+		public static Consts.StartGameResponse deserializeStartGameResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.StartGameResponse>(buffer);
+		}
 	}
 }

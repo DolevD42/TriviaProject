@@ -67,8 +67,8 @@ typedef struct GetRoomStateResponse {
 	bool hasGameBegun;
 	std::vector<std::string> players;
 	unsigned int questionCount;
-	unsigned int answerTimeOut;
-};
+	float answerTimeOut;
+} GetRoomStateResponse;
 
 typedef struct LeaveRoomResponse {
 	unsigned int status;
