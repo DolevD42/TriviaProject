@@ -27,6 +27,7 @@ namespace GUI
         private string _username;
         private List<int> _roomsId = new List<int>();
         private List<string> _roomNames = new List<string>();
+        private Thread RefresherThread;
         public joinRoom(TcpClient client, string username)
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace GUI
             JoinButton.IsEnabled = false;
             string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOMS_CODE);
             NetworkStream net = _client.GetStream();
-            Thread RefresherThread = new Thread(() => refresh(net));
+            RefresherThread = new Thread(() => refresh(net));
             RefresherThread.IsBackground = true;
             RefresherThread.Start();
             
@@ -98,6 +99,7 @@ namespace GUI
         }
         private void JoinClick(object sender, RoutedEventArgs e)
         {
+            RefresherThread.Abort();
             Consts.JoinRoomRequest req;
             req.roomId = _roomsId[list.SelectedIndex];
             string msgToSent = Serializer.serializeMsgJoinRoom(req, Consts.JOIN_ROOM_CODE);
