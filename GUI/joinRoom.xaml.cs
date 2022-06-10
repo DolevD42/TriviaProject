@@ -119,6 +119,20 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             net.Read(serverBuffer, 0, resInf.len);
+            Consts.StatusResponse res = Deserializer.deserializeJoinRoomResponse(Encoding.Default.GetString(serverBuffer));
+            switch (res.status)
+            {
+                case Consts.ROOM_MAX_OUT:
+                    MessageBox.Show("There is no place left in the room", "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    break;
+                case Consts.REQUEST_VALID:
+                    this.Hide();
+                    RoomMember win = new RoomMember(_client, _username, _roomsId[list.SelectedIndex], _roomNames[list.SelectedIndex]);
+                    win.Show();
+                    this.Close();
+                    break;
+            }
+
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
