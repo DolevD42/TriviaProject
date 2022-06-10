@@ -36,37 +36,17 @@ namespace GUI
             string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOMS_CODE);
             NetworkStream net = _client.GetStream();
             Thread RefresherThread = new Thread(() => refresh(net));
+            RefresherThread.IsBackground = true;
             RefresherThread.Start();
-            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
-            byte[] serverMsg = new byte[5];
-            net.Read(serverMsg, 0, 5);
-            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
-            if (resInf.id == Consts.ERR_CODE)
-            {
-                byte[] errorBuffer = new byte[resInf.len];
-                net.Read(errorBuffer, 0, resInf.len);
-                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            byte[] serverBuffer = new byte[resInf.len];
             
-            net.Read(serverBuffer, 0, resInf.len);
-            Consts.GetRoomsResponse res = Deserializer.deserializeGetRoomsResponse(Encoding.Default.GetString(serverBuffer));
-            for (int i = 0; i < res.roomsId.Count(); i++)
-            {
-                list.Items.Add(res.roomsId[i] + ":      " + res.rooms[i]);
-                _roomsId.Add(res.roomsId[i]);
-                _roomNames.Add(res.rooms[i]);
-            }
-
         }
 
         private void refresh(NetworkStream rnet)
         {
+            
             List<int> _roomsIdR = new List<int>();
             List<string> _roomNamesR = new List<string>();
-            System.Threading.Thread.Sleep(3000);
+ 
             while (true)
             {
                 string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOMS_CODE);
@@ -88,10 +68,27 @@ namespace GUI
                 Consts.GetRoomsResponse res = Deserializer.deserializeGetRoomsResponse(Encoding.Default.GetString(serverBuffer));
                 for (int i = 0; i < res.roomsId.Count(); i++)
                 {
-                    //list.Items.Add(res.roomsId[i] + ":      " + res.rooms[i]);
                     _roomsIdR.Add(res.roomsId[i]);
+                    Console.WriteLine(res.roomsId[i]);
                     _roomNamesR.Add(res.rooms[i]);
-                }//add new list and 
+                    Console.WriteLine(res.rooms[i]);
+                }
+                List<int> firstNotSecondRoomId = _roomsIdR.Except(_roomsId).ToList();
+                List<string> firstNotSecondRooms = _roomNamesR.Except(_roomNames).ToList();
+                var RoomsAndRoomId = firstNotSecondRoomId.Zip(firstNotSecondRooms, (n, w) => new { RoomID = n, Room = w });
+                if (firstNotSecondRoomId.Count != 0 && firstNotSecondRooms.Count != 0)
+                {
+                    foreach (var item in RoomsAndRoomId)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            list.Items.Add(item.RoomID + ":      " + item.Room);
+                            _roomsId.Add(item.RoomID);
+                            _roomNames.Add(item.Room);
+                        });
+                    }
+                }
+                System.Threading.Thread.Sleep(3000);
             }
         }
 
