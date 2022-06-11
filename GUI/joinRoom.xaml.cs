@@ -70,9 +70,21 @@ namespace GUI
                 for (int i = 0; i < res.roomsId.Count(); i++)
                 {
                     _roomsIdR.Add(res.roomsId[i]);
-                    Console.WriteLine(res.roomsId[i]);
                     _roomNamesR.Add(res.rooms[i]);
-                    Console.WriteLine(res.rooms[i]);
+                }
+                for (int i = 0; i < _roomsId.Count; i++)
+                {
+                    if (!_roomsIdR.Contains(_roomsId[i]) || !_roomNamesR.Contains(_roomNames[i]))
+                    {
+                        Console.WriteLine("switched not zero ", _roomsId[i].ToString(), _roomNames[i]);
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            list.Items.Remove(_roomsId[i] + ":      " + _roomNames[i]);
+                            _roomsId.Remove(_roomsId[i]);
+                            _roomNames.Remove(_roomNames[i]);
+                        });
+
+                    }
                 }
                 List<int> firstNotSecondRoomId = _roomsIdR.Except(_roomsId).ToList();
                 List<string> firstNotSecondRooms = _roomNamesR.Except(_roomNames).ToList();
@@ -88,6 +100,11 @@ namespace GUI
                             _roomNames.Add(item.Room);
                         });
                     }
+                }
+                for (int i = 0; i < _roomNamesR.Count; i++)
+                {
+                    _roomsIdR.Remove(_roomsIdR[i]);
+                    _roomNamesR.Remove(_roomNamesR[i]);
                 }
                 System.Threading.Thread.Sleep(3000);
             }
@@ -114,7 +131,7 @@ namespace GUI
                 net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
                 MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                refresh(net);
             }
             byte[] serverBuffer = new byte[resInf.len];
 
