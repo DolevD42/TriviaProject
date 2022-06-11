@@ -27,6 +27,8 @@ namespace GUI
         private string _username;
         private Thread _thread;
         private NetworkStream _net;
+        private Thread RefresherThread;
+        private List<string> Players = new List<string>();
         public RoomMember(TcpClient client, string username, int roomId, string roomName)
         {
             InitializeComponent();
@@ -37,6 +39,9 @@ namespace GUI
 
             NetworkStream net = _client.GetStream();
             _net = net;
+            //RefresherThread = new Thread(() => refresh(net));
+            //RefresherThread.IsBackground = true;
+            //RefresherThread.Start();
             net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             net.Read(serverMsg, 0, 5);
@@ -50,7 +55,7 @@ namespace GUI
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
-
+            
             net.Read(serverBuffer, 0, resInf.len);
             Consts.GetRoomStateResponse res = Deserializer.deserializeGetRoomStateResponse(Encoding.Default.GetString(serverBuffer));
             
@@ -63,7 +68,81 @@ namespace GUI
             _thread = newThread;
             _thread.Start();
         }
-        
+        private void refresh(NetworkStream rnet)
+        {
+            List<string> PlayersR = new List<string>();
+            while (true)
+            {
+                string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOM_STATE_CODE);
+                rnet.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+                byte[] serverMsg = new byte[5];
+                rnet.Read(serverMsg, 0, 5);
+                Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
+                if (resInf.id == Consts.ERR_CODE)
+                {
+                    byte[] errorBuffer = new byte[resInf.len];
+                    rnet.Read(errorBuffer, 0, resInf.len);
+                    Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                byte[] serverBuffer = new byte[resInf.len];
+                
+                rnet.Read(serverBuffer, 0, resInf.len);
+                Consts.GetRoomStateResponse res = Deserializer.deserializeGetRoomStateResponse(Encoding.Default.GetString(serverBuffer));
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    Admin.Text = "Room Admin: " + res.players[0];
+                });
+                for (int i = 0; i < res.players.Count(); i++)
+                {
+                    PlayersR.Add(res.players[i]);
+                    Console.WriteLine(res.players[i]);
+                }
+                if (Players == null)
+                {
+                    for (int i = 0; i <PlayersR.Count(); i++)
+                    {
+                        list.Items.Add(PlayersR[i]);
+                        Players.Add(PlayersR[i]);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Players.Count; i++)
+                    {
+                        if (!PlayersR.Contains(Players[i]))
+                        {
+                            Console.WriteLine("removing");
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                list.Items.Remove(Players[i]);
+                                Players.Remove(Players[i]);
+                            });
+
+                        }
+                    }
+                    List<string> firstNotSecondRoomP = PlayersR.Except(Players).ToList();
+                    if (firstNotSecondRoomP.Count != 0)
+                    {
+                        foreach (var player in firstNotSecondRoomP)
+                        {
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                list.Items.Add(player);
+                                Players.Add(player);
+                            });
+                        }
+                    }
+                }
+                for (int i = 0; i < PlayersR.Count; i++)
+                {
+                    PlayersR.Remove(PlayersR[i]);
+                }
+                System.Threading.Thread.Sleep(3000);
+            }
+        }
         void WaitingForServerMsg()
         {
            
@@ -119,6 +198,7 @@ namespace GUI
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
             _thread.Abort();
+            RefresherThread.Abort();
             string msgToSent = Serializer.serializeCodeOnly(Consts.LEAVE_ROOM_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
