@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,9 +20,14 @@ namespace GUI
     /// </summary>
     public partial class GameWin : Window
     {
-        public GameWin()
+        private TcpClient _client;
+        private string _username;
+
+        public GameWin(TcpClient client, string username)
         {
             InitializeComponent();
+            this._client = client;
+            this._username = username;
         }
     }
 }
