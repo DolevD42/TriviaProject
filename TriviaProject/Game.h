@@ -3,6 +3,7 @@
 #include "IDataBase.h"
 #include "LoggedUser.h"
 #include "GameData.h"
+#include "Question.h"
 #include <map>
 class GameManager
 {
