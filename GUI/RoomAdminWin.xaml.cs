@@ -42,7 +42,7 @@ namespace GUI
         }
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-            
+            Refresher2.Abort();
             string msgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
             NetworkStream net = _client.GetStream();
             net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
@@ -63,7 +63,10 @@ namespace GUI
             Consts.StartGameResponse res = Deserializer.deserializeStartGameResponse(Encoding.Default.GetString(serverBuffer));
             if (res.status == Consts.REQUEST_VALID)
             {
-                //start the game
+                this.Hide();
+                GameWin win = new GameWin();
+                win.Show();
+                this.Close();
             }
         }
         private void refresh(NetworkStream rnet)
