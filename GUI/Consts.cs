@@ -121,7 +121,12 @@ namespace GUI
             public int questionCount;
             public float answerTimeout;
         }
-
+        public struct GetQuestionResponce
+        {
+            public int status;
+            public string question;
+            public Dictionary<int, string> answers;
+        }
 
 
     }
