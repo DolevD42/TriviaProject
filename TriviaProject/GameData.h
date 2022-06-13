@@ -6,6 +6,7 @@
 class GameManager
 {
 public:
+
 	Question CurrentQuestion();
 	unsigned int CorrectAnswerCount();
 	unsigned int WrongAnswerCount();
