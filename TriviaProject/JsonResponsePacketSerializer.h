@@ -79,14 +79,17 @@ typedef struct GetQuestionResponse {
 	std::string Question;
 	std::map<unsigned int, std::string> answers;
 } GetQuestionResponse;
+
 typedef struct SubmitAnswerResponse {
 	unsigned int status;
 	unsigned int CorrectAnswerId;
 } SubmitAnswerResponse;
+
 typedef struct GetGameResultResponse {
 	unsigned int status;
 	std::vector<PlayerResult> Results;
 } GetGameResultResponse;
+
 typedef struct PlayerResult {
 	unsigned int CorrectAnswerCount;
 	unsigned int WrongeAnswerCount;
