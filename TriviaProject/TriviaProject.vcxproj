@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="IDataBase.cpp" />
@@ -172,7 +171,6 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="IDataBase.h" />

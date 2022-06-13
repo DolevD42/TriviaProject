@@ -14,6 +14,7 @@ public:
 	~Question();
 	
 private:
+	std::vector<std::string> m_possibleAnswers;
 	std::string _question;
 	std::string _answers[4];
 	int _correctAnswerIndex;
