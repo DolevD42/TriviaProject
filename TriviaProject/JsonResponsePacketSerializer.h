@@ -85,17 +85,17 @@ typedef struct SubmitAnswerResponse {
 	unsigned int CorrectAnswerId;
 } SubmitAnswerResponse;
 
-typedef struct GetGameResultResponse {
-	unsigned int status;
-	std::vector<PlayerResult> Results;
-} GetGameResultResponse;
-
 typedef struct PlayerResult {
 	unsigned int CorrectAnswerCount;
 	unsigned int WrongeAnswerCount;
 	unsigned int AverageAnswerTime;
 	std::string userName;
 } PlayerResult;
+
+typedef struct GetGameResultResponse {
+	unsigned int status;
+	std::vector<PlayerResult> Results;
+} GetGameResultResponse;
 
 typedef struct ErrorResponse {
 	std::string message;
