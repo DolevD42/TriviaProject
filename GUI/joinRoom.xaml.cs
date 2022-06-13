@@ -153,6 +153,7 @@ namespace GUI
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
+            RefresherThread.Abort();
             this.Hide();
             Menu win = new Menu(_client, _username);
             win.Show();

@@ -73,6 +73,7 @@ namespace GUI
             List<string> PlayersR = new List<string>();
             while (true)
             {
+                _thread.Abort();
                 string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOM_STATE_CODE);
                 _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
                 byte[] serverMsg = new byte[5];
@@ -140,17 +141,21 @@ namespace GUI
                 {
                     PlayersR.Remove(PlayersR[i]);
                 }
+                Thread newThread = new Thread(new ThreadStart(WaitingForServerMsg));
+                _thread = newThread;
+                _thread.Start();
                 System.Threading.Thread.Sleep(3000);
             }
         }
         void WaitingForServerMsg()
         {
-           
+
             byte[] newServerMsg = new byte[5];
             while(!_net.DataAvailable)
             {
 
             }
+            RefresherThread.Abort();
             _net.Read(newServerMsg, 0, 5);
             Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(newServerMsg));
             if (resInf.id == Consts.ERR_CODE)
