@@ -140,6 +140,7 @@ namespace GUI
         }
         private void BackToMenuClick(object sender, RoutedEventArgs e)
         {
+            Refresher2.Abort();
             string msgToSent = Serializer.serializeCodeOnly(Consts.CLOSE_ROOM_CODE);
             NetworkStream net = _client.GetStream();
             net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
