@@ -1,0 +1,45 @@
+﻿<Window x:Class="GUI.GameWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="GameWin" Height="450" Width="716.667">
+    <Grid Margin="96,0,-8,2.333">
+        <Button Content="" x:Name="Answer1" Margin="109.167,365.836,310.834,9.169" Click="Answer1_Click" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.004"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button Content="" x:Name="Answer2" Margin="109,303.333,310.167,70.168" Click="Answer2_Click"/>
+        <Button Content="" x:Name="Answer3" Width="201" Margin="109,243.167,310.667,133.833" Click="Answer3_Click"/>
+        <Button Content="" x:Name="Answer4" Width="201" Margin="109,180,310.667,193.5" Click="Answer4_Click"/>
+        <TextBlock Text="" x:Name="Question" Margin="40,69,261,268.5" />
+        <TextBlock Text="" x:Name="NumOfQuestionLeft" Margin="407.5,363.5,81,10" />
+        <Label Content="Question:" HorizontalAlignment="Left" Height="69" Margin="45.5,0,0,0" VerticalAlignment="Top" Width="170" FontSize="36"/>
+        <Label Content="Num of question left:" HorizontalAlignment="Left" Height="43.167" Margin="402.502,313.215,0,0" VerticalAlignment="Top" Width="205.084" RenderTransformOrigin="0.5,0.5" FontSize="18">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.061"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label Content="Answer 1:" HorizontalAlignment="Left" Height="43.167" Margin="0,180,0,0" VerticalAlignment="Top" Width="92" FontSize="18"/>
+        <Label Content="Answer 2:" HorizontalAlignment="Left" Height="43.167" Margin="0,243.167,0,0" VerticalAlignment="Top" Width="92" FontSize="18"/>
+        <Label Content="Answer 3:" HorizontalAlignment="Left" Height="43.167" Margin="0,303.333,0,0" VerticalAlignment="Top" Width="92" FontSize="18"/>
+        <Label Content="Answer 4:" HorizontalAlignment="Left" Height="43.167" Margin="0,363.5,0,0" VerticalAlignment="Top" Width="92" FontSize="18"/>
+        <Label Content="Correct answers:" HorizontalAlignment="Left" Height="45.5" Margin="335,10,0,0" VerticalAlignment="Top" Width="174" FontSize="22"/>
+        <TextBlock Text="" x:Name="Clock" Margin="422,180,24.667,193.5" TextAlignment="Center"/>
+        <TextBox Text="" x:Name="CorrectAnswers" HorizontalAlignment="Left" Height="45.5" Margin="509,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" FontSize="24"/>
+        <Label Content="Time left:" HorizontalAlignment="Left" Height="45" Margin="422,135,0,0" VerticalAlignment="Top" Width="117.667" FontSize="22"/>
+    </Grid>
+</Window>
