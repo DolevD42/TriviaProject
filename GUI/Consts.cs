@@ -127,7 +127,31 @@ namespace GUI
             public string question;
             public Dictionary<int, string> answers;
         }
+        public struct SubmitAnswerResponse
+        {
+            
+            public int status;
+            public string question;
+            public Dictionary<int, string> answers;
+        }
+        public struct GetGameResultsResponse
+        {
 
+            public int status;
+            public List<PlayerResults> results;
+        }
+        public struct PlayerResults
+        {
+            public string userName;
+            public int correctAnswerCount;
+            public int wrongAnswerCount;
+            public int averageAnswerTime;
+        }
+        public struct LeaveGameResponse
+        {
+
+            public int status;
+        }
 
     }
 

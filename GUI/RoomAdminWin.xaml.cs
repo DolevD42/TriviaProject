@@ -64,7 +64,7 @@ namespace GUI
             if (res.status == Consts.REQUEST_VALID)
             {
                 this.Hide();
-                GameWin win = new GameWin();
+                GameWin win = new GameWin(_client, _userName);
                 win.Show();
                 this.Close();
             }

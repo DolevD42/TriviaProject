@@ -20,7 +20,7 @@ namespace GUI
     /// Interaction logic for GameWin.xaml
     /// </summary>
     public partial class GameWin : Window
-    {
+    {           
         private Thread Timer;
         private TcpClient _client;
         private string _username;
