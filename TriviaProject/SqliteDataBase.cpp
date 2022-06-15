@@ -6,6 +6,7 @@
 #include <algorithm>
 #define RETRIVING_INFROMATION_ERROR "Error Accured While Retriving Information"
 #define QUESTION_INSERT_PROBLEM "Question Insert Problem"
+
 int exists(void* data, int argc, char** argv, char** azColName)
 {
 	*(bool*)data = true;
@@ -52,6 +53,38 @@ sqlite3* SqliteDataBase::GetDb()
 		}
 	}
 	return _db;
+}
+
+int SqliteDataBase::insertNewGame()
+{
+	time_t now = time(0);
+	// convert now to string form
+	char* dt = ctime(&now);
+	std::string gameStatus = "0";//new game status equal zero
+	std::string sqlStatement = "INSERT INTO games(status, start_time, end_time) VALUES ('" + gameStatus + "', '" + dt + "', 'NULL');";//not sure if it is working
+	char* errMessage = nullptr;
+	int res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+	{
+		return -1;//something went wrong a new game did not inserted
+	}
+	else
+	{
+		this->_currGameId++;//tracking/counting the amount of games in the database
+		return this->_currGameId;
+	}
+}
+
+void SqliteDataBase::RemoveNewGame(int id)
+{
+	std::string sqlStatement = "DELETE FROM table_name WHERE condition game_id = " + std::to_string(id) + ";";//not sure if it is working
+	char* errMessage = nullptr;
+	int res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw(&errMessage);
+	}
+
 }
 
 
@@ -133,25 +166,25 @@ SqliteDataBase::SqliteDataBase()
 			if (res != SQLITE_OK)
 				throw std::exception("Question Insert Problem");
 
-			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When was Albert Einstein Born?', '14.3.1879', '4.6.1878', '3.9.1885', '3.10.1877');";
-			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
-			if (res != SQLITE_OK)
-				throw std::exception("Question Insert Problem");
-
-			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('Where was Albert Einstein born?', 'Ulm', 'Hamburg', 'Dresden', 'Berlin');";
-			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
-			if (res != SQLITE_OK)
-				throw std::exception("Question Insert Problem");
-
-			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein formulate his special theory of relativity', '1905', '1903', '1900', '1904');";
-			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
-			if (res != SQLITE_OK)
-				throw std::exception("Question Insert Problem");
-
-			sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('How Many Hearts does an Occtupus have?', '1', '2', '3', '4');";
-			res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
-			if (res != SQLITE_OK)
-				throw std::exception("Question Insert Problem");
+			//sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When was Albert Einstein Born?', '14.3.1879', '4.6.1878', '3.9.1885', '3.10.1877');";
+			//res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+			//if (res != SQLITE_OK)
+			//	throw std::exception("Question Insert Problem");
+			//
+			//sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('Where was Albert Einstein born?', 'Ulm', 'Hamburg', 'Dresden', 'Berlin');";
+			//res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+			//if (res != SQLITE_OK)
+			//	throw std::exception("Question Insert Problem");
+			//
+			//sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('When did Albert Einstein formulate his special theory of relativity', '1905', '1903', '1900', '1904');";
+			//res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+			//if (res != SQLITE_OK)
+			//	throw std::exception("Question Insert Problem");
+			//
+			//sqlStatement = "INSERT INTO questions (question, correct_ans, ans2, ans3, ans4) VALUES ('How Many Hearts does an Occtupus have?', '1', '2', '3', '4');";
+			//res = sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
+			//if (res != SQLITE_OK)
+			//	throw std::exception("Question Insert Problem");
 		}
 	}
 	catch (std::exception& e)
@@ -204,7 +237,7 @@ void SqliteDataBase::addNewUser(std::string userName, std::string pass, std::str
 	
 }
 
-std::list<Question*> SqliteDataBase::getQuestions(int id)
+std::list<Question*> SqliteDataBase::getQuestions()
 {
 	
 	std::list<Question*> QuestionList;

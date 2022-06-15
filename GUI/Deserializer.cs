@@ -90,5 +90,22 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.StartGameResponse>(buffer);
 		}
+		public static Consts.GetGameResultsResponse deserializeGetGameResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetGameResultsResponse>(buffer);
+		}
+		public static Consts.SubmitAnswerResponse deserializeSubmitedAnswerResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.SubmitAnswerResponse>(buffer);
+		}
+		public static Consts.GetQuestionResponce deserializeGetQuestionResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetQuestionResponce>(buffer);
+		}
+		public static Consts.LeaveGameResponse deserializeLeaveGameResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.LeaveGameResponse>(buffer);
+		}
+
 	}
 }

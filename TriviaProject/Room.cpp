@@ -70,6 +70,11 @@ LoggedUser* Room::getLoggedUser(int place)
 	return m_users[place];
 }
 
+std::vector<LoggedUser*> Room::getAllLoggedUser()
+{
+	return m_users;
+}
+
 unsigned int Room::getRoomState()
 {
 	return m_metadata.isActive;
