@@ -4,12 +4,14 @@
 #include "LoggedUser.h"
 #include "Question.h"
 #include <map>
+#include "Room.h"
 
 struct GameData {
 	Question* currentQuestion;
 	unsigned int CorrectAnswerCount;
 	unsigned int WrongAnswerCount;
 	float averageAnswerTime;
+	bool playing;
 };
 class Game
 {
@@ -18,7 +20,7 @@ private:
 	std::map<LoggedUser*, GameData> m_players;
 	int m_gameId;
 public:
-	Game(LoggedUser* User, unsigned int CorrectAnswerCount, unsigned int WrongAnswerCount, float averageAnswerTime);
+	Game(Room room, std::vector<Question*> quest);
 	Question* getQuestionForUser(LoggedUser* users);
 	void submitAnswer(LoggedUser* users,int answeriD);
 	void removePlayer(LoggedUser* users);
