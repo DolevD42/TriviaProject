@@ -21,6 +21,7 @@ namespace GUI
     /// </summary>
     public partial class GameWin : Window
     {           
+        private int time;
         private Thread Timer;
         private TcpClient _client;
         private string _username;
@@ -32,32 +33,40 @@ namespace GUI
             this._username = username;
             NetworkStream net = _client.GetStream();
             _net = net;
-            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOM_STATE_CODE);
-            
+            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_ROOM_STATE_CODE);//getting game state
+            _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            byte[] serverMsg = new byte[5];
+            _net.Read(serverMsg, 0, 5);
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            if (resInf.id == Consts.ERR_CODE)
+            {
+                byte[] errorBuffer = new byte[resInf.len];
+                _net.Read(errorBuffer, 0, resInf.len);
+                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            byte[] serverBuffer = new byte[resInf.len];
+
+            _net.Read(serverBuffer, 0, resInf.len);
+            Consts.GetRoomStateResponse res = Deserializer.deserializeGetRoomStateResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+            time = 30;//just for check
+            Thread newThread = new Thread(new ThreadStart(Tick));
+            Timer = newThread;
+            Timer.Start();
         }
-        public delegate void TickCallback();
-        public delegate int ClockCallback();
         /// <summary>
         /// The Main Function for the thread.
         /// </summary>
         private void Tick()
         {
-            while (!Clock.Dispatcher.Invoke(new ClockCallback(ClockTime)).Equals(0))
+            while (time != 0)
             {
+                Clock.Text = time.ToString();
                 Thread.Sleep(1000);
-                Clock.Dispatcher.Invoke(new TickCallback(Timer_Tick));
+                time -= 1;
             }
 
-        }
-
-        void Timer_Tick()
-        {
-            Clock.Text = (Convert.ToInt16(Clock.Text) - 1).ToString();
-        }
-
-        int ClockTime()
-        {
-            return Convert.ToInt32(Clock.Text);
         }
     }
 }
