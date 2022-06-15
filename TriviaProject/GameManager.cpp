@@ -8,13 +8,12 @@ Game GameManager::CreateGame(Room room)
 		{
 			throw std::exception("Couldn't insert game into the database");
 		}
-		RoomData req = room.getRoomData();
-		LoggedUser* user = room.getLoggedUser(req.id);
-		std::string userAc =user->getUsername();
-		int acceptedCount = m_database->getNumOfCorrectAnswers(userAc);
-		int wrongCount =m_database->getNumOfTotalAnswers(userAc) - m_database->getNumOfCorrectAnswers(userAc);
-		float timePer = m_database->getPlayerAverageAnswerTime(userAc);
-		Game newGame = Game(user, acceptedCount, wrongCount, timePer);
+		std::vector<Question*> vect;
+		for (Question* quest : m_database->getQuestions())
+		{
+			vect.push_back(quest);
+		}
+		Game newGame = Game(room, vect);
 		m_games.push_back(newGame);
 	}
 	catch (const std::exception& e)
