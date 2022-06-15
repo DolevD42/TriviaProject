@@ -237,7 +237,7 @@ void SqliteDataBase::addNewUser(std::string userName, std::string pass, std::str
 	
 }
 
-std::list<Question*> SqliteDataBase::getQuestions(int id)
+std::list<Question*> SqliteDataBase::getQuestions()
 {
 	
 	std::list<Question*> QuestionList;

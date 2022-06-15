@@ -18,7 +18,7 @@ public:
 	virtual bool doesUserExist(std::string userName);
 	virtual bool doesPasswordMatch(std::string userName, std::string pass);
 	virtual void addNewUser(std::string userName, std::string pass, std::string email);
-	virtual std::list<Question*> getQuestions(int id);
+	virtual std::list<Question*> getQuestions();
 	virtual float getPlayerAverageAnswerTime(std::string id);
 	virtual int  getNumOfCorrectAnswers(std::string id);
 	virtual int  getNumOfTotalAnswers(std::string id);
