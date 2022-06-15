@@ -1,16 +1,27 @@
 #include "Game.h"
-Game::Game(LoggedUser* User,unsigned int CorrectAnswerCount, unsigned int WrongAnswerCount, float averageAnswerTime)
+Game::Game(Room room, std::vector<Question*> quest)//LoggedUser* User,unsigned int CorrectAnswerCount, unsigned int WrongAnswerCount, float averageAnswerTime)
 {
-	float averageAnswerTime2 = averageAnswerTime;
-	int CorrectAnswerCount2 = CorrectAnswerCount;
-	int WrongAnswerCount2 = WrongAnswerCount;
-	Question* currentQuestion2 = this->getQuestionForUser(User);
-	struct GameData req;
-	req.averageAnswerTime = averageAnswerTime2;
-	req.CorrectAnswerCount = CorrectAnswerCount2;
-	req.currentQuestion = currentQuestion2;
-	req.WrongAnswerCount = WrongAnswerCount2;
-	m_players.insert({ User, req });
+	for (int i = 0; i < room.getAllLoggedUser().size(); i++) {
+		struct GameData gamedata;
+		gamedata.currentQuestion = m_questions[0];
+		gamedata.averageAnswerTime = 0;
+		gamedata.currentQuestion = 0;
+		gamedata.WrongAnswerCount = 0;
+		gamedata.playing = true;
+		m_players.insert({ room.getAllLoggedUser()[i], gamedata });
+	}
+	m_questions = quest;
+	//
+	//float averageAnswerTime2 = averageAnswerTime;
+	//int CorrectAnswerCount2 = CorrectAnswerCount;
+	//int WrongAnswerCount2 = WrongAnswerCount;
+	//Question* currentQuestion2 = this->getQuestionForUser(User);
+	//struct GameData req;
+	//req.averageAnswerTime = averageAnswerTime2;
+	//req.CorrectAnswerCount = CorrectAnswerCount2;
+	//req.currentQuestion = currentQuestion2;
+	//req.WrongAnswerCount = WrongAnswerCount2;
+	//m_players.insert({ User, req });
 }
 Question* Game::getQuestionForUser(LoggedUser* users)
 {
@@ -39,7 +50,13 @@ void Game::removePlayer(LoggedUser* users)
 {
 	try
 	{
-		m_players.erase(users);
+		for(auto it :m_players)
+		{
+			if (it.first == users)
+			{
+				it.second.playing = false;
+			}
+		}
 	}
 	catch (const std::exception& e)
 	{
