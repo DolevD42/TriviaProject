@@ -3,7 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-
+#define _CRT_SECURE_NO_WARNINGS
 #include "sqlite3.h"
 
 #include <list>
@@ -25,11 +25,13 @@ public:
 	virtual int  getNumOfPlayerGames(std::string id);
 	virtual std::vector<std::string> getAllUserName();
 	virtual sqlite3* GetDb();
+	virtual int insertNewGame();
+	virtual void RemoveNewGame(int id);
 private:
 	char* _errMessage = nullptr;
 	sqlite3* _db = nullptr;
 	bool open();
-	
+	int _currGameId;
 	std::string _filename = "TriviaDB.sqlite";
 };
 
