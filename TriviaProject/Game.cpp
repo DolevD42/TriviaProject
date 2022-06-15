@@ -1,15 +1,31 @@
 #include "Game.h"
-Question Game::getQuestionForUser(LoggedUser users)
+Game::Game(LoggedUser* User,unsigned int CorrectAnswerCount, unsigned int WrongAnswerCount, float averageAnswerTime)
 {
-	auto it = m_players.find(users);
-	return it->second.currentQuestion;
+	float averageAnswerTime2 = averageAnswerTime;
+	int CorrectAnswerCount2 = CorrectAnswerCount;
+	int WrongAnswerCount2 = WrongAnswerCount;
+	Question* currentQuestion2 = this->getQuestionForUser(User);
+	struct GameData req;
+	req.averageAnswerTime = averageAnswerTime2;
+	req.CorrectAnswerCount = CorrectAnswerCount2;
+	req.currentQuestion = currentQuestion2;
+	req.WrongAnswerCount = WrongAnswerCount2;
+	m_players.insert({ User, req });
 }
-void Game::submitAnswer(LoggedUser users, int answeriD)
+Question* Game::getQuestionForUser(LoggedUser* users)
 {
 	auto it = m_players.find(users);
-	if (answeriD == it->second.currentQuestion.getCorrectAnswerIndex() + 1)
+	int place = it->second.WrongAnswerCount + it->second.CorrectAnswerCount;
+	return m_questions[place];
+}
+void Game::submitAnswer(LoggedUser* users, int answeriD)
+{
+	auto it = m_players.find(users);
+	int indx = it->second.currentQuestion->getCorrectAnswerIndex();
+	if (answeriD == indx + 1)
 	{
 		it->second.CorrectAnswerCount += 1;
+		
 		//add the send right answer
 	}
 	else
@@ -19,7 +35,7 @@ void Game::submitAnswer(LoggedUser users, int answeriD)
 	}
 
 }
-void Game::removePlayer(LoggedUser users)
+void Game::removePlayer(LoggedUser* users)
 {
 	try
 	{
@@ -30,4 +46,9 @@ void Game::removePlayer(LoggedUser users)
 		throw(e);
 		return;
 	}
+}
+
+int Game::getGameId()
+{
+	return m_gameId;
 }
