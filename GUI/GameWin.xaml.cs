@@ -66,7 +66,14 @@ namespace GUI
                 Thread.Sleep(1000);
                 time -= 1;
             }
-
         }
+        private void Answer4_Click(object sender, RoutedEventArgs e)
+        {}
+        private void Answer3_Click(object sender, RoutedEventArgs e)
+        { }
+        private void Answer2_Click(object sender, RoutedEventArgs e)
+        { }
+        private void Answer1_Click(object sender, RoutedEventArgs e)
+        { }
     }
 }

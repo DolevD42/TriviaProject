@@ -11,7 +11,7 @@
             <RowDefinition Height="95*"/>
             <RowDefinition Height="322*"/>
         </Grid.RowDefinitions>
-        <Button Content="Answer 4:" x:Name="Answer1" Margin="200.668,272.837,301.833,7.669" Click="Answer1_Click" RenderTransformOrigin="0.5,0.5" FontSize="20" Grid.Row="1">
+        <Button Content="Answer_4" x:Name="Answer1" Margin="200.668,272.837,301.833,7.669" Click="Answer1_Click" RenderTransformOrigin="0.5,0.5" FontSize="20" Grid.Row="1">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -21,9 +21,9 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button Content="Answer 3:" x:Name="Answer2" Margin="201.667,208.833,304,70.168" Click="Answer2_Click" FontSize="20" Grid.Row="1"/>
-        <Button Content="Answer 2:" x:Name="Answer3" Width="201" Margin="158.667,148.667,261,133.833" Click="Answer3_Click" FontSize="20" Grid.Row="1"/>
-        <Button Content="Answer 1:" x:Name="Answer4" Width="201" Margin="158.667,85.5,261,193.5" Click="Answer4_Click" FontSize="20" Grid.Row="1"/>
+        <Button Content="Answer_3" x:Name="Answer2" Margin="201.667,208.833,304,70.168" Click="Answer2_Click" FontSize="20" Grid.Row="1"/>
+        <Button Content="Answer_2" x:Name="Answer3" Width="201" Margin="158.667,148.667,261,133.833" Click="Answer3_Click" FontSize="20" Grid.Row="1"/>
+        <Button Content="Answer_1" x:Name="Answer4" Width="201" Margin="158.667,85.5,261,193.5" Click="Answer4_Click" FontSize="20" Grid.Row="1"/>
         <TextBlock Text="" x:Name="Question" Margin="40,69,261,268.5" Grid.RowSpan="2" />
         <TextBlock Text="" x:Name="NumOfQuestionLeft" Margin="422,269,66.5,10" Grid.Row="1" />
         <Label Content="Question:" HorizontalAlignment="Left" Height="69" Margin="45.5,0,0,0" VerticalAlignment="Top" Width="170" FontSize="36"/>
