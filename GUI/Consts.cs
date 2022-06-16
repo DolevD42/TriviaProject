@@ -33,6 +33,10 @@ namespace GUI
         public const int ROOM_DONT_EXIST = 46;
         public const int ROOM_MAX_OUT = 47;
         public const int WRONG_PARAMETERS = 48;
+        public const int GET_GAME_CODE = 55;
+        public const int SUBMIT_ANSWER_CODE =  56;
+        public const int GET_QUESTION_CODE = 57;
+        public const int LEAVE_GAME_CODE = 58;
 
         public const int ZERO = 126;
         public struct RequestInfo
