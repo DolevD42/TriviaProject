@@ -129,18 +129,19 @@ namespace GUI
         {
             public int status;
             public string question;
-            public Dictionary<int, string> answers;
+            public List<string> answers;
+            public List<int> IdPerQuestion;
         }
         public struct SubmitAnswerResponse
         {
             
             public int status;
             public string question;
-            public Dictionary<int, string> answers;
+            public List<string> answers;
+            public List<int> IdPerQuestion;
         }
         public struct GetGameResultsResponse
         {
-
             public int status;
             public List<PlayerResults> results;
         }
