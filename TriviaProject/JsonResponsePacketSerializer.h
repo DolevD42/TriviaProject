@@ -97,6 +97,11 @@ typedef struct GetGameResultResponse {
 	std::vector<PlayerResult> Results;
 } GetGameResultResponse;
 
+typedef struct LeaveGameResponse {
+	unsigned int status;
+} LeaveGameResponse;
+
+
 typedef struct ErrorResponse {
 	std::string message;
 } ErrorResponse;
@@ -117,6 +122,11 @@ public:
 	static std::vector<char> serializeResponse(StartGameResponse msg);
 	static std::vector<char> serializeResponse(GetRoomStateResponse msg);
 	static std::vector<char> serializeResponse(LeaveRoomResponse msg);
+
+	static std::vector<char> serializeResponse(GetGameResultResponse msg);
+	static std::vector<char> serializeResponse(SubmitAnswerResponse msg);
+	static std::vector<char> serializeResponse(GetQuestionResponse msg);
+	static std::vector<char> serializeResponse(LeaveGameResponse msg);
 private:
 	static std::vector<char> onlyStatus(int code, int len, std::string info);
 };

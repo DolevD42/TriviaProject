@@ -128,6 +128,66 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 	return onlyStatus(LEAVE_ROOM_CODE, js.length(), js);
 }
 
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::vector<std::string> usernames;
+	std::vector<unsigned int> correctAnswersCount;
+	std::vector<unsigned int> averageAnswersTime;
+	std::vector<unsigned int> wrongAnswersCount;
+	for (int i = 0; i < msg.Results.size(); i++)
+	{
+		usernames.push_back(msg.Results[i].userName);
+		correctAnswersCount.push_back(msg.Results[i].CorrectAnswerCount);
+		wrongAnswersCount.push_back(msg.Results[i].WrongeAnswerCount);
+		averageAnswersTime.push_back(msg.Results[i].AverageAnswerTime);
+
+	}
+	j["usernames"] = usernames;
+	j["correctAnswersCount"] = correctAnswersCount;
+	j["averageAnswersTime"] = averageAnswersTime;
+	j["wrongAnswersCount"] = wrongAnswersCount;
+	std::string js = j.dump();
+	return onlyStatus(GET_GAME_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["correctAnswerId"] = msg.CorrectAnswerId;
+	std::string js = j.dump();
+	return onlyStatus(SUBMIT_ANSWER_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["question"] = msg.Question;
+	std::vector<int> vectId;
+	std::vector<std::string> vectAnswer;
+	for (auto it = msg.answers.begin(); it != msg.answers.end(); it++)
+	{
+		vectId.push_back(it->first);
+		vectAnswer.push_back(it->second);
+	}
+
+	j["answersID"] = vectId;
+	j["answersStr"] = vectAnswer;
+	std::string js = j.dump();
+	return onlyStatus(GET_QUESTION_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::string js = j.dump();
+	return onlyStatus(LEAVE_GAME_CODE, js.length(), js);
+}
+
 
 std::vector<char> JsonResponsePacketSerializer::onlyStatus(int code, int len, std::string info)
 {
