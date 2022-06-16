@@ -29,6 +29,8 @@ namespace GUI
         private NetworkStream _net;
         private Thread RefresherThread;
         private List<string> Players = new List<string>();
+        private float time;
+        private int questCount;
         public RoomMember(TcpClient client, string username, int roomId, string roomName)
         {
             InitializeComponent();
@@ -72,6 +74,8 @@ namespace GUI
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    time = res.answerTimeout;
+                    questCount = res.questionCount;
                     Admin.Text = "Room Admin: " + res.players[0];
                 });
                 for (int i = 0; i < res.players.Count(); i++)
@@ -175,7 +179,7 @@ namespace GUI
                     break;
                 case Consts.START_GAME_CODE:
                     this.Hide();
-                    GameWin winq = new GameWin(_client, _username);
+                    GameWin winq = new GameWin(_client, _username, time, questCount);
                     winq.Show();
                     this.Close();
                     break;
