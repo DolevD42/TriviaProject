@@ -143,6 +143,7 @@ namespace GUI
         public struct GetGameResultsResponse
         {
             public int status;
+            //4 lists of player result
             public List<PlayerResults> results;
         }
         public struct PlayerResults
@@ -156,6 +157,11 @@ namespace GUI
         {
 
             public int status;
+        }
+        public struct SubmitAnswerRequest
+        {
+            public int id;
+            public float timePerAns;
         }
 
     }
