@@ -56,6 +56,7 @@ namespace GUI
 
             _net.Read(serverBuffer, 0, resInf.len);
             Consts.GetQuestionResponce res = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+            
             time = _time;
             timeConst = _time;
             questionCount = questCount;
@@ -80,18 +81,25 @@ namespace GUI
                 {
                     Clock.Text = time.ToString();
                     Thread.Sleep(1000);
-                    time -= 1;
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        time -= 1;
+                    });
                 }
                 if (time == 0.0)
                 {
                     //sending the massage automaticly if dident sended
                     if (!button4WasClicked && !button3WasClicked && !button2WasClicked && !button1WasClicked)
                     {
-                        string msgToSent = Serializer.serializeCodeOnly(Consts.SUBMIT_ANSWER_CODE);//getting game state
+                        //sending answer -1
+                        Consts.SubmitAnswerRequest req;
+                        req.id = -1;
+                        req.timePerAns = timeConst;
+                        string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
                         _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
                         byte[] serverMsg = new byte[5];
                         _net.Read(serverMsg, 0, 5);
-                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
                         if (resInf.id == Consts.ERR_CODE)
                         {
                             byte[] errorBuffer = new byte[resInf.len];
@@ -103,18 +111,19 @@ namespace GUI
                         byte[] serverBuffer = new byte[resInf.len];
 
                         _net.Read(serverBuffer, 0, resInf.len);
-                        Consts.GetQuestionResponce resSendAns = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-                                                                                                                                                      //refreshing timer again
+                        Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+                        //getting error for answer -1
+                        int idAns = resSendAns.idForCorrectAnswer;                                                                                                                //refreshing timer again
                         time = timeConst;
                     }
                     else
                     {
                         //getting the new question
-                        string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);//getting game state
+                        string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);
                         _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
                         byte[] serverMsg = new byte[5];
                         _net.Read(serverMsg, 0, 5);
-                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
                         if (resInf.id == Consts.ERR_CODE)
                         {
                             byte[] errorBuffer = new byte[resInf.len];
@@ -139,18 +148,43 @@ namespace GUI
             }
             else
             {
-                
+                Timer.Abort();
+                //getting into the game result
+                string msgToSent = Serializer.serializeCodeOnly(Consts.LEAVE_GAME_CODE);//getting game state
+                _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+                byte[] serverMsg = new byte[5];
+                _net.Read(serverMsg, 0, 5);
+                Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+                if (resInf.id == Consts.ERR_CODE)
+                {
+                    byte[] errorBuffer = new byte[resInf.len];
+                    _net.Read(errorBuffer, 0, resInf.len);
+                    Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                byte[] serverBuffer = new byte[resInf.len];
+
+                _net.Read(serverBuffer, 0, resInf.len);
+                Consts.LeaveGameResponse res = Deserializer.deserializeLeaveGameResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+                this.Hide();
+                //Menu win = new Menu(_client, _username);
+                //win.Show(); showing the new screen
+                this.Close();
             }
-            
+
         }
         private void Answer4_Click(object sender, RoutedEventArgs e)
         {
             button4WasClicked = true;
-            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);//getting game state
+            Consts.SubmitAnswerRequest req;
+            req.id = 3;
+            req.timePerAns = time;
+            string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             _net.Read(serverMsg, 0, 5);
-            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
@@ -162,17 +196,29 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
-            Consts.GetQuestionResponce resSendAns = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-            //getting ans and refreshing timer
+            Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
+            int idAns = resSendAns.idForCorrectAnswer;
+            if (idAns == 3)
+            {
+                MessageBox.Show("you got the right answer");
+            }
+            else
+            {
+                MessageBox.Show("you got the wrong answer");
+            }
+            time = timeConst;
         }
         private void Answer3_Click(object sender, RoutedEventArgs e)
         {
             button3WasClicked = true;
-            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);//getting game state
+            Consts.SubmitAnswerRequest req;
+            req.id = 2;
+            req.timePerAns = time;
+            string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             _net.Read(serverMsg, 0, 5);
-            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
@@ -184,17 +230,29 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
-            Consts.GetQuestionResponce resSendAns = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-            //getting ans and refreshing timer
+            Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
+            int idAns = resSendAns.idForCorrectAnswer;
+            if (idAns == 2)
+            {
+                MessageBox.Show("you got the right answer");
+            }
+            else
+            {
+                MessageBox.Show("you got the wrong answer");
+            }
+            time = timeConst;
         }
         private void Answer2_Click(object sender, RoutedEventArgs e)
         {
             button2WasClicked = true;
-            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);//getting game state
+            Consts.SubmitAnswerRequest req;
+            req.id = 1;
+            req.timePerAns = time;
+            string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             _net.Read(serverMsg, 0, 5);
-            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
@@ -206,17 +264,29 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
-            Consts.GetQuestionResponce resSendAns = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-            //getting ans and refreshing timer
+            Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
+            int idAns = resSendAns.idForCorrectAnswer;
+            if (idAns == 1)
+            {
+                MessageBox.Show("you got the right answer");
+            }
+            else
+            {
+                MessageBox.Show("you got the wrong answer");
+            }
+            time = timeConst;
         }
         private void Answer1_Click(object sender, RoutedEventArgs e)
         {
             button1WasClicked = true;
-            string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);//getting game state
+            Consts.SubmitAnswerRequest req;
+            req.id = 0;
+            req.timePerAns = time;
+            string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
             _net.Read(serverMsg, 0, 5);
-            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
@@ -228,8 +298,17 @@ namespace GUI
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
-            Consts.GetQuestionResponce resSendAns = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-            //getting ans and refreshing timer
+            Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
+            int idAns = resSendAns.idForCorrectAnswer;
+            if (idAns == 0)
+            {
+                MessageBox.Show("you got the right answer");
+            }
+            else
+            {
+                MessageBox.Show("you got the wrong answer");
+            }
+            time = timeConst;
         }
     }
 }
