@@ -136,9 +136,7 @@ namespace GUI
         {
             
             public int status;
-            public string question;
-            public List<string> answers;
-            public List<int> IdPerQuestion;
+            public int idForCorrectAnswer;
         }
         public struct GetGameResultsResponse
         {

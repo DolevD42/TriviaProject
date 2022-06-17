@@ -94,7 +94,7 @@ namespace GUI
 		//	inf.id = id;
 		//	return serializeInf(inf);
 		//}
-		public static string serializeSubmitAnswer(Consts.SubmitAnswerResponse req, int id)
+		public static string serializeSubmitAnswer(Consts.SubmitAnswerRequest req, int id)
 		{
 			string buffer = JsonConvert.SerializeObject(req);
 			Consts.RequestInfo inf;
