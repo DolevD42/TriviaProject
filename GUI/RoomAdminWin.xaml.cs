@@ -25,7 +25,8 @@ namespace GUI
         private string _userName;
         private List<string> Players = new List<string>();
         Thread Refresher2;
-
+        private float time;
+        private int questCount;
         public RoomAdminWin(TcpClient client, string userName, string roomName, int questionCount, int answerTimeout, int maxUsers)
         {
             InitializeComponent();
@@ -64,7 +65,7 @@ namespace GUI
             if (res.status == Consts.REQUEST_VALID)
             {
                 this.Hide();
-                GameWin win = new GameWin(_client, _userName);
+                GameWin win = new GameWin(_client, _userName, time, questCount);
                 win.Show();
                 this.Close();
             }
@@ -92,7 +93,8 @@ namespace GUI
 
                 rnet.Read(serverBuffer, 0, resInf.len);
                 Consts.GetRoomStateResponse res = Deserializer.deserializeGetRoomStateResponse(Encoding.Default.GetString(serverBuffer));
-
+                questCount =res.questionCount;
+                time = res.answerTimeout;
                 for (int i = 0; i < res.players.Count(); i++)
                 {
                     PlayersR.Add(res.players[i]);
