@@ -22,7 +22,7 @@ void Game::submitAnswer(LoggedUser* users, int answeriD)
 {
 	auto it = m_players.find(users);
 	int indx = it->second.currentQuestion->getCorrectAnswerIndex();
-	if (answeriD == indx + 1)
+	if (answeriD == indx)
 	{
 		it->second.CorrectAnswerCount += 1;
 		
@@ -33,6 +33,7 @@ void Game::submitAnswer(LoggedUser* users, int answeriD)
 		it->second.WrongAnswerCount += 1;
 		//add the send wrong answer
 	}
+
 
 }
 void Game::removePlayer(LoggedUser* users)
