@@ -3,15 +3,22 @@ Game GameManager::CreateGame(Room room)
 {
 	try
 	{
+		
 		_gameId = m_database->insertNewGame();
 		if (_gameId == -1)
 		{
 			throw std::exception("Couldn't insert game into the database");
 		}
+		std::vector<Question*> vectAllQuestions;
 		std::vector<Question*> vect;
+
 		for (Question* quest : m_database->getQuestions())
 		{
-			vect.push_back(quest);
+			vectAllQuestions.push_back(quest);
+		}
+		for (int i = 0; i < room.getRoomData().numOfQuestionInGame; i++)
+		{
+			vect.push_back(vectAllQuestions[i]);
 		}
 		Game newGame = Game(room, vect);
 		m_games.push_back(newGame);
