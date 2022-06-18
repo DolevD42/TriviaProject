@@ -168,8 +168,8 @@ namespace GUI
                 _net.Read(serverBuffer, 0, resInf.len);
                 Consts.LeaveGameResponse res = Deserializer.deserializeLeaveGameResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
                 this.Hide();
-                //Menu win = new Menu(_client, _username);
-                //win.Show(); showing the new screen
+                GameEndStats win = new GameEndStats(_client, _username);
+                win.Show();
                 this.Close();
             }
 
