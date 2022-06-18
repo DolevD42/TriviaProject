@@ -90,7 +90,7 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.StartGameResponse>(buffer);
 		}
-		public static Consts.GetGameResultsResponse deserializeGetGameResponse(string buffer)
+		public static Consts.GetGameResultsResponse deserializeGetGameResultsResponse(string buffer)
 		{
 			return JsonConvert.DeserializeObject<Consts.GetGameResultsResponse>(buffer);
 		}
