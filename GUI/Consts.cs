@@ -37,7 +37,7 @@ namespace GUI
         public const int SUBMIT_ANSWER_CODE =  56;
         public const int GET_QUESTION_CODE = 57;
         public const int LEAVE_GAME_CODE = 58;
-
+        public const int GET_GAME_END_STATS = 59;
         public const int ZERO = 126;
         public struct RequestInfo
         {
@@ -142,14 +142,18 @@ namespace GUI
         {
             public int status;
             //4 lists of player result
-            public List<PlayerResults> results;
+            public List<string> userName;
+            public List<int> correctAnswerCount;
+            public List<int> wrongAnswerCount;
+            public List<float> averageAnswerTime;
+            bool HasEnded;
         }
         public struct PlayerResults
         {
             public string userName;
             public int correctAnswerCount;
             public int wrongAnswerCount;
-            public int averageAnswerTime;
+            public float averageAnswerTime;
         }
         public struct LeaveGameResponse
         {
