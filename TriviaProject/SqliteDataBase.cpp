@@ -247,10 +247,8 @@ std::list<Question*> SqliteDataBase::getQuestions()
 		int i = 1;
 		std::string sqlStatement = "SELECT * FROM questions";
 		sqlite3_stmt* stmt;
-		if (sqlite3_exec(_db, sqlStatement.c_str(), exists, &stmt, &_errMessage) != SQLITE_OK)
-		{
-			throw std::exception("DB don't exist");
-		}
+		if (sqlite3_prepare_v2(_db, sqlStatement.c_str(), strlen(sqlStatement.c_str()) + 1, &stmt, NULL) != SQLITE_OK)
+			throw std::exception("error reading info");
 		while (1)
 		{
 			int s;
