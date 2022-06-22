@@ -49,3 +49,14 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 {
 	return new RoomMemberRequestHandler(m_roomManager, room, this, user, socket);
 }
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
+{
+	Game* game = m_gameManager->CreateGame(*room);
+	return new GameRequestHandler(m_gameManager, game, this, user, socket);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(SOCKET socket, LoggedUser* user)
+{
+	return new GameRequestHandler(m_gameManager, m_gameManager->lastGame(), this, user, socket);
+}
