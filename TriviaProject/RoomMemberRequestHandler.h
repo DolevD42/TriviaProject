@@ -14,7 +14,7 @@ public:
 private:
     RequestResult leaveRoom(RequestInfo req);
     RequestResult getRoomState(RequestInfo req);
-
+    RequestResult startGame(RequestInfo req);
     LoggedUser* m_user;
     RoomManager* m_roomManager;
     Room* m_room;

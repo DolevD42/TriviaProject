@@ -113,7 +113,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo req)
 	StartGameResponse res;
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-	returnReq.newHandler = this; //Here we will put the gameHandler
+	returnReq.newHandler = m_handlerFactory->createGameRequestHandler(m_socket, m_user, m_room); 
 	return returnReq;
 }
 

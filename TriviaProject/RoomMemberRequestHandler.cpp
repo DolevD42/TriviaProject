@@ -13,7 +13,7 @@ RoomMemberRequestHandler::~RoomMemberRequestHandler()
 
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo req)
 {
-	if (req.id == LEAVE_ROOM_CODE || req.id == GET_ROOM_STATE_CODE)
+	if (req.id == LEAVE_ROOM_CODE || req.id == GET_ROOM_STATE_CODE || req.id == START_GAME_CODE)
 	{
 		return true;
 	}
@@ -38,6 +38,9 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo req)
 		break;
 	case GET_ROOM_STATE_CODE:
 		returnReq = getRoomState(req);
+		break;
+	case START_GAME_CODE:
+		returnReq = startGame(req);
 		break;
 	}
 	return returnReq;
@@ -133,5 +136,16 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo req)
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this; //Here we will put the gameHandler
+	return returnReq;
+}
+
+RequestResult RoomMemberRequestHandler::startGame(RequestInfo req)
+{
+	RequestResult returnReq;
+	
+	StartGameResponse res;
+	res.status = REQUEST_VALID;
+	returnReq.newHandler = m_handlerFactory->createGameRequestHandler(m_socket, m_user);
+	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	return returnReq;
 }
