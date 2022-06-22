@@ -53,7 +53,7 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 
 GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
 {
-	Game* game = m_gameManager->CreateGame(*room);
+	Game* game = m_gameManager->CreateGame(room);
 	return new GameRequestHandler(m_gameManager, game, this, user, socket);
 }
 

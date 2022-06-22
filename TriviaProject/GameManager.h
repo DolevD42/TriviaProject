@@ -12,7 +12,7 @@ private:
 	int _gameId;
 public:
 	GameManager(IDataBase* db);
-	Game* CreateGame(Room room);
+	Game* CreateGame(Room* room);
 	void deleteGame(int gameId);
 	Game* lastGame();
 };

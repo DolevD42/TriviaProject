@@ -2,7 +2,7 @@
 GameManager::GameManager(IDataBase* db): m_database(db)
 {
 }
-Game* GameManager::CreateGame(Room room)
+Game* GameManager::CreateGame(Room* room)
 {
 	try
 	{
@@ -19,7 +19,7 @@ Game* GameManager::CreateGame(Room room)
 		{
 			vectAllQuestions.push_back(quest);
 		}
-		for (int i = 0; i < room.getRoomData().numOfQuestionInGame; i++)
+		for (int i = 0; i < room->getRoomData().numOfQuestionInGame; i++)
 		{
 			vect.push_back(vectAllQuestions[i]);
 		}

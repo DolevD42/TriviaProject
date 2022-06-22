@@ -20,7 +20,7 @@ private:
 	std::map<LoggedUser*, GameData> m_players;
 	int m_gameId;
 public:
-	Game(Room room, std::vector<Question*> quest);
+	Game(Room* room, std::vector<Question*> quest);
 	Question* getQuestionForUser(LoggedUser* users);
 	int submitAnswer(LoggedUser* users,int answeriD, float timePerAns);
 	void removePlayer(LoggedUser* users);
