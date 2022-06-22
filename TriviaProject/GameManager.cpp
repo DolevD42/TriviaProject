@@ -1,5 +1,5 @@
 #include "GameManager.h"
-Game GameManager::CreateGame(Room room)
+Game* GameManager::CreateGame(Room room)
 {
 	try
 	{
@@ -20,7 +20,7 @@ Game GameManager::CreateGame(Room room)
 		{
 			vect.push_back(vectAllQuestions[i]);
 		}
-		Game newGame = Game(room, vect);
+		Game* newGame = new Game(room, vect);
 		m_games.push_back(newGame);
 	}
 	catch (const std::exception& e)
@@ -33,13 +33,20 @@ void GameManager::deleteGame(int gameId)
 {
 	m_database->RemoveNewGame(gameId);
 	int curGameId;
-	for (std::vector<Game>::iterator it = m_games.end();it != m_games.begin();) 
+	int i = 0;
+	for (auto it = m_games.begin();it != m_games.end(); it++)
 	{
-		curGameId = it->getGameId();
+		i++;
+		curGameId = m_games[i]->getGameId();
 		if (curGameId = gameId)
 		{
 			it = m_games.erase(it);
 			break;
 		}
 	}
+}
+
+Game* GameManager::lastGame()
+{
+	return m_games[m_games.size()-1];
 }

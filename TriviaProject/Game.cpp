@@ -18,7 +18,7 @@ Question* Game::getQuestionForUser(LoggedUser* users)
 	int place = it->second.WrongAnswerCount + it->second.CorrectAnswerCount;
 	return m_questions[place];
 }
-void Game::submitAnswer(LoggedUser* users, int answeriD)
+int Game::submitAnswer(LoggedUser* users, int answeriD, float timePerAns)
 {
 	auto it = m_players.find(users);
 	int indx = it->second.currentQuestion->getCorrectAnswerIndex();
@@ -33,8 +33,10 @@ void Game::submitAnswer(LoggedUser* users, int answeriD)
 		it->second.WrongAnswerCount += 1;
 		//add the send wrong answer
 	}
-
-
+	it->second.averageAnswerTime = it->second.averageAnswerTime * (it->second.WrongAnswerCount + it->second.CorrectAnswerCount - 1);
+	it->second.averageAnswerTime += timePerAns;
+	it->second.averageAnswerTime = it->second.averageAnswerTime / (it->second.WrongAnswerCount + it->second.CorrectAnswerCount);
+	return indx;
 }
 void Game::removePlayer(LoggedUser* users)
 {
@@ -53,6 +55,11 @@ void Game::removePlayer(LoggedUser* users)
 		throw(e);
 		return;
 	}
+}
+
+std::map<LoggedUser*, GameData> Game::getData()
+{
+	return m_players;
 }
 
 int Game::getGameId()

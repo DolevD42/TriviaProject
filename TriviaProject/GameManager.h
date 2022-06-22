@@ -13,4 +13,5 @@ private:
 public:
 	Game CreateGame(Room room);
 	void deleteGame(int gameId);
+	Game lastGame();
 };
