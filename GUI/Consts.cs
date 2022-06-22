@@ -24,11 +24,11 @@ namespace GUI
         public const int START_GAME_CODE = 52;
         public const int GET_ROOM_STATE_CODE = 53;
         public const int LEAVE_ROOM_CODE = 54;
-        public const int GET_GAME_CODE = 55;
+
         public const int SUBMIT_ANSWER_CODE = 56;
         public const int GET_QUESTION_CODE = 57;
         public const int LEAVE_GAME_CODE = 58;
-        public const int GET_GAME_END_STATS = 59;
+        public const int GET_GAME_END_STATS = 55;
 
         public const int PASSWORD_DONT_MATCH = 41;
         public const int REQUEST_VALID = 42;
