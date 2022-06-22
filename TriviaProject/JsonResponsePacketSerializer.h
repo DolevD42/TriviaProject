@@ -6,6 +6,7 @@
 #include "Helper.h"
 #include "json.hpp"
 #include "RoomManager.h"
+#include "GameManager.h"
 using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)
 #define MSG_LEN 4
@@ -94,7 +95,10 @@ typedef struct PlayerResult {
 
 typedef struct GetGameResultResponse {
 	unsigned int status;
-	std::vector<PlayerResult> Results;
+	std::vector<std::string> userName;
+	std::vector<int> correctAnswerCount;
+	std::vector<int> wrongAnswerCount;
+	std::vector<float> averageAnswerTime;
 } GetGameResultResponse;
 
 typedef struct LeaveGameResponse {
