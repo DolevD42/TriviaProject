@@ -8,10 +8,10 @@ class GameManager
 {
 private:
 	IDataBase* m_database;
-	std::vector<Game> m_games;
+	std::vector<Game*> m_games;
 	int _gameId;
 public:
-	Game CreateGame(Room room);
+	Game* CreateGame(Room room);
 	void deleteGame(int gameId);
-	Game lastGame();
+	Game* lastGame();
 };
