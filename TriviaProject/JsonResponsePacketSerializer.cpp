@@ -136,12 +136,12 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultR
 	std::vector<unsigned int> correctAnswersCount;
 	std::vector<unsigned int> averageAnswersTime;
 	std::vector<unsigned int> wrongAnswersCount;
-	for (int i = 0; i < msg.Results.size(); i++)
+	for (int i = 0; i < msg.userName.size(); i++)
 	{
-		usernames.push_back(msg.Results[i].userName);
-		correctAnswersCount.push_back(msg.Results[i].CorrectAnswerCount);
-		wrongAnswersCount.push_back(msg.Results[i].WrongeAnswerCount);
-		averageAnswersTime.push_back(msg.Results[i].AverageAnswerTime);
+		usernames.push_back(msg.userName[i]);
+		correctAnswersCount.push_back(msg.correctAnswerCount[i]);
+		wrongAnswersCount.push_back(msg.wrongAnswerCount[i]);
+		averageAnswersTime.push_back(msg.averageAnswerTime[i]);
 
 	}
 	j["usernames"] = usernames;
