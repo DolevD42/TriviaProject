@@ -178,10 +178,32 @@ namespace GUI
                      _thread.Abort();
                     break;
                 case Consts.START_GAME_CODE:
-                    this.Hide();
-                    GameWin winq = new GameWin(_client, _username, time, questCount);
-                    winq.Show();
-                    this.Close();
+
+                    string newMsgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
+                    _net.Write(System.Text.Encoding.ASCII.GetBytes(newMsgToSent), 0, newMsgToSent.Length);
+                    byte[] newServerMs = new byte[5];
+                    _net.Read(newServerMsg, 0, 5);
+                    resInf = Deserializer.deserializeSize(Encoding.Default.GetString(newServerMs));
+                    if (resInf.id == Consts.ERR_CODE)
+                    {
+                        byte[] errorBuffer = new byte[resInf.len];
+                        _net.Read(errorBuffer, 0, resInf.len);
+                        Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                        MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    serverBuffer = new byte[resInf.len];
+
+                    _net.Read(serverBuffer, 0, resInf.len);
+                    Consts.StartGameResponse newRes = Deserializer.deserializeStartGameResponse(Encoding.Default.GetString(serverBuffer));
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Hide();
+                        GameWin winq = new GameWin(_client, _username, time, questCount);
+                        winq.Show();
+                        this.Close();
+                    });
+                    _thread.Abort();
                     break;
             }
         }
