@@ -1,4 +1,7 @@
 #include "GameManager.h"
+GameManager::GameManager(IDataBase* db): m_database(db)
+{
+}
 Game* GameManager::CreateGame(Room room)
 {
 	try

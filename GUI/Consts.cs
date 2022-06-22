@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Numerics;
 namespace GUI
 {
-
     class Consts
     {
         public const int ERR_CODE = 41;
@@ -135,7 +134,6 @@ namespace GUI
         }
         public struct SubmitAnswerResponse
         {
-            
             public int status;
             public int idForCorrectAnswer;
         }

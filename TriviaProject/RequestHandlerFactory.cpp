@@ -6,7 +6,7 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase* db)
 	m_roomManager = new RoomManager();
 	m_database = db;
 	m_statistics = new StatisticsManager(db);
-	m_gameManager = new GameManager();
+	m_gameManager = new GameManager(db);
 }
 
 
