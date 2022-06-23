@@ -52,7 +52,7 @@ void GameManager::deleteGame(int gameId)
 
 void GameManager::EnterDbInfo(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount)
 {
-	m_database->InsertPlayerResults(userName, WrongAnswerCount, CorrectAnswerCount, averageAnswerTime, AnswersCount);
+	m_database->InsertPlayerResults(userName, CorrectAnswerCount, WrongAnswerCount, averageAnswerTime, AnswersCount);
 }
 
 Game* GameManager::lastGame()
