@@ -17,6 +17,7 @@ public:
 	virtual std::vector<std::string> getAllUserName() = 0;
 	virtual sqlite3* GetDb() = 0;
 	virtual int insertNewGame() = 0;
+	virtual void InsertPlayerResults(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount) = 0;
 	virtual void RemoveNewGame(int id) = 0;
 };
 
