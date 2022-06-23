@@ -8,12 +8,13 @@ class Question
 public:
 	Question(int id, std::string question, std::string correctAnswer, std::string answer2, std::string answer3, std::string answer4);
 	std::string getQuestion();
-	std::string* getAnswers();
 	int getCorrectAnswerIndex();
+	std::vector<std::string> getPossibleAnswers();
 	int getId();
 	~Question();
 	
 private:
+	std::vector<std::string> m_possibleAnswers;
 	std::string _question;
 	std::string _answers[4];
 	int _correctAnswerIndex;

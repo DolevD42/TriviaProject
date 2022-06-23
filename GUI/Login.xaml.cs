@@ -58,7 +58,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
@@ -86,7 +86,6 @@ namespace GUI
                     break;
             }
         }
-
         private void SignUpClick(object sender, RoutedEventArgs e)
         {
             this.Hide();

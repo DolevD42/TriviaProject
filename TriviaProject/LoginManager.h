@@ -12,8 +12,8 @@ class LoginManager
 public:
 	LoginManager(IDataBase* db);
 	~LoginManager();
-	int signup(std::string userName, std::string pass, std::string email);
-	int login(std::string userName, std::string pass);
+	int signup(std::string userName, std::string pass, std::string email, SOCKET socket);
+	int login(std::string userName, std::string pass, SOCKET socket);
 	int logout(std::string userName);
 private:
 	IDataBase* m_database;

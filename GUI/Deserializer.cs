@@ -15,9 +15,10 @@ namespace GUI
             res.id = (int)msg[0];
 			int msgLen = 0;
 			int num = 0;
+			byte[] ASCIIvalues = Encoding.Default.GetBytes(msg);
 			for (int i = 0; i < 4; i++)
 			{
-				num = (int)msg[4 - i];
+				num = (int)ASCIIvalues[4 - i];
 				if (num == Consts.ZERO)
 				{
 					num = 0;
@@ -74,5 +75,38 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.GetPlayersInRoomResponse>(buffer);
 		}
+		public static Consts.CloseRoomResponse deserializeCloseRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.CloseRoomResponse>(buffer);
+		}
+		public static Consts.LeaveRoomResponse deserializeLeaveRoomResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.LeaveRoomResponse>(buffer);
+		}
+		public static Consts.GetRoomStateResponse deserializeGetRoomStateResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetRoomStateResponse>(buffer);
+		}
+		public static Consts.StartGameResponse deserializeStartGameResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.StartGameResponse>(buffer);
+		}
+		public static Consts.GetGameResultsResponse deserializeGetGameResultsResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetGameResultsResponse>(buffer);
+		}
+		public static Consts.SubmitAnswerResponse deserializeSubmitedAnswerResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.SubmitAnswerResponse>(buffer);
+		}
+		public static Consts.GetQuestionResponce deserializeGetQuestionResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.GetQuestionResponce>(buffer);
+		}
+		public static Consts.LeaveGameResponse deserializeLeaveGameResponse(string buffer)
+		{
+			return JsonConvert.DeserializeObject<Consts.LeaveGameResponse>(buffer);
+		}
+
 	}
 }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Numerics;
 namespace GUI
 {
-
     class Consts
     {
         public const int ERR_CODE = 41;
@@ -20,7 +19,16 @@ namespace GUI
         public const int GET_PERSONAL_CODE = 48;
         public const int JOIN_ROOM_CODE = 49;
         public const int CREATE_ROOM_CODE = 50;
-        
+        public const int CLOSE_ROOM_CODE = 51;
+        public const int START_GAME_CODE = 52;
+        public const int GET_ROOM_STATE_CODE = 53;
+        public const int LEAVE_ROOM_CODE = 54;
+
+        public const int SUBMIT_ANSWER_CODE = 56;
+        public const int GET_QUESTION_CODE = 57;
+        public const int LEAVE_GAME_CODE = 58;
+        public const int GET_GAME_END_STATS = 55;
+
         public const int PASSWORD_DONT_MATCH = 41;
         public const int REQUEST_VALID = 42;
         public const int USER_ALREADY_EXIST = 43;
@@ -29,7 +37,7 @@ namespace GUI
         public const int ROOM_DONT_EXIST = 46;
         public const int ROOM_MAX_OUT = 47;
         public const int WRONG_PARAMETERS = 48;
-
+        
         public const int ZERO = 126;
         public struct RequestInfo
         {
@@ -58,7 +66,7 @@ namespace GUI
         }
         public struct ErrorResponse
         {
-            public string msg;
+            public string message;
         }
         public struct CreateRoomRequest
         {
@@ -97,7 +105,65 @@ namespace GUI
             public int status;
             public List<string> statistics;
         }
-        
+        public struct CloseRoomResponse
+        {
+            public int status;
+        }
+        public struct StartGameResponse
+        {
+            public int status;
+        }
+        public struct LeaveRoomResponse
+        {
+            public int status;
+        }
+        public struct GetRoomStateResponse
+        {
+            public int status;
+            public bool hasGameBegun;
+            public List<string> players;
+            public int questionCount;
+            public float answerTimeout;
+        }
+        public struct GetQuestionResponce
+        {
+            public int status;
+            public string question;
+            public List<string> answers;
+            public List<int> IdPerQuestion;
+        }
+        public struct SubmitAnswerResponse
+        {
+            public int status;
+            public int CorrectAnswerId;
+        }
+        public struct GetGameResultsResponse
+        {
+            public int status;
+            //4 lists of player result
+            public List<string> userName;
+            public List<int> correctAnswerCount;
+            public List<int> wrongAnswerCount;
+            public List<float> averageAnswerTime;
+        }
+        public struct PlayerResults
+        {
+            public string userName;
+            public int correctAnswerCount;
+            public int wrongAnswerCount;
+            public float averageAnswerTime;
+        }
+        public struct LeaveGameResponse
+        {
+
+            public int status;
+        }
+        public struct SubmitAnswerRequest
+        {
+            public int id;
+            public float timePerAns;
+        }
+
     }
 
 }

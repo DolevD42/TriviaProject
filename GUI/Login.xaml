@@ -17,6 +17,6 @@
         <PasswordBox Name ="inpPass" HorizontalAlignment="Left" Height="42" Margin="213.354,304.529,0,0" VerticalAlignment="Top" Width="320" FontSize="24"/>
         <TextBlock HorizontalAlignment="Left" Height="33.6" Margin="151.584,653.7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="297.118" FontSize="18" Text="if you don't have an account, signup"/>
         <Button Content="Signup" Click="SignUpClick" HorizontalAlignment="Left" Height="35.2" Margin="233.754,692.3,0,0" VerticalAlignment="Top" Width="115.868" FontSize="20"/>
-
+ 
     </Grid>
 </Window>

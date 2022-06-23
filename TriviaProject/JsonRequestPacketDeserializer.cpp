@@ -62,7 +62,8 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     SubmitAnswerRequest request;
     std::string data = Helper::fromVectToString(buffer);
     json jsonObj = json::parse(data);
-    request.answerId = jsonObj["answerId"];
+    request.answerId = jsonObj["id"];
+    request.timePerAns = jsonObj["timePerAns"];
     return request;
 
 }

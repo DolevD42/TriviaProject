@@ -23,7 +23,9 @@ public:
 	int addUser(LoggedUser* user);
 	int removeUser(LoggedUser* user);
 	std::vector<std::string> getAllUsers();
-
+	std::vector<SOCKET> getAllSocket();
+	LoggedUser* getLoggedUser(int place);
+	std::vector<LoggedUser*> getAllLoggedUser();
 	unsigned int getRoomState();
 	RoomData getRoomData();
 private:

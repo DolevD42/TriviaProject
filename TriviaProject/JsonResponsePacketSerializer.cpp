@@ -96,7 +96,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CloseRoomRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(CLOSE_ROOM_CODE, js.length(), js);
 }
@@ -105,7 +104,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(StartGameRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(START_GAME_CODE, js.length(), js);
 }
@@ -118,7 +116,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 	j["players"] = msg.players;
 	j["questionCount"] = msg.questionCount;
 	j["answerTimeout"] = msg.answerTimeOut;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(GET_ROOM_STATE_CODE, js.length(), js);
 }
@@ -127,9 +124,48 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 {
 	json j;
 	j["status"] = msg.status;
-	return std::vector<char>();
 	std::string js = j.dump();
 	return onlyStatus(LEAVE_ROOM_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["userName"] = msg.userName;
+	j["correctAnswerCount"] = msg.correctAnswerCount;
+	j["averageAnswerTime"] = msg.averageAnswerTime;
+	j["wrongAnswerCount"] = msg.wrongAnswerCount;
+	std::string js = j.dump();
+	return onlyStatus(GET_GAME_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["correctAnswerId"] = msg.CorrectAnswerId;
+	std::string js = j.dump();
+	return onlyStatus(SUBMIT_ANSWER_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	j["question"] = msg.Question;
+	j["answers"] = msg.answers;
+	j["IdPerQuestion"] = msg.IdPerQuestion;
+	std::string js = j.dump();
+	return onlyStatus(GET_QUESTION_CODE, js.length(), js);
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse msg)
+{
+	json j;
+	j["status"] = msg.status;
+	std::string js = j.dump();
+	return onlyStatus(LEAVE_GAME_CODE, js.length(), js);
 }
 
 

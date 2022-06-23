@@ -7,14 +7,19 @@
         mc:Ignorable="d"
         Title="RoomAdminWin" Height="800" Width="600">
     <Grid>
-        <TextBlock x:Name="Title" HorizontalAlignment="Left" Height="59.2" Margin="156.128,57.2,0,0" TextWrapping="Wrap" Text="RoomName" VerticalAlignment="Top" Width="302.4" FontSize="36" FontWeight="Bold"/>
-        <Button Click="BackToMenuClick" Content="Close Room" HorizontalAlignment="Left" Height="52.8" Margin="168.928,707.6,0,0" VerticalAlignment="Top" Width="235.5" FontSize="24"/>
-        <ListBox x:Name="list" HorizontalAlignment="Left" Height="292.8" Margin="156.128,373,0,0" VerticalAlignment="Top" Width="270.764" FontSize="22"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="647*"/>
+            <RowDefinition Height="124*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Height="59.2" Margin="224.928,57.2,0,0" TextWrapping="Wrap" Text="RoomName" VerticalAlignment="Top" Width="302.4" FontSize="36" FontWeight="Bold"/>
+        <Button Click="BackToMenuClick" Content="Close Room" HorizontalAlignment="Left" Height="40.533" Margin="188.661,73.371,0,0" VerticalAlignment="Top" Width="189.633" FontSize="24" Grid.Row="1"/>
+        <ListBox x:Name="list" HorizontalAlignment="Left" Height="292.8" Margin="153.856,320.2,0,0" VerticalAlignment="Top" Width="270.764" FontSize="22"/>
 
-        <TextBlock x:Name="PlayersNum" HorizontalAlignment="Left" Height="46.4" Margin="168.928,150.2,0,0" TextWrapping="Wrap" Text="Max Players: " VerticalAlignment="Top" Width="358.4" FontSize="20"/>
-        <TextBlock HorizontalAlignment="Left" Height="43.2" Margin="234.772,324.8,0,0" TextWrapping="Wrap" Text="Participants:" VerticalAlignment="Top" Width="124.428" FontSize="22"/>
-        <TextBlock x:Name="QuestionNum" HorizontalAlignment="Left" Height="40" Margin="168,196.6,0,0" TextWrapping="Wrap" Text="Num Of Questions: " VerticalAlignment="Top" Width="303.328" FontSize="20"/>
-        <TextBlock x:Name="QuestionTime" HorizontalAlignment="Left" Height="30.4" Margin="168,241.6,0,0" TextWrapping="Wrap" Text="Time per Question: " VerticalAlignment="Top" Width="255.692" FontSize="20"/>
+        <TextBlock x:Name="PlayersNum" HorizontalAlignment="Left" Height="46.4" Margin="169.856,121.4,0,0" TextWrapping="Wrap" Text="Max Players: " VerticalAlignment="Top" Width="358.4" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Height="43.2" Margin="231.572,277,0,0" TextWrapping="Wrap" Text="Participants:" VerticalAlignment="Top" Width="124.428" FontSize="22"/>
+        <TextBlock x:Name="QuestionNum" HorizontalAlignment="Left" Height="40" Margin="168.928,167.8,0,0" TextWrapping="Wrap" Text="Num Of Questions: " VerticalAlignment="Top" Width="303.328" FontSize="20"/>
+        <TextBlock x:Name="QuestionTime" HorizontalAlignment="Left" Height="30.4" Margin="168.928,212.8,0,0" TextWrapping="Wrap" Text="Time per Question: " VerticalAlignment="Top" Width="255.692" FontSize="20"/>
+        <Button Click="StartGame_Click" Content="Start Game" HorizontalAlignment="Left" Height="44.571" Margin="173.803,623,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="230.625" FontSize="24"/>
 
     </Grid>
 </Window>

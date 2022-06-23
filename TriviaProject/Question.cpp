@@ -30,14 +30,14 @@ std::string Question::getQuestion()
 	return std::string(_question);
 }
 
-std::string* Question::getAnswers()
-{
-	return new std::string[4]{ _answers[0], _answers[1], _answers[2], _answers[3] };
-}
-
 int Question::getCorrectAnswerIndex()
 {
 	return _correctAnswerIndex;
+}
+
+std::vector<std::string> Question::getPossibleAnswers()
+{
+	return std::vector<std::string>{ _answers[0], _answers[1], _answers[2], _answers[3] };
 }
 
 int Question::getId()
