@@ -17,6 +17,10 @@ Question* Game::getQuestionForUser(LoggedUser* users)
 {
 	auto it = m_players.find(users);
 	int place = it->second.WrongAnswerCount + it->second.CorrectAnswerCount;
+	if (place >= m_questions.size())
+	{
+		return m_questions[0];
+	}
 	return m_questions[place];
 }
 int Game::submitAnswer(LoggedUser* users, int answeriD, float timePerAns)

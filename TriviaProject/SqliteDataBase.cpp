@@ -206,6 +206,11 @@ void SqliteDataBase::InsertPlayerResults(std::string userName, int CorrectAnswer
 	WrongAnswerCount = AnswersCount - CorrectAnswerCount;
 	averageAnswerTime += getPlayerAverageAnswerTime(userName);
 	int gameCount = 1 + getNumOfPlayerGames(userName);
+	std::string sqlMsg = "DELETE FROM statistics WHERE username ='"+userName+"'";
+	if (sqlite3_exec(_db, sqlMsg.c_str(), nullptr, nullptr, &_errMessage) != SQLITE_OK)
+	{
+		throw std::exception("DB don't exist");
+	}
 	std::string msgAfter = "INSERT INTO statistics (username, Wrong_Answers, Correct_Answers, answer_time, Total_Answers, Total_Games) VALUES('" + userName + "', '" + std::to_string(WrongAnswerCount) + "', '" + std::to_string(CorrectAnswerCount) + "', '" + std::to_string(averageAnswerTime) + "', '" + std::to_string(AnswersCount) + "', '" + std::to_string(gameCount) + "');";
 	std::cout << msgAfter << std::endl;
 	if (sqlite3_exec(_db, msgAfter.c_str(), nullptr, nullptr, &_errMessage) != SQLITE_OK)
