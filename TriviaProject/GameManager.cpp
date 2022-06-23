@@ -1,20 +1,31 @@
 #include "GameManager.h"
-Game GameManager::CreateGame(Room room)
+GameManager::GameManager(IDataBase* db): m_database(db)
+{
+}
+Game* GameManager::CreateGame(Room* room)
 {
 	try
 	{
+		
 		_gameId = m_database->insertNewGame();
 		if (_gameId == -1)
 		{
 			throw std::exception("Couldn't insert game into the database");
 		}
+		std::vector<Question*> vectAllQuestions;
 		std::vector<Question*> vect;
+
 		for (Question* quest : m_database->getQuestions())
 		{
-			vect.push_back(quest);
+			vectAllQuestions.push_back(quest);
 		}
-		Game newGame = Game(room, vect);
+		for (int i = 0; i < room->getRoomData().numOfQuestionInGame; i++)
+		{
+			vect.push_back(vectAllQuestions[i]);
+		}
+		Game* newGame = new Game(room, vect);
 		m_games.push_back(newGame);
+		return newGame;
 	}
 	catch (const std::exception& e)
 	{
@@ -26,13 +37,25 @@ void GameManager::deleteGame(int gameId)
 {
 	m_database->RemoveNewGame(gameId);
 	int curGameId;
-	for (std::vector<Game>::iterator it = m_games.end();it != m_games.begin();) 
+	int i = 0;
+	for (auto it = m_games.begin();it != m_games.end(); it++)
 	{
-		curGameId = it->getGameId();
+		i++;
+		curGameId = m_games[i]->getGameId();
 		if (curGameId = gameId)
 		{
 			it = m_games.erase(it);
 			break;
 		}
 	}
+}
+
+void GameManager::EnterDbInfo(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount)
+{
+	m_database->InsertPlayerResults(userName, CorrectAnswerCount, WrongAnswerCount, averageAnswerTime, AnswersCount);
+}
+
+Game* GameManager::lastGame()
+{
+	return m_games[m_games.size()-1];
 }

@@ -29,6 +29,8 @@ namespace GUI
         private NetworkStream _net;
         private Thread RefresherThread;
         private List<string> Players = new List<string>();
+        private float time;
+        private int questCount;
         public RoomMember(TcpClient client, string username, int roomId, string roomName)
         {
             InitializeComponent();
@@ -62,7 +64,7 @@ namespace GUI
                     byte[] errorBuffer = new byte[resInf.len];
                     _net.Read(errorBuffer, 0, resInf.len);
                     Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 byte[] serverBuffer = new byte[resInf.len];
@@ -72,6 +74,8 @@ namespace GUI
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    time = res.answerTimeout;
+                    questCount = res.questionCount;
                     Admin.Text = "Room Admin: " + res.players[0];
                 });
                 for (int i = 0; i < res.players.Count(); i++)
@@ -122,7 +126,7 @@ namespace GUI
                 Thread newThread = new Thread(new ThreadStart(WaitingForServerMsg));
                 _thread = newThread;
                 _thread.Start();
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(5000);
             }
         }
         void WaitingForServerMsg()
@@ -141,7 +145,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             switch (resInf.id)
@@ -157,7 +161,7 @@ namespace GUI
                         byte[] errorBuffer = new byte[resInf.len];
                         _net.Read(errorBuffer, 0, resInf.len);
                         Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                        MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     byte[] serverBuffer = new byte[resInf.len];
@@ -174,10 +178,33 @@ namespace GUI
                      _thread.Abort();
                     break;
                 case Consts.START_GAME_CODE:
-                    this.Hide();
-                    GameWin winq = new GameWin(_client, _username);
-                    winq.Show();
-                    this.Close();
+
+                    string newMsgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
+                    _net.Write(System.Text.Encoding.ASCII.GetBytes(newMsgToSent), 0, newMsgToSent.Length);
+                    byte[] newServerMs = new byte[5];
+                    _net.Read(newServerMs, 0, 5);
+                    resInf = Deserializer.deserializeSize(Encoding.Default.GetString(newServerMs));
+                    if (resInf.id == Consts.ERR_CODE)
+                    {
+                        byte[] errorBuffer = new byte[resInf.len];
+                        _net.Read(errorBuffer, 0, resInf.len);
+                        Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                        MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    byte[] newServerBuffer = new byte[resInf.len];
+                   
+                    Thread.Sleep(100);
+                    _net.Read(newServerBuffer, 0, resInf.len);
+                    
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Hide();
+                        GameWin winq = new GameWin(_client, _username, time, questCount);
+                        winq.Show();
+                        this.Close();
+                    });
+                    _thread.Abort();
                     break;
             }
         }
@@ -195,7 +222,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];

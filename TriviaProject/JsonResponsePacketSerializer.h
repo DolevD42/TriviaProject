@@ -6,6 +6,7 @@
 #include "Helper.h"
 #include "json.hpp"
 #include "RoomManager.h"
+#include "GameManager.h"
 using nlohmann::json;
 #define BASIC_LEN 1 + sizeof(int)
 #define MSG_LEN 4
@@ -77,7 +78,9 @@ typedef struct LeaveRoomResponse {
 typedef struct GetQuestionResponse {
 	unsigned int status;
 	std::string Question;
-	std::map<unsigned int, std::string> answers;
+	std::vector<std::string> answers;
+	std::vector<int> IdPerQuestion;
+
 } GetQuestionResponse;
 
 typedef struct SubmitAnswerResponse {
@@ -94,8 +97,16 @@ typedef struct PlayerResult {
 
 typedef struct GetGameResultResponse {
 	unsigned int status;
-	std::vector<PlayerResult> Results;
+	std::vector<std::string> userName;
+	std::vector<int> correctAnswerCount;
+	std::vector<int> wrongAnswerCount;
+	std::vector<float> averageAnswerTime;
 } GetGameResultResponse;
+
+typedef struct LeaveGameResponse {
+	unsigned int status;
+} LeaveGameResponse;
+
 
 typedef struct ErrorResponse {
 	std::string message;
@@ -117,6 +128,11 @@ public:
 	static std::vector<char> serializeResponse(StartGameResponse msg);
 	static std::vector<char> serializeResponse(GetRoomStateResponse msg);
 	static std::vector<char> serializeResponse(LeaveRoomResponse msg);
+
+	static std::vector<char> serializeResponse(GetGameResultResponse msg);
+	static std::vector<char> serializeResponse(SubmitAnswerResponse msg);
+	static std::vector<char> serializeResponse(GetQuestionResponse msg);
+	static std::vector<char> serializeResponse(LeaveGameResponse msg);
 private:
 	static std::vector<char> onlyStatus(int code, int len, std::string info);
 };

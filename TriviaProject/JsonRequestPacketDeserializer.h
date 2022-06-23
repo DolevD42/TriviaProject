@@ -33,6 +33,7 @@ typedef struct CreateRoomRequest {
 } CreateRoomRequest;
 typedef struct SubmitAnswerRequest {
 	unsigned int answerId;
+	float timePerAns;
 } SubmitAnswerRequest;
 
 

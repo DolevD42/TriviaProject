@@ -95,6 +95,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				}
 			}
 			recvMsg = Helper::getStringPartFromSocket(clientSocket, msgLen);
+			//std::cout << recvMsg << std::endl;
 			reqInfo.buffer = Helper::fromStringToVector(recvMsg);
 			reqInfo.id = code;
 			reqInfo.recievedTime = std::time(0);
@@ -105,6 +106,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			}
 			m_clients[clientSocket] = reqRes.newHandler;
 			sendMsg = Helper::fromVectToString(reqRes.response);
+			std::cout << (int)sendMsg[0] << std::endl;
 			Helper::sendData(clientSocket, sendMsg);
 		}
 	}

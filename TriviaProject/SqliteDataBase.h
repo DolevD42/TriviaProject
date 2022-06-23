@@ -15,6 +15,7 @@ class SqliteDataBase :
 public:
 	SqliteDataBase();
 	~SqliteDataBase();
+	virtual void InsertPlayerResults(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount);
 	virtual bool doesUserExist(std::string userName);
 	virtual bool doesPasswordMatch(std::string userName, std::string pass);
 	virtual void addNewUser(std::string userName, std::string pass, std::string email);

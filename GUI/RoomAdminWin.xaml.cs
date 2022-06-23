@@ -23,15 +23,18 @@ namespace GUI
     {
         private TcpClient _client;
         private string _userName;
+        private NetworkStream _net;
         private List<string> Players = new List<string>();
         Thread Refresher2;
-
+        private float time;
+        private int questCount;
         public RoomAdminWin(TcpClient client, string userName, string roomName, int questionCount, int answerTimeout, int maxUsers)
         {
             InitializeComponent();
             this._client = client;
-            NetworkStream net = _client.GetStream();
-            Thread Refresher = new Thread(() => refresh(net));
+            _net = _client.GetStream();
+            
+            Thread Refresher = new Thread(() => refresh(_net));
             Refresher2 = Refresher;
             Refresher.Start();
             this._userName = userName;
@@ -44,30 +47,30 @@ namespace GUI
         {
             Refresher2.Abort();
             string msgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
-            NetworkStream net = _client.GetStream();
-            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
-            net.Read(serverMsg, 0, 5);
+            _net.Read(serverMsg, 0, 5);
             Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
-                net.Read(errorBuffer, 0, resInf.len);
+                _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
-            net.Read(serverBuffer, 0, resInf.len);
+            _net.Read(serverBuffer, 0, resInf.len);
             Consts.StartGameResponse res = Deserializer.deserializeStartGameResponse(Encoding.Default.GetString(serverBuffer));
             if (res.status == Consts.REQUEST_VALID)
             {
                 this.Hide();
-                GameWin win = new GameWin(_client, _userName);
+                GameWin win = new GameWin(_client, _userName, time, questCount);
                 win.Show();
                 this.Close();
             }
+
         }
         private void refresh(NetworkStream rnet)
         {
@@ -85,14 +88,15 @@ namespace GUI
                     byte[] errorBuffer = new byte[resInf.len];
                     rnet.Read(errorBuffer, 0, resInf.len);
                     Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 byte[] serverBuffer = new byte[resInf.len];
 
                 rnet.Read(serverBuffer, 0, resInf.len);
                 Consts.GetRoomStateResponse res = Deserializer.deserializeGetRoomStateResponse(Encoding.Default.GetString(serverBuffer));
-
+                questCount =res.questionCount;
+                time = res.answerTimeout;
                 for (int i = 0; i < res.players.Count(); i++)
                 {
                     PlayersR.Add(res.players[i]);
@@ -145,22 +149,21 @@ namespace GUI
         {
             Refresher2.Abort();
             string msgToSent = Serializer.serializeCodeOnly(Consts.CLOSE_ROOM_CODE);
-            NetworkStream net = _client.GetStream();
-            net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
-            net.Read(serverMsg, 0, 5);
+            _net.Read(serverMsg, 0, 5);
             Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
             if (resInf.id == Consts.ERR_CODE)
             {
                 byte[] errorBuffer = new byte[resInf.len];
-                net.Read(errorBuffer, 0, resInf.len);
+                _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
-            net.Read(serverBuffer, 0, resInf.len);
+            _net.Read(serverBuffer, 0, resInf.len);
             Consts.CloseRoomResponse res = Deserializer.deserializeCloseRoomResponse(Encoding.Default.GetString(serverBuffer));
             if (res.status == Consts.REQUEST_VALID)
             {

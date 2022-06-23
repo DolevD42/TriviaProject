@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Numerics;
 namespace GUI
 {
-
     class Consts
     {
         public const int ERR_CODE = 41;
@@ -25,6 +24,11 @@ namespace GUI
         public const int GET_ROOM_STATE_CODE = 53;
         public const int LEAVE_ROOM_CODE = 54;
 
+        public const int SUBMIT_ANSWER_CODE = 56;
+        public const int GET_QUESTION_CODE = 57;
+        public const int LEAVE_GAME_CODE = 58;
+        public const int GET_GAME_END_STATS = 55;
+
         public const int PASSWORD_DONT_MATCH = 41;
         public const int REQUEST_VALID = 42;
         public const int USER_ALREADY_EXIST = 43;
@@ -33,7 +37,7 @@ namespace GUI
         public const int ROOM_DONT_EXIST = 46;
         public const int ROOM_MAX_OUT = 47;
         public const int WRONG_PARAMETERS = 48;
-
+        
         public const int ZERO = 126;
         public struct RequestInfo
         {
@@ -62,7 +66,7 @@ namespace GUI
         }
         public struct ErrorResponse
         {
-            public string msg;
+            public string message;
         }
         public struct CreateRoomRequest
         {
@@ -125,32 +129,39 @@ namespace GUI
         {
             public int status;
             public string question;
-            public Dictionary<int, string> answers;
+            public List<string> answers;
+            public List<int> IdPerQuestion;
         }
         public struct SubmitAnswerResponse
         {
-            
             public int status;
-            public string question;
-            public Dictionary<int, string> answers;
+            public int CorrectAnswerId;
         }
         public struct GetGameResultsResponse
         {
-
             public int status;
-            public List<PlayerResults> results;
+            //4 lists of player result
+            public List<string> userName;
+            public List<int> correctAnswerCount;
+            public List<int> wrongAnswerCount;
+            public List<float> averageAnswerTime;
         }
         public struct PlayerResults
         {
             public string userName;
             public int correctAnswerCount;
             public int wrongAnswerCount;
-            public int averageAnswerTime;
+            public float averageAnswerTime;
         }
         public struct LeaveGameResponse
         {
 
             public int status;
+        }
+        public struct SubmitAnswerRequest
+        {
+            public int id;
+            public float timePerAns;
         }
 
     }

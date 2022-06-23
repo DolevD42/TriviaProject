@@ -6,6 +6,7 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase* db)
 	m_roomManager = new RoomManager();
 	m_database = db;
 	m_statistics = new StatisticsManager(db);
+	m_gameManager = new GameManager(db);
 }
 
 
@@ -48,4 +49,15 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(SO
 RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
 {
 	return new RoomMemberRequestHandler(m_roomManager, room, this, user, socket);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(SOCKET socket, LoggedUser* user, Room* room)
+{
+	Game* game = m_gameManager->CreateGame(room);
+	return new GameRequestHandler(m_gameManager, game, this, user, socket);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(SOCKET socket, LoggedUser* user)
+{
+	return new GameRequestHandler(m_gameManager, m_gameManager->lastGame(), this, user, socket);
 }

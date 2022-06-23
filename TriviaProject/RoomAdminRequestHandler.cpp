@@ -87,33 +87,17 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo req)
 	RequestResult returnReq;
 	int wantedID = -1;
 	SOCKET socket;
-	int funcCode = ROOM_DONT_EXIST;
-	int i = 0;
-	for (i = 1; i < m_roomManager->getNumberOfRooms(); i++)
+	returnReq.newHandler = m_handlerFactory->createGameRequestHandler(m_socket, m_user, m_room);
+	for (int i = 1; i < m_room->getAllSocket().size(); i++)
 	{
-		if (m_roomManager->getRoom(i) != NULL)
-		{
-			if (m_roomManager->getRoom(i)->getAllUsers()[0] == m_user->getUsername()) //check if the admin name is the same as the name who sent
-			{
-				wantedID = i;
-			}
-		}
-	}
-	if (wantedID != -1)
-	{
-		for (i = 0; i < m_roomManager->getRoom(wantedID)->getAllSocket().size(); i++)
-		{
-			socket = m_roomManager->getRoom(wantedID)->getAllSocket()[i];
-			Helper::sendData(socket, START_GAME_CLIENT_MSG);
-		}
-		
-		funcCode = REQUEST_VALID;
-	}
-
+		socket = m_room->getAllSocket()[i];
+		Helper::sendData(socket, START_GAME_CLIENT_MSG);
+	}	
+	int funcCode = REQUEST_VALID;
 	StartGameResponse res;
 	res.status = funcCode;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
-	returnReq.newHandler = this; //Here we will put the gameHandler
+	 
 	return returnReq;
 }
 

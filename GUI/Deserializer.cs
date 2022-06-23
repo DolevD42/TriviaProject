@@ -15,9 +15,10 @@ namespace GUI
             res.id = (int)msg[0];
 			int msgLen = 0;
 			int num = 0;
+			byte[] ASCIIvalues = Encoding.Default.GetBytes(msg);
 			for (int i = 0; i < 4; i++)
 			{
-				num = (int)msg[4 - i];
+				num = (int)ASCIIvalues[4 - i];
 				if (num == Consts.ZERO)
 				{
 					num = 0;
@@ -90,7 +91,7 @@ namespace GUI
 		{
 			return JsonConvert.DeserializeObject<Consts.StartGameResponse>(buffer);
 		}
-		public static Consts.GetGameResultsResponse deserializeGetGameResponse(string buffer)
+		public static Consts.GetGameResultsResponse deserializeGetGameResultsResponse(string buffer)
 		{
 			return JsonConvert.DeserializeObject<Consts.GetGameResultsResponse>(buffer);
 		}
