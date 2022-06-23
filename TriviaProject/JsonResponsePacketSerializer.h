@@ -78,7 +78,9 @@ typedef struct LeaveRoomResponse {
 typedef struct GetQuestionResponse {
 	unsigned int status;
 	std::string Question;
-	std::map<unsigned int, std::string> answers;
+	std::vector<std::string> answers;
+	std::vector<int> IdPerQuestion;
+
 } GetQuestionResponse;
 
 typedef struct SubmitAnswerResponse {

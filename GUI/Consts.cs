@@ -66,7 +66,7 @@ namespace GUI
         }
         public struct ErrorResponse
         {
-            public string msg;
+            public string message;
         }
         public struct CreateRoomRequest
         {
@@ -135,7 +135,7 @@ namespace GUI
         public struct SubmitAnswerResponse
         {
             public int status;
-            public int idForCorrectAnswer;
+            public int CorrectAnswerId;
         }
         public struct GetGameResultsResponse
         {
@@ -145,7 +145,6 @@ namespace GUI
             public List<int> correctAnswerCount;
             public List<int> wrongAnswerCount;
             public List<float> averageAnswerTime;
-            bool HasEnded;
         }
         public struct PlayerResults
         {

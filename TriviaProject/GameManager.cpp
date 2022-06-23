@@ -25,6 +25,7 @@ Game* GameManager::CreateGame(Room* room)
 		}
 		Game* newGame = new Game(room, vect);
 		m_games.push_back(newGame);
+		return newGame;
 	}
 	catch (const std::exception& e)
 	{

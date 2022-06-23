@@ -15,9 +15,10 @@ namespace GUI
             res.id = (int)msg[0];
 			int msgLen = 0;
 			int num = 0;
+			byte[] ASCIIvalues = Encoding.Default.GetBytes(msg);
 			for (int i = 0; i < 4; i++)
 			{
-				num = (int)msg[4 - i];
+				num = (int)ASCIIvalues[4 - i];
 				if (num == Consts.ZERO)
 				{
 					num = 0;

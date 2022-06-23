@@ -75,7 +75,9 @@ Room* RoomManager::getLastRoomCreated()
 {
 	for (auto it = m_rooms.begin();it != m_rooms.end(); it++)
 	{
-		if (it == (m_rooms.end()--))
+		auto newIt = it;
+		newIt++;
+		if (newIt == m_rooms.end())
 		{
 			return it->second;
 		}

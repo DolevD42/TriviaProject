@@ -7,7 +7,15 @@
         mc:Ignorable="d"
         Title="GameEndStats" Height="450" Width="800">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="67" Margin="10,10,0,0" TextWrapping="Wrap" Text="Game Stats" VerticalAlignment="Top" Width="480" FontSize="36"/>
-        <ListBox x:Name="listPlayersAndStats" HorizontalAlignment="Left" Height="292.8" Margin="10,82,0,0" VerticalAlignment="Top" Width="718.764" FontSize="22" />
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Height="67" Margin="214.676,25.04,0,0" TextWrapping="Wrap" Text="Game didn't end yet" VerticalAlignment="Top" Width="433.093" FontSize="36"/>
+        <ListBox x:Name="listPlayers" HorizontalAlignment="Left" Height="222.303" Margin="47.625,134.331,0,0" VerticalAlignment="Top" Width="165.139" FontSize="20" />
+        <Button Click="Button_Click" Content="Leave Game" HorizontalAlignment="Left" Height="55.937" Margin="283.521,354.463,0,0" VerticalAlignment="Top" Width="225.352" FontSize="24"/>
+        <ListBox x:Name="listCorrectAnswers" HorizontalAlignment="Left" Height="222.303" Margin="217.764,134.331,0,0" VerticalAlignment="Top" Width="169.243" FontSize="20"/>
+        <ListBox x:Name="listWrongAnswers" HorizontalAlignment="Left" Height="222.303" Margin="392.007,134.331,0,0" VerticalAlignment="Top" Width="179.973" FontSize="20"/>
+        <ListBox x:Name="listAverageTime" HorizontalAlignment="Left" Height="222.303" Margin="575.883,134.331,0,0" VerticalAlignment="Top" Width="162.072" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Height="34.874" Margin="47.625,99.457,0,0" TextWrapping="Wrap" Text="User Names" VerticalAlignment="Top" Width="111.115" FontSize="18"/>
+        <TextBlock HorizontalAlignment="Left" Height="29.874" Margin="220.186,99.457,0,0" TextWrapping="Wrap" Text="Correct Answers" VerticalAlignment="Top" Width="166.821" FontSize="18"/>
+        <TextBlock HorizontalAlignment="Left" Height="30.572" Margin="393.732,103.759,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156.335"><Run FontSize="18" Text="Wrong "/><Run FontSize="18" Text="Answers"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="27.703" Margin="575.884,106.628,0,0" TextWrapping="Wrap" Text="Average Answer Time" VerticalAlignment="Top" Width="187.888" FontSize="18"/>
     </Grid>
 </Window>

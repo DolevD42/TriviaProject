@@ -61,19 +61,20 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo req)
 
 	GetQuestionResponse res;
 	res.Question = quest->getQuestion();
-	std::map<unsigned int, std::string> map;
+	std::vector<std::string> vectAnswers;
+	std::vector<int> vectID;
+	
 	for (int i = 0; i < 4; i++)
 	{
-		std::pair<unsigned int, std::string> pair;
-		pair.first = i;
-		pair.second = quest->getPossibleAnswers()[i];
+		vectID.push_back(i);
+		vectAnswers.push_back(quest->getPossibleAnswers()[i]);
 	}
-	res.answers = map;
+	res.answers = vectAnswers;
+	res.IdPerQuestion = vectID;
 	res.status = REQUEST_VALID;
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this; 
 	return returnReq;
-	return RequestResult();
 }
 
 RequestResult GameRequestHandler::submitAnswer(RequestInfo req)
@@ -87,7 +88,6 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo req)
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this;
 	return returnReq;
-	return RequestResult();
 }
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo req)
@@ -95,26 +95,44 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo req)
 	RequestResult returnReq;
 	std::map<LoggedUser*, GameData> map;
 	GetGameResultResponse res;
+	int funcCode = REQUEST_VALID;
 	std::vector<std::string> userName;
 	std::vector<int> correctAnswerCount;
 	std::vector<int> wrongAnswerCount;
 	std::vector<float> averageAnswerTime;
+	map = m_game->getData();
+	m_game->changeUserStatus(m_user, false);
 	for (auto it = map.begin(); it != map.end(); it++)
 	{
+		if (it->second.playing == true)
+		{
+			funcCode = GAME_STILL_GOING_ON;
+		}
 		userName.push_back(it->first->getUsername());
 		correctAnswerCount.push_back(it->second.CorrectAnswerCount);
 		wrongAnswerCount.push_back(it->second.WrongAnswerCount);
 		averageAnswerTime.push_back(it->second.averageAnswerTime);
+		
 	}
-	res.userName = userName;
-	res.correctAnswerCount = correctAnswerCount;
-	res.wrongAnswerCount = wrongAnswerCount;
-	res.averageAnswerTime = averageAnswerTime;
-	res.status = REQUEST_VALID;
+	if (funcCode == REQUEST_VALID)
+	{
+		res.userName = userName;
+		res.correctAnswerCount = correctAnswerCount;
+		res.wrongAnswerCount = wrongAnswerCount;
+		res.averageAnswerTime = averageAnswerTime;
+		res.status = funcCode;
+	}
+	else
+	{
+		res.userName = std::vector<std::string>();
+		res.correctAnswerCount = std::vector<int>();
+		res.wrongAnswerCount = std::vector<int>();
+		res.averageAnswerTime = std::vector<float>();
+		res.status = funcCode;
+	}
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = this;
 	return returnReq;
-	return RequestResult();
 }
 
 RequestResult GameRequestHandler::leaveGame(RequestInfo req)
@@ -127,5 +145,4 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo req)
 	returnReq.response = JsonResponsePacketSerializer::serializeResponse(res);
 	returnReq.newHandler = m_handlerFactory->createMenuRequestHandler(m_socket, m_user);
 	return returnReq;
-	return RequestResult();
 }

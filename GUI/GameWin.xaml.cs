@@ -49,7 +49,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
@@ -74,12 +74,20 @@ namespace GUI
         /// </summary>
         private void Tick()
         {
-            if (questionCount != 0)
+            while (questionCount != 0)
             {
+                this.Dispatcher.Invoke(() =>
+                {
+                    QuestionLeft.Text = questionCount.ToString();
+                });
                 questionCount -= 1;
                 while (time != 0.0)
                 {
-                    Clock.Text = time.ToString();
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Clock.Text = time.ToString();
+                    });
+                    
                     Thread.Sleep(1000);
                     this.Dispatcher.Invoke(() =>
                     {
@@ -95,83 +103,82 @@ namespace GUI
                         Consts.SubmitAnswerRequest req;
                         req.id = -1;
                         req.timePerAns = timeConst;
-                        string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
-                        _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
-                        byte[] serverMsg = new byte[5];
-                        _net.Read(serverMsg, 0, 5);
-                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
-                        if (resInf.id == Consts.ERR_CODE)
+                        string newMsgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
+                        _net.Write(System.Text.Encoding.ASCII.GetBytes(newMsgToSent), 0, newMsgToSent.Length);
+                        byte[] newServerMsg = new byte[5];
+                        _net.Read(newServerMsg, 0, 5);
+                        Consts.ResponseInfo newResInf = Deserializer.deserializeSize(Encoding.Default.GetString(newServerMsg));
+                        if (newResInf.id == Consts.ERR_CODE)
                         {
-                            byte[] errorBuffer = new byte[resInf.len];
-                            _net.Read(errorBuffer, 0, resInf.len);
+                            byte[] errorBuffer = new byte[newResInf.len];
+                            _net.Read(errorBuffer, 0, newResInf.len);
                             Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                            MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
-                        byte[] serverBuffer = new byte[resInf.len];
+                        byte[] newServerBuffer = new byte[newResInf.len];
 
-                        _net.Read(serverBuffer, 0, resInf.len);
-                        Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+                        _net.Read(newServerBuffer, 0, newResInf.len);
+                        Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(newServerBuffer));//getting the game req
                         //getting error for answer -1
-                        int idAns = resSendAns.idForCorrectAnswer;                                                                                                                //refreshing timer again
-                        time = timeConst;
-                    }
-                    else
-                    {
-                        //getting the new question
-                        string msgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);
-                        _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
-                        byte[] serverMsg = new byte[5];
-                        _net.Read(serverMsg, 0, 5);
-                        Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));
-                        if (resInf.id == Consts.ERR_CODE)
+                        int idAns = resSendAns.CorrectAnswerId;
+                        this.Dispatcher.Invoke(() =>
                         {
-                            byte[] errorBuffer = new byte[resInf.len];
-                            _net.Read(errorBuffer, 0, resInf.len);
-                            Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                            MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                        byte[] serverBuffer = new byte[resInf.len];
-
-                        _net.Read(serverBuffer, 0, resInf.len);
-                        Consts.GetQuestionResponce res = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-                        Question.Text = res.question;
-                        Ans1.Text = res.answers[0];
-                        Ans2.Text = res.answers[1];
-                        Ans3.Text = res.answers[2];
-                        Ans4.Text = res.answers[3];
-                        time = timeConst;
+                            Check.Foreground = Brushes.Red;
+                            Check.Text = "Time is running out";
+                        });
                     }
+                    //getting the new question
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Thread.Sleep(2000);
+                        Check.Text = "";
+                    });
+                    if(questionCount==0)
+                    {
+                        break;
+                    }
+                    string questionMsgToSent = Serializer.serializeCodeOnly(Consts.GET_QUESTION_CODE);
+                    _net.Write(System.Text.Encoding.ASCII.GetBytes(questionMsgToSent), 0, questionMsgToSent.Length);
+                    byte[] questionServerMsg = new byte[5];
+                    _net.Read(questionServerMsg, 0, 5);
+                    Consts.ResponseInfo questionResInf = Deserializer.deserializeSize(Encoding.Default.GetString(questionServerMsg));
+                    if (questionResInf.id == Consts.ERR_CODE)
+                    {
+                        byte[] errorBuffer = new byte[questionResInf.len];
+                        _net.Read(errorBuffer, 0, questionResInf.len);
+                        Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                        MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    byte[] questionServerBuffer = new byte[questionResInf.len];
+
+                    _net.Read(questionServerBuffer, 0, questionResInf.len);
+                    Consts.GetQuestionResponce questionRes = Deserializer.deserializeGetQuestionResponse(Encoding.Default.GetString(questionServerBuffer));//getting the game req
+                    this.Dispatcher.Invoke(() =>
+                    {
+
+                        Question.Text = questionRes.question;
+                        Ans1.Text = questionRes.answers[0];
+                        Ans2.Text = questionRes.answers[1];
+                        Ans3.Text = questionRes.answers[2];
+                        Ans4.Text = questionRes.answers[3];
+                        time = timeConst;
+                    });
 
                 }
             }
-            else
+            
+            
+            
+            this.Dispatcher.Invoke(() =>
             {
-                Timer.Abort();
-                //getting into the game result
-                string msgToSent = Serializer.serializeCodeOnly(Consts.LEAVE_GAME_CODE);//getting game state
-                _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
-                byte[] serverMsg = new byte[5];
-                _net.Read(serverMsg, 0, 5);
-                Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
-                if (resInf.id == Consts.ERR_CODE)
-                {
-                    byte[] errorBuffer = new byte[resInf.len];
-                    _net.Read(errorBuffer, 0, resInf.len);
-                    Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                byte[] serverBuffer = new byte[resInf.len];
-
-                _net.Read(serverBuffer, 0, resInf.len);
-                Consts.LeaveGameResponse res = Deserializer.deserializeLeaveGameResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
                 this.Hide();
                 GameEndStats win = new GameEndStats(_client, _username);
                 win.Show();
                 this.Close();
-            }
+            });
+
 
         }
         private void Answer4_Click(object sender, RoutedEventArgs e)
@@ -179,7 +186,7 @@ namespace GUI
             button4WasClicked = true;
             Consts.SubmitAnswerRequest req;
             req.id = 3;
-            req.timePerAns = time;
+            req.timePerAns = timeConst - time;
             string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
@@ -190,30 +197,33 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
             Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
-            int idAns = resSendAns.idForCorrectAnswer;
+            int idAns = resSendAns.CorrectAnswerId;
             if (idAns == 3)
             {
-                MessageBox.Show("you got the right answer");
+                Check.Foreground = Brushes.Green;
+                Check.Text = "You right!!!";
+                CorrectAnswers.Text = (Int32.Parse(CorrectAnswers.Text) + 1).ToString();
             }
             else
             {
-                MessageBox.Show("you got the wrong answer");
+                Check.Foreground = Brushes.Red;
+                Check.Text = "You wrong!!!";
             }
-            time = timeConst;
+            time = 1;
         }
         private void Answer3_Click(object sender, RoutedEventArgs e)
         {
             button3WasClicked = true;
             Consts.SubmitAnswerRequest req;
             req.id = 2;
-            req.timePerAns = time;
+            req.timePerAns = timeConst - time;
             string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
@@ -224,30 +234,34 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
             Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
-            int idAns = resSendAns.idForCorrectAnswer;
+            int idAns = resSendAns.CorrectAnswerId;
             if (idAns == 2)
             {
-                MessageBox.Show("you got the right answer");
+                Check.Foreground = Brushes.Green;
+                Check.Text = "You right!!!";
+                CorrectAnswers.Text = (Int32.Parse(CorrectAnswers.Text) + 1).ToString();
             }
             else
             {
-                MessageBox.Show("you got the wrong answer");
+                Check.Foreground = Brushes.Red;
+                Check.Text = "You wrong!!!";
             }
-            time = timeConst;
+            
+            time = 1;
         }
         private void Answer2_Click(object sender, RoutedEventArgs e)
         {
             button2WasClicked = true;
             Consts.SubmitAnswerRequest req;
             req.id = 1;
-            req.timePerAns = time;
+            req.timePerAns = timeConst - time;
             string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
@@ -258,30 +272,34 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
             Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
-            int idAns = resSendAns.idForCorrectAnswer;
+            int idAns = resSendAns.CorrectAnswerId;
             if (idAns == 1)
             {
-                MessageBox.Show("you got the right answer");
+                Check.Foreground = Brushes.Green;
+                Check.Text = "You right!!!";
+                CorrectAnswers.Text = (Int32.Parse(CorrectAnswers.Text) + 1).ToString();
             }
             else
             {
-                MessageBox.Show("you got the wrong answer");
+                Check.Foreground = Brushes.Red;
+                Check.Text = "You wrong!!!";
             }
-            time = timeConst;
+            
+            time = 1;
         }
         private void Answer1_Click(object sender, RoutedEventArgs e)
         {
             button1WasClicked = true;
             Consts.SubmitAnswerRequest req;
             req.id = 0;
-            req.timePerAns = time;
+            req.timePerAns = timeConst - time;
             string msgToSent = Serializer.serializeSubmitAnswer(req, Consts.SUBMIT_ANSWER_CODE);
             _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
             byte[] serverMsg = new byte[5];
@@ -292,23 +310,27 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];
 
             _net.Read(serverBuffer, 0, resInf.len);
             Consts.SubmitAnswerResponse resSendAns = Deserializer.deserializeSubmitedAnswerResponse(Encoding.Default.GetString(serverBuffer));//getting the game req                                                                                                                               //getting error for answer -1
-            int idAns = resSendAns.idForCorrectAnswer;
+            int idAns = resSendAns.CorrectAnswerId;
             if (idAns == 0)
             {
-                MessageBox.Show("you got the right answer");
+                Check.Foreground = Brushes.Green;
+                Check.Text = "You right!!!";
+                CorrectAnswers.Text = (Int32.Parse(CorrectAnswers.Text) + 1).ToString();
             }
             else
             {
-                MessageBox.Show("you got the wrong answer");
+                Check.Foreground = Brushes.Red;
+                Check.Text = "You wrong!!!";
             }
-            time = timeConst;
+            
+            time = 1;
         }
     }
 }

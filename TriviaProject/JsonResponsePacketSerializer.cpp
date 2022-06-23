@@ -132,22 +132,10 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultR
 {
 	json j;
 	j["status"] = msg.status;
-	std::vector<std::string> usernames;
-	std::vector<unsigned int> correctAnswersCount;
-	std::vector<unsigned int> averageAnswersTime;
-	std::vector<unsigned int> wrongAnswersCount;
-	for (int i = 0; i < msg.userName.size(); i++)
-	{
-		usernames.push_back(msg.userName[i]);
-		correctAnswersCount.push_back(msg.correctAnswerCount[i]);
-		wrongAnswersCount.push_back(msg.wrongAnswerCount[i]);
-		averageAnswersTime.push_back(msg.averageAnswerTime[i]);
-
-	}
-	j["usernames"] = usernames;
-	j["correctAnswersCount"] = correctAnswersCount;
-	j["averageAnswersTime"] = averageAnswersTime;
-	j["wrongAnswersCount"] = wrongAnswersCount;
+	j["userName"] = msg.userName;
+	j["correctAnswerCount"] = msg.correctAnswerCount;
+	j["averageAnswerTime"] = msg.averageAnswerTime;
+	j["wrongAnswerCount"] = msg.wrongAnswerCount;
 	std::string js = j.dump();
 	return onlyStatus(GET_GAME_CODE, js.length(), js);
 }
@@ -166,16 +154,8 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionRes
 	json j;
 	j["status"] = msg.status;
 	j["question"] = msg.Question;
-	std::vector<int> vectId;
-	std::vector<std::string> vectAnswer;
-	for (auto it = msg.answers.begin(); it != msg.answers.end(); it++)
-	{
-		vectId.push_back(it->first);
-		vectAnswer.push_back(it->second);
-	}
-
-	j["answersID"] = vectId;
-	j["answersStr"] = vectAnswer;
+	j["answers"] = msg.answers;
+	j["IdPerQuestion"] = msg.IdPerQuestion;
 	std::string js = j.dump();
 	return onlyStatus(GET_QUESTION_CODE, js.length(), js);
 }

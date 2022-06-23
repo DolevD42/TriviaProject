@@ -61,14 +61,19 @@ namespace GUI
                     byte[] errorBuffer = new byte[resInf.len];
                     _net.Read(errorBuffer, 0, resInf.len);
                     Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 byte[] serverBuffer = new byte[resInf.len];
 
                 _net.Read(serverBuffer, 0, resInf.len);
                 Consts.GetGameResultsResponse res = Deserializer.deserializeGetGameResultsResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
-                for (int i = 0; i < res.userName.Count; i++)
+                if(res.status != Consts.REQUEST_VALID)
+                {
+                    continue;
+                }
+
+                /*for (int i = 0; i < res.userName.Count; i++)
                 {
                     if (!_userNames.Contains(res.userName[i]))
                     {//if user not in list
@@ -141,9 +146,66 @@ namespace GUI
                     listPlayersAndStats.Items.Add("correct answers:" + PResult[i].correctAnswerCount + "\n");
                 }
                 PResult.Clear();
+                */
+                for (int i = 0; i < res.userName.Count; i++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        listPlayers.Items.Add((i + 1).ToString() +". " + res.userName[i]);
+                        listCorrectAnswers.Items.Add(res.correctAnswerCount[i]);
+                        listWrongAnswers.Items.Add(res.wrongAnswerCount[i]);
+                        listAverageTime.Items.Add(res.averageAnswerTime[i]);
+                    });
+                }
+                int winnerPlace = 0;
+                float result1 = 0;
+                float result2 = 0;
+                for (int i = 1; i < res.userName.Count; i++)
+                {
+                    result1 = res.correctAnswerCount[winnerPlace] / ((res.correctAnswerCount[winnerPlace] + res.wrongAnswerCount[winnerPlace]) * res.averageAnswerTime[winnerPlace]);
+                    result2 = res.correctAnswerCount[i] / ((res.correctAnswerCount[i] + res.wrongAnswerCount[i]) * res.averageAnswerTime[i]);
+                    if (result2 > result1)
+                    {
+                        winnerPlace = i;
+                    }
+                }
+                this.Dispatcher.Invoke(() =>
+                {
+                    Title.Text = "Winner: " + res.userName[winnerPlace];
+                });
                 Thread.Sleep(3);
+                hasEnd = true;
             } while(!hasEnd);
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //getting into the game result
+            string msgToSent = Serializer.serializeCodeOnly(Consts.LEAVE_GAME_CODE);//getting game state
+            _net.Write(System.Text.Encoding.ASCII.GetBytes(msgToSent), 0, msgToSent.Length);
+            byte[] serverMsg = new byte[5];
+            _net.Read(serverMsg, 0, 5);
+            Consts.ResponseInfo resInf = Deserializer.deserializeSize(Encoding.Default.GetString(serverMsg));//getting the state
+            if (resInf.id == Consts.ERR_CODE)
+            {
+                byte[] errorBuffer = new byte[resInf.len];
+                _net.Read(errorBuffer, 0, resInf.len);
+                Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            byte[] serverBuffer = new byte[resInf.len];
+
+            _net.Read(serverBuffer, 0, resInf.len);
+            Consts.LeaveGameResponse res = Deserializer.deserializeLeaveGameResponse(Encoding.Default.GetString(serverBuffer));//getting the game req
+            if(res.status == Consts.REQUEST_VALID)
+            {
+                this.Hide();
+                Menu win = new Menu(_client, _username);
+                this.Close();
+                win.Show();
+            }
         }
     }
 }

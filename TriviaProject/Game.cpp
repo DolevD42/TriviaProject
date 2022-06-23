@@ -1,16 +1,17 @@
 #include "Game.h"
 Game::Game(Room* room, std::vector<Question*> quest)//LoggedUser* User,unsigned int CorrectAnswerCount, unsigned int WrongAnswerCount, float averageAnswerTime)
 {
+	m_questions = quest;
 	for (int i = 0; i < room->getAllLoggedUser().size(); i++) {
 		struct GameData gamedata;
 		gamedata.currentQuestion = m_questions[0];
 		gamedata.averageAnswerTime = 0;
-		gamedata.currentQuestion = 0;
+		gamedata.CorrectAnswerCount = 0;
 		gamedata.WrongAnswerCount = 0;
 		gamedata.playing = true;
-		m_players.insert({ room->getAllLoggedUser()[i], gamedata });
+		std::pair<LoggedUser*, GameData> pair(room->getAllLoggedUser()[i], gamedata);
+		m_players.insert(pair);
 	}
-	m_questions = quest;
 }
 Question* Game::getQuestionForUser(LoggedUser* users)
 {
@@ -21,7 +22,7 @@ Question* Game::getQuestionForUser(LoggedUser* users)
 int Game::submitAnswer(LoggedUser* users, int answeriD, float timePerAns)
 {
 	auto it = m_players.find(users);
-	int indx = it->second.currentQuestion->getCorrectAnswerIndex();
+	int indx = m_questions[it->second.WrongAnswerCount + it->second.CorrectAnswerCount]->getCorrectAnswerIndex();
 	if (answeriD == indx)
 	{
 		it->second.CorrectAnswerCount += 1;
@@ -65,4 +66,11 @@ std::map<LoggedUser*, GameData> Game::getData()
 int Game::getGameId()
 {
 	return m_gameId;
+}
+
+void Game::changeUserStatus(LoggedUser* user, bool value)
+{
+	auto it = m_players.find(user);
+	it->second.playing = value;
+	return;
 }

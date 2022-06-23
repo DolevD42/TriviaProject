@@ -64,7 +64,7 @@ namespace GUI
                     byte[] errorBuffer = new byte[resInf.len];
                     _net.Read(errorBuffer, 0, resInf.len);
                     Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                    MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 byte[] serverBuffer = new byte[resInf.len];
@@ -126,7 +126,7 @@ namespace GUI
                 Thread newThread = new Thread(new ThreadStart(WaitingForServerMsg));
                 _thread = newThread;
                 _thread.Start();
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(5000);
             }
         }
         void WaitingForServerMsg()
@@ -145,7 +145,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             switch (resInf.id)
@@ -161,7 +161,7 @@ namespace GUI
                         byte[] errorBuffer = new byte[resInf.len];
                         _net.Read(errorBuffer, 0, resInf.len);
                         Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                        MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     byte[] serverBuffer = new byte[resInf.len];
@@ -182,20 +182,21 @@ namespace GUI
                     string newMsgToSent = Serializer.serializeCodeOnly(Consts.START_GAME_CODE);
                     _net.Write(System.Text.Encoding.ASCII.GetBytes(newMsgToSent), 0, newMsgToSent.Length);
                     byte[] newServerMs = new byte[5];
-                    _net.Read(newServerMsg, 0, 5);
+                    _net.Read(newServerMs, 0, 5);
                     resInf = Deserializer.deserializeSize(Encoding.Default.GetString(newServerMs));
                     if (resInf.id == Consts.ERR_CODE)
                     {
                         byte[] errorBuffer = new byte[resInf.len];
                         _net.Read(errorBuffer, 0, resInf.len);
                         Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                        MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    serverBuffer = new byte[resInf.len];
-
-                    _net.Read(serverBuffer, 0, resInf.len);
-                    Consts.StartGameResponse newRes = Deserializer.deserializeStartGameResponse(Encoding.Default.GetString(serverBuffer));
+                    byte[] newServerBuffer = new byte[resInf.len];
+                   
+                    Thread.Sleep(100);
+                    _net.Read(newServerBuffer, 0, resInf.len);
+                    
                     this.Dispatcher.Invoke(() =>
                     {
                         this.Hide();
@@ -221,7 +222,7 @@ namespace GUI
                 byte[] errorBuffer = new byte[resInf.len];
                 _net.Read(errorBuffer, 0, resInf.len);
                 Consts.ErrorResponse err = Deserializer.deserializeErrorResponse(Encoding.Default.GetString(errorBuffer));
-                MessageBox.Show(err.msg, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.message, "Trivia Client", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             byte[] serverBuffer = new byte[resInf.len];

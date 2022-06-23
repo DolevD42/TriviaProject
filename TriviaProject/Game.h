@@ -26,4 +26,5 @@ public:
 	void removePlayer(LoggedUser* users);
 	std::map<LoggedUser*, GameData> getData();
 	int getGameId();
+	void changeUserStatus(LoggedUser* user, bool value);
 };

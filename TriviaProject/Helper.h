@@ -5,7 +5,7 @@
 #include <WinSock2.h>
 
 #define LEAVE_ROOM_CLIENT_MSG "6~~~~"
-#define START_GAME_CLIENT_MSG "5~~~~"
+#define START_GAME_CLIENT_MSG "4~~~~"
 
 
 #define ERR_CODE 41
@@ -35,6 +35,7 @@
 #define ROOM_DONT_EXIST 46
 #define ROOM_MAX_OUT 47
 #define WRONG_PARAMETERS 48
+#define GAME_STILL_GOING_ON 49
 
 //room defention
 #define ACTIVE_STATE 42
