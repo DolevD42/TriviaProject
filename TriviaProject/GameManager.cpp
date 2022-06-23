@@ -50,6 +50,11 @@ void GameManager::deleteGame(int gameId)
 	}
 }
 
+void GameManager::EnterDbInfo(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount)
+{
+	m_database->InsertPlayerResults(userName, WrongAnswerCount, CorrectAnswerCount, averageAnswerTime, AnswersCount);
+}
+
 Game* GameManager::lastGame()
 {
 	return m_games[m_games.size()-1];

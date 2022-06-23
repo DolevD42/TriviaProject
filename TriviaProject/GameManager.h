@@ -14,5 +14,6 @@ public:
 	GameManager(IDataBase* db);
 	Game* CreateGame(Room* room);
 	void deleteGame(int gameId);
+	void EnterDbInfo(std::string userName, int CorrectAnswerCount, int WrongAnswerCount, float averageAnswerTime, int AnswersCount);
 	Game* lastGame();
 };

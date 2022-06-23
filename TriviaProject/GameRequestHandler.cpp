@@ -116,6 +116,8 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo req)
 	}
 	if (funcCode == REQUEST_VALID)
 	{
+		auto dt = map.find(m_user);
+		m_gameManager->EnterDbInfo(m_user->getUsername(), dt->second.CorrectAnswerCount, dt->second.WrongAnswerCount, dt->second.averageAnswerTime, dt->second.WrongAnswerCount + dt->second.CorrectAnswerCount);
 		res.userName = userName;
 		res.correctAnswerCount = correctAnswerCount;
 		res.wrongAnswerCount = wrongAnswerCount;

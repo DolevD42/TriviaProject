@@ -155,7 +155,7 @@ SqliteDataBase::SqliteDataBase()
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
-			sqlStatement = "CREATE TABLE statistics(username TEXT PRIMARY KEY NOT NULL, Wrong_Answers FLOAT NOT NULL, Correct_Answers INTEGER NOT NULL, answer_time FLOAT NOT NULL,Total_Answers INTEGER NOT NULL ,Total_Games INTEGER NOT NULL, FOREIGN KEY(username) REFERENCES users(username));";
+			sqlStatement = "CREATE TABLE statistics(username TEXT PRIMARY KEY NOT NULL, Wrong_Answers FLOAT NOT NULL, Correct_Answers INTEGER NOT NULL, answer_time FLOAT NOT NULL,Total_Answers INTEGER NOT NULL ,Total_Games INTEGER NOT NULL);";
 			res = sqlite3_exec(this->_db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 			if (res != SQLITE_OK)
 				throw std::exception("Database Problem");
@@ -206,7 +206,8 @@ void SqliteDataBase::InsertPlayerResults(std::string userName, int CorrectAnswer
 	WrongAnswerCount = AnswersCount - CorrectAnswerCount;
 	averageAnswerTime += getPlayerAverageAnswerTime(userName);
 	int gameCount = 1 + getNumOfPlayerGames(userName);
-	std::string msgAfter = "INSERT INTO statistics where username =='" + userName + "'  (Wrong_Answers, Correct_Answers, answer_time, Total_Answers) VALUES('" + std::to_string(WrongAnswerCount) + "', '" + std::to_string(CorrectAnswerCount) + "', '" + std::to_string(averageAnswerTime) + "', '" + std::to_string(AnswersCount) + "', '" + std::to_string(gameCount) + "');";
+	std::string msgAfter = "INSERT INTO statistics (username, Wrong_Answers, Correct_Answers, answer_time, Total_Answers, Total_Games) VALUES('" + userName + "', '" + std::to_string(WrongAnswerCount) + "', '" + std::to_string(CorrectAnswerCount) + "', '" + std::to_string(averageAnswerTime) + "', '" + std::to_string(AnswersCount) + "', '" + std::to_string(gameCount) + "');";
+	
 	if (sqlite3_exec(_db, msgAfter.c_str(), nullptr, nullptr, &_errMessage) != SQLITE_OK)
 	{
 		throw std::exception("DB don't exist");
